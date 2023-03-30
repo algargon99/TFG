@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class RelUsuarioCoro extends Model
 {
     use HasFactory;
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class);
+    }
+
+    public function coro()
+    {
+        return $this->belongsTo(Coro::class);
+    }
 }

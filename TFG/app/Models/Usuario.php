@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Usuario extends Model
 {
     use HasFactory;
+
+    public function coros()
+    {
+        return $this->belongsToMany(Coro::class, 'rel_usuario_coros', 'usuario_id', 'coro_id');
+    }
+
 }
