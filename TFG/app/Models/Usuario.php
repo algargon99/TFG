@@ -9,9 +9,19 @@ class Usuario extends Model
 {
     use HasFactory;
 
-    public function coros()
+    public function cantor()
     {
-        return $this->belongsToMany(Coro::class, 'rel_usuario_coros', 'usuario_id', 'coro_id');
+        return $this->hasOne(Cantor::class, 'idUsuario');
+    }
+
+    public function director()
+    {
+        return $this->hasOne(Director::class, 'idUsuario');
+    }
+
+    public function relUsuarioCoro()
+    {
+        return $this->hasMany(RelUsuarioCoro::class, 'usuario_id');
     }
 
 }

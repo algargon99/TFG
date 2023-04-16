@@ -11,11 +11,11 @@ class RelUsuarioCoro extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 
     public function coro()
     {
-        return $this->belongsTo(Coro::class);
+        return $this->belongsTo(Coro::class, 'coro_id');
     }
 }

@@ -11,6 +11,21 @@ class Coro extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(Usuario::class, 'rel_usuario_coros', 'coro_id', 'usuario_id');
+        return $this->hasMany(Usuario::class, 'idCoro', 'id');
+    }
+
+    public function partituras()
+    {
+        return $this->hasMany(Partitura::class, 'idCoro', 'id');
+    }
+
+    public function directores()
+    {
+        return $this->hasMany(Director::class, 'idCoro', 'id');
+    }
+
+    public function relUsuarioCoros()
+    {
+        return $this->hasMany(RelUsuarioCoro::class, 'coro_id', 'id');
     }
 }

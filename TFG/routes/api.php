@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::middleware(['cors'])->group(function () {
+    // Rutas para obtener todos los usuarios
+    Route::get('usuarios', [UserController::class, 'mostrarUsuarios']);
+    
+    // Ruta para obtener un usuario específico
+    Route::get('usuario', [UserController::class, 'verUsuario']);
+    
+    // Ruta para crear un nuevo usuario
+    Route::post('crearUsuario', [UserController::class, 'crearUsuario']);
+    
+    // Ruta para actualizar un usuario existente
+    Route::put('editarUsuario', [UserController::class, 'editarUsuario']);
+    
+    // Ruta para eliminar un usuario
+    Route::delete('eliminarUsuario', [UserController::class, 'eliminarUsuario']);
 });
