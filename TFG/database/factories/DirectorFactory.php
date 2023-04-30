@@ -14,7 +14,7 @@ class DirectorFactory extends Factory
     {
         return [
             'escuela' => $this->faker->company(),
-            'idUsuario' => Usuario::factory()->create()->id,
+            'idUsuario' => $this,
         ];
     }
 }

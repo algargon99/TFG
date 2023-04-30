@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Cantor;
+use App\Models\Usuario;
 
 class CantorSeeder extends Seeder
 {
@@ -14,6 +15,11 @@ class CantorSeeder extends Seeder
      */
     public function run()
     {
-        Cantor::factory()->count(10)->create();
+        // Crear 20 cantores
+        for ($i=0; $i < 20; $i++) {
+            Cantor::factory()->create([
+                "idUsuario" => Usuario::factory()->create()
+            ]);
+        }
     }
 }

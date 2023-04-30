@@ -16,9 +16,7 @@ class CantorFactory extends Factory
 
         return [
             'voz' => $voz,
-            'idUsuario' => function () {
-                return Usuario::factory()->create()->id;
-            },
+            'idUsuario' => $this
         ];
     }
 }

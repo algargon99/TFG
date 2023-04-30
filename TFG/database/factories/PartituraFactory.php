@@ -18,9 +18,7 @@ class PartituraFactory extends Factory
             'anio' => $this->faker->year(),
             'voces' => $this->faker->randomNumber(1),
             'archivo' => Str::random(10) . '.pdf',
-            'idCoro' => function () {
-                return \App\Models\Coro::inRandomOrder()->first()->id;
-            },
+            'idCoro' => $this
         ];
     }
 }

@@ -19,12 +19,13 @@ class RelUsuarioCoroSeeder extends Seeder
         $usuarios = Usuario::all();
         $coros = Coro::all();
 
-        foreach ($usuarios as $usuario) {
-            foreach ($coros as $coro) {
+
+        foreach ($coros as $coro) {
+            foreach ($usuarios as $usuario) {
                 if (rand(0, 1)) {
                     RelUsuarioCoro::factory()->create([
-                        'usuario_id' => $usuario->id,
-                        'coro_id' => $coro->id,
+                        'usuario_id' => $usuario,
+                        'coro_id' => $coro,
                     ]);
                 }
             }

@@ -17,7 +17,7 @@ class VideoFactory extends Factory
             'interprete' => $this->faker->name(),
             'year' => $this->faker->year(),
             'video' => $this->faker->imageUrl(),
-            'idPartitura' => Partitura::factory(),
+            'idPartitura' => $this
         ];
     }
 }

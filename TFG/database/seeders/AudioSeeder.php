@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Audio;
+use App\Models\Partitura;
 
 class AudioSeeder extends Seeder
 {
@@ -14,26 +15,13 @@ class AudioSeeder extends Seeder
      */
     public function run()
     {
-        $audios = [
-            [
-                'obra' => 'Cantata de Santa María de Iquique',
-                'duracion' => 120,
-                'interprete' => 'Quilapayún',
-                'audio' => 'https://ejemplo.com/audio1.mp3',
-                'partitura_id' => 1
-            ],
-            [
-                'obra' => 'La Llorona',
-                'duracion' => 90,
-                'interprete' => 'Chavela Vargas',
-                'audio' => 'https://ejemplo.com/audio2.mp3',
-                'partitura_id' => 2
-            ],
-            
-        ];
+        
+        $partituras = Partitura::all();
 
-        foreach ($audios as $audio) {
-            Audio::factory()->create($audio);
+        foreach ($partituras as $partitura) {
+            Audio::factory()->count(3)->create([
+                "idPartitura"=> $partitura
+            ]);
         }
     }
 }

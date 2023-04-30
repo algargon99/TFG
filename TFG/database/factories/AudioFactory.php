@@ -16,9 +16,7 @@ class AudioFactory extends Factory
             'duracion' => $this->faker->numberBetween(60, 600),
             'interprete' => $this->faker->name,
             'audio' => 'https://example.com/audio.mp3',
-            'idPartitura' => function () {
-                return \App\Models\Partitura::factory()->create()->id;
-            }
+            'idPartitura' => $this
         ];
     }
 }

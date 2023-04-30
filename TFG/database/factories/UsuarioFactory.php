@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 
 class UsuarioFactory extends Factory
 {
@@ -18,8 +17,8 @@ class UsuarioFactory extends Factory
             'direccion' => $this->faker->address,
             'telefono' => $this->faker->phoneNumber,
             'correo' => $this->faker->unique()->safeEmail,
-            'fechaNacimiento' => $this->faker->date($format = 'd-m-Y', $max = 'now'),
-            'password' => Hash::make('password')
+            'fechaNacimiento' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            'password' => bcrypt('password')
         ];
     }
 }

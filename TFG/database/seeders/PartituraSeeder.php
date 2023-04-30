@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Partitura;
+use App\Models\Coro;
 use Illuminate\Database\Seeder;
 
 class PartituraSeeder extends Seeder
@@ -14,6 +15,11 @@ class PartituraSeeder extends Seeder
      */
     public function run()
     {
-        Partitura::factory()->count(50)->create();
+        for ($i=0; $i < 10; $i++) { 
+            Partitura::factory()->count(10)->create([
+                "idCoro"=> Coro::factory()->create(),
+            ]);    
+        }
+        
     }
 }

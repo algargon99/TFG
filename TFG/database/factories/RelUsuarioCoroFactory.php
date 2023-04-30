@@ -12,12 +12,8 @@ class RelUsuarioCoroFactory extends Factory
     public function definition()
     {
         return [
-            'usuario_id' => function () {
-                return \App\Models\Usuario::factory()->create()->id;
-            },
-            'coro_id' => function () {
-                return \App\Models\Coro::factory()->create()->id;
-            },
+            'usuario_id' => $this,
+            'coro_id' => $this,
         ];
     }
 }

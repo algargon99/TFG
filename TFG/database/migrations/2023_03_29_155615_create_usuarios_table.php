@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("telefono");
             $table->string("correo");
             $table->date("fechaNacimiento");
+            $table->string("password");
         });
     }
 
