@@ -12,7 +12,7 @@ class CoroController extends Controller
     public function mostrarCoros()
     {
         $coros = Coro::paginate(5);
-        return view('coros.mostrar', @compact('coros'));
+        return view('mostrarCoros', @compact('coros'));
     }
 
     // Mostrar el formulario de creación de coro

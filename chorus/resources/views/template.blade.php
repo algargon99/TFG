@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand me-auto" href="{{route('inicio')}}">
+            <a class="navbar-brand me-auto" href="{{route('mostrarCoros')}}">
                 <img src={{ asset('logo.png') }} alt="Logo" style="width: 100px; font-size: x-large;">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,5 +35,6 @@
     <div class="container mt-3">
         @yield('content')
     </div>
+
 </body>
 </html>
