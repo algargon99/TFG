@@ -11,7 +11,7 @@ class CoroController extends Controller
     // Mostrar la lista de coros
     public function mostrarCoros()
     {
-        $coros = Coro::all();
+        $coros = Coro::paginate(5);
         return view('coros.mostrar', @compact('coros'));
     }
 
