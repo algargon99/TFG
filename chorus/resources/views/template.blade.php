@@ -11,7 +11,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand me-auto" href="{{route('mostrarCoros')}}">
-                <img src={{ asset('logo.png') }} alt="Logo" style="width: 100px; font-size: x-large;">
+                <img src={{ asset('logo.png') }} alt="Logo" width="60px" height="60px">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
