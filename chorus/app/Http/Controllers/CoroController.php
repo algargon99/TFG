@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Coro;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
 
 class CoroController extends Controller
@@ -11,8 +12,8 @@ class CoroController extends Controller
     // Mostrar la lista de coros
     public function mostrarCoros()
     {
-        $coros = Coro::paginate(5);
-        return view('mostrarCoros', @compact('coros'));
+        $coros = Coro::all();
+        return JsonResource::collection($coros);
     }
 
     // Mostrar el formulario de creación de coro
