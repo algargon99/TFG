@@ -42,7 +42,7 @@
                   </router-link>
                 </td>
                 <td>
-                  <button class="btn btn-danger">
+                  <button v-on:click="$event => eliminar(coro.id,coro.nombre)" class="btn btn-danger">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </td>
@@ -56,6 +56,7 @@
 
 <script>
 import axios from "../../axiosConfig";
+import {confirmar} from '../funciones';
 
 export default {
   data() {
@@ -70,7 +71,7 @@ export default {
   methods: {
     listaCoros(){
       this.cargando = true;
-      axios.get('/api/').then(
+      axios.get('/api').then(
         res=>{
           this.coros = res.data.data;
           this.cargando = false;
@@ -78,6 +79,10 @@ export default {
       ).catch(error => {
           console.error(error);
         });
+    },
+    eliminar(id,nombre){
+      confirmar('/api/',id,'Eliminar coro','Confirmar eliminación del coro '+nombre)
+      this.cargando = false
     }
   },
 };

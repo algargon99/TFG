@@ -106,12 +106,9 @@ class CoroController extends Controller
     }
 
     // Eliminar un coro de la base de datos
-    public function eliminarCoro(Request $request)
+    public function eliminarCoro($id)
     {
-        $coro = Coro::find($request->id);
+        $coro = Coro::find($id);
         $coro->delete();
-
-        return redirect()->route('coros.mostrar')
-            ->with('success', 'coro eliminado');
     }
 }
