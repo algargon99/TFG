@@ -9,6 +9,14 @@ class Coro extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nombre',
+        'ciudad',
+        'direccion',
+        'tipo',
+        'estilo'
+    ];
+
     public function usuarios()
     {
         return $this->hasMany(Usuario::class, 'idCoro', 'id');

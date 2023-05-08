@@ -16,15 +16,10 @@ class CoroController extends Controller
         return JsonResource::collection($coros);
     }
 
-    // Mostrar el formulario de creación de coro
-    public function verCrearCoro()
-    {
-        return view('coros.crear');
-    }
-
     // Almacenar un nuevo coro en la base de datos
     public function crearCoro(Request $request)
     {
+
         $reglas = [
             'nombre' => 'required|string',
             'ciudad' => 'required|string',
@@ -44,30 +39,19 @@ class CoroController extends Controller
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->fails();
         }
 
-        coro::create($request->all());
-
-        return redirect()->route('coros.mostrar')
-            ->with('success', 'coro creado');
+        $inputs = $request->input();
+        $respuesta = Coro::create($inputs);
+        return $respuesta;
     }
 
     // Mostrar el detalle de un coro
     public function verCoro(Request $request)
     {
         $coro = Coro::find($request->id);
-        return view('coros.coro', @compact('coro'));
-    }
-
-    // Mostrar el formulario de edición de un coro
-    public function verEditarCoro(Request $request)
-    {
-        $coro = Coro::find($request->id);
-        return view('coros.editar', @compact('coro'));
+        return $coro;
     }
 
     // Actualizar la información de un coro en la base de datos
@@ -92,17 +76,13 @@ class CoroController extends Controller
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->fails();
         }
 
         $coro = Coro::find($request->id);
-        $coro->update($request->all());
+        $res = $coro->update($request->all());
+        return $res;
 
-        return redirect()->route('coros.mostrar')
-            ->with('success', 'coro actualizado');
     }
 
     // Eliminar un coro de la base de datos

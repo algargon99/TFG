@@ -51,16 +51,16 @@ export function enviarSolicitud(metodo, parametros, url, mensaje) {
         data: parametros
     }).then(function (res) {
         var estado = res.status;
-        if (estado == 200) {
+        if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
             window.setTimeout(function () {
                 window.location.href = "/"
             }, 1000);
         } else {
-            mostrarAlerta('No se ha podido eliminar el coro', 'error')
+            mostrarAlerta('Sin respuesta', 'error')
         }
     }).catch(function (error) {
-        mostrarAlerta('No se ha podido eliminar el coro', 'error');
+        mostrarAlerta('Error de conexión', 'error');
     });
 }
 

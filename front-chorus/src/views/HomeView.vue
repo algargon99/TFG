@@ -55,6 +55,9 @@
 </template>
 
 <script>
+
+document.title = 'Chorus - Página principal';
+
 import axios from "../../axiosConfig";
 import { confirmar } from '../funciones';
 

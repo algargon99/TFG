@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //COROS
 Route::get('/', [CoroController::class, 'mostrarCoros'])->name('mostrarCoros');
+Route::post('/crearCoro', [CoroController::class, 'crearCoro'])->name('crearCoro');
 Route::delete('/{id}', [CoroController::class, 'eliminarCoro'])->name('eliminarCoro');
 
 //CANTORES

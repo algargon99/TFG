@@ -93,7 +93,9 @@ class CantorController extends Controller
     public function eliminarCantor($id)
     {
         $cantor = Cantor::find($id);
-        $cantor->delete();
+        if ($cantor) {
+            $cantor->delete();
+        }
 
     }
 }
