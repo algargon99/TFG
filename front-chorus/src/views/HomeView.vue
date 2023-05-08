@@ -24,28 +24,28 @@
               </td>
             </tr>
             <tr v-else v-for="coro, i in this.coros" :key="coro.id">
-                <td v-text="(i+1)"></td>
-                <td v-text="coro.nombre"></td>
-                <td v-text="coro.ciudad"></td>
-                <td v-text="coro.direccion"></td>
-                <td v-text="coro.tipo"></td>
-                <td v-text="coro.estilo"></td>
-                <td v-text="new Date(coro.created_at).toLocaleDateString()"></td>
-                <td>
-                  <router-link :to="{path: 'verCoro/'+coro.id}" class="btn btn-info">
-                    <i class="fa-solid fa-eye"></i>
-                  </router-link>
-                </td>
-                <td>
-                  <router-link :to="{path: 'editarCoro/'+coro.id}" class="btn btn-warning">
-                    <i class="fa-solid fa-edit"></i>
-                  </router-link>
-                </td>
-                <td>
-                  <button v-on:click="$event => eliminar(coro.id,coro.nombre)" class="btn btn-danger">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </td>
+              <td v-text="(i + 1)"></td>
+              <td v-text="coro.nombre"></td>
+              <td v-text="coro.ciudad"></td>
+              <td v-text="coro.direccion"></td>
+              <td v-text="coro.tipo"></td>
+              <td v-text="coro.estilo"></td>
+              <td v-text="new Date(coro.created_at).toLocaleDateString()"></td>
+              <td>
+                <router-link :to="{ path: 'verCoro/' + coro.id }" class="btn btn-info">
+                  <i class="fa-solid fa-eye"></i>
+                </router-link>
+              </td>
+              <td>
+                <router-link :to="{ path: 'editarCoro/' + coro.id }" class="btn btn-warning">
+                  <i class="fa-solid fa-edit"></i>
+                </router-link>
+              </td>
+              <td>
+                <button v-on:click="eliminar(coro.id, coro.nombre)" class="btn btn-danger">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -56,7 +56,7 @@
 
 <script>
 import axios from "../../axiosConfig";
-import {confirmar} from '../funciones';
+import { confirmar } from '../funciones';
 
 export default {
   data() {
@@ -69,20 +69,20 @@ export default {
     this.listaCoros();
   },
   methods: {
-    listaCoros(){
+    listaCoros() {
       this.cargando = true;
       axios.get('/api').then(
-        res=>{
+        res => {
           this.coros = res.data.data;
           this.cargando = false;
         }
       ).catch(error => {
-          console.error(error);
-        });
+        console.error(error);
+      });
     },
-    eliminar(id,nombre){
-      confirmar('/api/',id,'Eliminar coro','Confirmar eliminación del coro '+nombre)
-      this.cargando = false
+    eliminar(id, nombre) {
+      confirmar('/api/', id, 'Eliminar coro', 'Confirmar eliminación del coro ' + nombre);
+      this.cargando = false;
     }
   },
 };

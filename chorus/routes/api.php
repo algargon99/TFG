@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CantorController;
 use App\Http\Controllers\CoroController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 //COROS
 Route::get('/', [CoroController::class, 'mostrarCoros'])->name('mostrarCoros');
 Route::delete('/{id}', [CoroController::class, 'eliminarCoro'])->name('eliminarCoro');
+
+//CANTORES
+Route::get('/cantores', [CantorController::class, 'mostrarCantores'])->name('mostrarCantores');
+Route::delete('/cantores/{id}', [CantorController::class, 'eliminarCantor'])->name('eliminarCantor');

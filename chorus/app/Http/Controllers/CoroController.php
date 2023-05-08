@@ -109,6 +109,8 @@ class CoroController extends Controller
     public function eliminarCoro($id)
     {
         $coro = Coro::find($id);
-        $coro->delete();
+        if ($coro) {
+            $coro->delete();
+        }
     }
 }

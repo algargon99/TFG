@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cantor;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
 
 class CantorController extends Controller
@@ -11,8 +12,8 @@ class CantorController extends Controller
     // Mostrar la lista de cantores
     public function mostrarCantores()
     {
-        $cantores = Cantor::all();
-        return view('cantores.mostrar', @compact('cantores'));
+        $cantores = Cantor::with('usuario')->get();
+        return JsonResource::collection($cantores);
     }
 
     // Mostrar el formulario de creación de cantor
@@ -89,12 +90,10 @@ class CantorController extends Controller
     }
 
     // Eliminar un cantor de la base de datos
-    public function eliminarCantor(Request $request)
+    public function eliminarCantor($id)
     {
-        $cantor = Cantor::find($request->id);
+        $cantor = Cantor::find($id);
         $cantor->delete();
 
-        return redirect()->route('cantores.mostrar')
-            ->with('success', 'cantor eliminado');
     }
 }
