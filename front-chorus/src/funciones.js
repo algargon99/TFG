@@ -51,6 +51,7 @@ export function enviarSolicitud(metodo, parametros, url, mensaje) {
         data: parametros
     }).then(function (res) {
         var estado = res.status;
+        console.log(estado);
         if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
             window.setTimeout(function () {
@@ -61,6 +62,7 @@ export function enviarSolicitud(metodo, parametros, url, mensaje) {
         }
     }).catch(function (error) {
         mostrarAlerta('Error de conexión', 'error');
+        console.log(error);
     });
 }
 

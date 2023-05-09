@@ -48,14 +48,14 @@ class CoroController extends Controller
     }
 
     // Mostrar el detalle de un coro
-    public function verCoro(Request $request)
+    public function verCoro($id)
     {
-        $coro = Coro::find($request->id);
+        $coro = Coro::find($id);
         return $coro;
     }
 
     // Actualizar la información de un coro en la base de datos
-    public function editarCoro(Request $request)
+    public function editarCoro(Request $request, $id)
     {
         $reglas = [
             'nombre' => 'required|string',
@@ -79,8 +79,8 @@ class CoroController extends Controller
             return $validaciones->fails();
         }
 
-        $coro = Coro::find($request->id);
-        $res = $coro->update($request->all());
+        $coro = Coro::find($id);
+        $res = $coro->update($request->input());
         return $res;
 
     }

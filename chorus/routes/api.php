@@ -18,8 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 //COROS
 Route::get('/', [CoroController::class, 'mostrarCoros'])->name('mostrarCoros');
-Route::post('/crearCoro', [CoroController::class, 'crearCoro'])->name('crearCoro');
+Route::get('/{id}', [CoroController::class, 'verCoro'])->name('verCoro');
+Route::post('/', [CoroController::class, 'crearCoro'])->name('crearCoro');
 Route::delete('/{id}', [CoroController::class, 'eliminarCoro'])->name('eliminarCoro');
+Route::put('/{id}', [CoroController::class, 'editarCoro'])->name('editarCoro');
 
 //CANTORES
 Route::get('/cantores', [CantorController::class, 'mostrarCantores'])->name('mostrarCantores');

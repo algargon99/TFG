@@ -52,6 +52,7 @@ export default {
       direccion: '',
       tipo: '',
       estilo: '',
+      url: '/api/',
       cargando: false,
     };
   },
@@ -77,7 +78,7 @@ export default {
           tipo: this.tipo.trim(),
           estilo: this.estilo.trim(),
         };
-        enviarSolicitud('POST',parametros,'/api/crearCoro','Coro creado');
+        enviarSolicitud('POST',parametros,this.url,'Coro creado');
       }
     },
   },
