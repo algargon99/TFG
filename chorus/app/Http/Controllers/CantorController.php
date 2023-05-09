@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cantor;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
@@ -10,92 +11,130 @@ use Illuminate\Support\Facades\Validator;
 class CantorController extends Controller
 {
     // Mostrar la lista de cantores
-    public function mostrarCantores()
+    public function index()
     {
-        $cantores = Cantor::with('usuario')->get();
-        return JsonResource::collection($cantores);
-    }
-
-    // Mostrar el formulario de creación de cantor
-    public function verCrearCantor()
-    {
-        return view('cantores.crear');
+        return Cantor::with('usuario')->get();
     }
 
     // Almacenar un nuevo cantor en la base de datos
-    public function crearCantor(Request $request)
+    public function store(Request $request)
     {
         $reglas = [
+            'nombre' => 'required|string',
+            'apellidos' => 'required|string',
+            'direccion' => 'required|string',
+            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'correo' => 'required|email',
+            'fechaNacimiento' => 'required|date',
+            'password' => 'required|string|regex:/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8}$/',
+            'repetirPass' => 'required|string|same:password',
             'voz' => 'required|string',
         ];
 
         $mensajes = [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellidos.required' => 'Los apellidos son obligatorios.',
+            'direccion.required' => 'La dirección es obligatoria.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
+            'correo.required' => 'El correo es obligatorio.',
+            'correo.email' => 'El correo es tiene que ser formato x@x.x.',
+            'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+            'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.regex' => 'La contraseña tiene que tener mínimo 8 caractéres con al menos una minúscula, una mayúscula y un número',
+            'repetirPass.required' => 'La contraseña repetida es obligatoria.',
+            'repetirPass.same' => 'La contraseñas no concuerdan.',
             'voz.required' => 'La voz es obligatoria.',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
 
-        cantor::create($request->all());
+        $inputs = $request->input();
+        $usuario = New Usuario();
+        $usuario->nombre = $inputs->nombre;
+        $usuario->apellidos = $inputs->apellidos;
+        $usuario->direccion = $inputs->direccion;
+        $usuario->telefono = $inputs->telefono;
+        $usuario->correo = $inputs->correo;
+        $usuario->fechaNacimiento = $inputs->fechaNacimiento;
+        $pass  = substr($inputs->nombre, 0, 3) . substr($inputs->apellidos[0], 0, 3);
+        $usuario->password = bcrypt($pass);
+        $usuario->save();
+        
+        $cantor = new Cantor();
+        $cantor->voz = $inputs->voz;
+        $cantor->idUsuario = $usuario->id;
 
-        return redirect()->route('cantores.mostrar')
-            ->with('success', 'cantor creado');
+        $respuesta = $cantor->save();
+        return $respuesta;
+
     }
 
     // Mostrar el detalle de un cantor
-    public function verCantor(Request $request)
+    public function show($id)
     {
-        $cantor = Cantor::find($request->id);
-        return view('cantores.cantor', @compact('cantor'));
-    }
-
-    // Mostrar el formulario de edición de un cantor
-    public function verEditarCantor(Request $request)
-    {
-        $cantor = Cantor::find($request->id);
-        return view('cantores.editar', @compact('cantor'));
+        return Cantor::with('usuario')->find($id);
     }
 
     // Actualizar la información de un cantor en la base de datos
-    public function editarCantor(Request $request)
+    public function update(Request $request, $id)
     {
         $reglas = [
+            'nombre' => 'required|string',
+            'apellidos' => 'required|string',
+            'direccion' => 'required|string',
+            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'correo' => 'required|email',
+            'fechaNacimiento' => 'required|date',
             'voz' => 'required|string',
         ];
 
         $mensajes = [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellidos.required' => 'Los apellidos son obligatorios.',
+            'direccion.required' => 'La dirección es obligatoria.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
+            'correo.required' => 'El correo es obligatorio.',
+            'correo.email' => 'El correo es tiene que ser formato x@x.x.',
+            'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+            'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
             'voz.required' => 'La voz es obligatoria.',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
 
-        $cantor = Cantor::find($request->id);
-        $cantor->update($request->all());
-
-        return redirect()->route('cantores.mostrar')
-            ->with('success', 'cantor actualizado');
+        $cantor = Cantor::find($id);
+        $usuario = Usuario::find($cantor->idUsuario);
+        $inputs = $request->input();
+        $usuario->nombre = $inputs->nombre;
+        $usuario->apellidos = $inputs->apellidos;
+        $usuario->direccion = $inputs->direccion;
+        $usuario->telefono = $inputs->telefono;
+        $usuario->correo = $inputs->correo;
+        $usuario->fechaNacimiento = $inputs->fechaNacimiento;
+        $usuario->save();
+        $cantor->voz = $inputs->voz;
+        $respuesta = $cantor->save();
+        return $respuesta;
+       
     }
 
     // Eliminar un cantor de la base de datos
-    public function eliminarCantor($id)
+    public function destroy($id)
     {
         $cantor = Cantor::find($id);
         if ($cantor) {
             $cantor->delete();
         }
-
     }
 }

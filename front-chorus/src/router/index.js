@@ -1,16 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import HomeView from '../views/HomeView.vue';
+
 //COROS
-import HomeView from '../views/HomeView.vue'
+import Coros from '../views/Coros.vue'
 import CoroNuevo from '../views/CoroNuevo.vue'
 import CoroEditar from '../views/CoroEditar.vue'
 import CoroVer from '../views/CoroVer.vue'
 
 //CANTORES
-import CantoresView from '../views/CantoresView.vue'
+import Cantores from '../views/Cantores.vue'
 import CantorNuevo from '../views/CantorNuevo.vue'
 import CantorEditar from '../views/CantorEditar.vue'
 import CantorVer from '../views/CantorVer.vue'
+
+//DIRECTORES
+import Directores from '../views/Directores.vue'
+import DirectorNuevo from '../views/DirectorNuevo.vue'
+import DirectorEditar from '../views/DirectorEditar.vue'
+import DirectorVer from '../views/DirectorVer.vue'
 
 const routes = [
   {
@@ -19,9 +27,30 @@ const routes = [
     component: HomeView
   },
   {
+    path: '/coros',
+    name: 'coros',
+    component: Coros
+  },
+  
+  {
+    path: '/crearCoro',
+    name: 'crearCoro',
+    component: CoroNuevo
+  },
+  {
+    path: '/verCoro/:id',
+    name: 'verCoro',
+    component: CoroVer
+  },
+  {
+    path: '/editarCoro/:id',
+    name: 'editarCoro',
+    component: CoroEditar
+  },
+  {
     path: '/cantores',
     name: 'cantores',
-    component: CantoresView
+    component: Cantores
   },
   {
     path: '/crearCantor',
@@ -39,28 +68,25 @@ const routes = [
     component: CantorEditar
   },
   {
-    path: '/crearCoro',
-    name: 'crearCoro',
-    component: CoroNuevo
+    path: '/directores',
+    name: 'directores',
+    component: Directores
   },
   {
-    path: '/verCoro/:id',
-    name: 'verCoro',
-    component: CoroVer
+    path: '/crearDirector',
+    name: 'crearDirector',
+    component: DirectorNuevo
   },
   {
-    path: '/editarCoro/:id',
-    name: 'editarCoro',
-    component: CoroEditar
+    path: '/verDirector/:id',
+    name: 'verDirector',
+    component: DirectorVer
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/editarDirector/:id',
+    name: 'editarDirector',
+    component: DirectorEditar
+  },
 ]
 
 const router = createRouter({

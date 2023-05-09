@@ -18,7 +18,7 @@ export function mostrarAlerta(titulo, icono, foco = '') {
     });
 }
 
-export function confirmar(url, id, titulo, mensaje) {
+export function confirmar(url, id, titulo, mensaje, clase) {
     var urlid = url + id;
 
     const botonAlerta = Swal.mixin({
@@ -37,17 +37,17 @@ export function confirmar(url, id, titulo, mensaje) {
         cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar'
     }).then((res) => {
         if (res.isConfirmed) {
-            enviarSolicitud('DELETE', { id: id }, urlid, 'Eliminado con éxito');
+            enviarSolicitud('DELETE', { id: id }, urlid, 'Eliminado con éxito',clase);
         } else {
             mostrarAlerta('Operación cancelada', 'info');
         }
     });
 }
 
-export function enviarSolicitud(metodo, parametros, url, mensaje) {
+export function enviarSolicitud(metodo, parametros, urlid, mensaje,clase) {
     axios({
         method: metodo,
-        url: url,
+        url: urlid,
         data: parametros
     }).then(function (res) {
         var estado = res.status;
@@ -55,7 +55,7 @@ export function enviarSolicitud(metodo, parametros, url, mensaje) {
         if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
             window.setTimeout(function () {
-                window.location.href = "/"
+                window.location.href = "/"+clase
             }, 1000);
         } else {
             mostrarAlerta('Sin respuesta', 'error')

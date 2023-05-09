@@ -4,20 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Coro;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Validator;
 
 class CoroController extends Controller
 {
     // Mostrar la lista de coros
-    public function mostrarCoros()
+    public function index()
     {
-        $coros = Coro::all();
-        return JsonResource::collection($coros);
+        return Coro::all();
     }
 
     // Almacenar un nuevo coro en la base de datos
-    public function crearCoro(Request $request)
+    public function store(Request $request)
     {
 
         $reglas = [
@@ -39,7 +37,7 @@ class CoroController extends Controller
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return $validaciones->fails();
+            return $validaciones->errors()->all();
         }
 
         $inputs = $request->input();
@@ -48,14 +46,14 @@ class CoroController extends Controller
     }
 
     // Mostrar el detalle de un coro
-    public function verCoro($id)
+    public function show($id)
     {
-        $coro = Coro::find($id);
-        return $coro;
+        return Coro::find($id);
+        
     }
 
     // Actualizar la información de un coro en la base de datos
-    public function editarCoro(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $reglas = [
             'nombre' => 'required|string',
@@ -76,7 +74,7 @@ class CoroController extends Controller
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return $validaciones->fails();
+            return $validaciones->errors()->all();
         }
 
         $coro = Coro::find($id);
@@ -86,7 +84,7 @@ class CoroController extends Controller
     }
 
     // Eliminar un coro de la base de datos
-    public function eliminarCoro($id)
+    public function destroy($id)
     {
         $coro = Coro::find($id);
         if ($coro) {

@@ -9,6 +9,10 @@ class Cantor extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'voz',
+    ];
+
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'idUsuario');

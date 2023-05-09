@@ -3,98 +3,130 @@
 namespace App\Http\Controllers;
 
 use App\Models\Director;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class DirectorController extends Controller
 {
     // Mostrar la lista de directores
-    public function mostrarDirectores()
+    public function index()
     {
-        $directores = Director::all();
-        return view('directores.mostrar', @compact('directores'));
-    }
-
-    // Mostrar el formulario de creación de director
-    public function verCrearDirector()
-    {
-        return view('directores.crear');
+        return Director::with('usuario')->get();
     }
 
     // Almacenar un nuevo director en la base de datos
-    public function crearDirector(Request $request)
+    public function store(Request $request)
     {
         $reglas = [
+            'nombre' => 'required|string',
+            'apellidos' => 'required|string',
+            'direccion' => 'required|string',
+            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'correo' => 'required|email',
+            'fechaNacimiento' => 'required|date',
             'escuela' => 'required|string',
         ];
 
         $mensajes = [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellidos.required' => 'Los apellidos son obligatorios.',
+            'direccion.required' => 'La dirección es obligatoria.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
+            'correo.required' => 'El correo es obligatorio.',
+            'correo.email' => 'El correo es tiene que ser formato x@x.x.',
+            'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+            'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
             'escuela.required' => 'La escuela es obligatoria.',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
 
-        director::create($request->all());
+        $inputs = $request->input();
+        $usuario = New Usuario();
+        $usuario->nombre = $inputs->nombre;
+        $usuario->apellidos = $inputs->apellidos;
+        $usuario->direccion = $inputs->direccion;
+        $usuario->telefono = $inputs->telefono;
+        $usuario->correo = $inputs->correo;
+        $usuario->fechaNacimiento = $inputs->fechaNacimiento;
+        $pass  = substr($inputs->nombre, 0, 3) . substr($inputs->apellidos[0], 0, 3);
+        $usuario->password = bcrypt($pass);
+        $usuario->save();
+        
+        $director = new Director();
+        $director->escuela = $inputs->escuela;
+        $director->idUsuario = $usuario->id;
 
-        return redirect()->route('directores.mostrar')
-            ->with('success', 'director creado');
+        $respuesta = $director->save();
+        return $respuesta;
     }
 
     // Mostrar el detalle de un director
-    public function verDirector(Request $request)
+    public function show($id)
     {
-        $director = Director::find($request->id);
-        return view('directores.director', @compact('director'));
-    }
-
-    // Mostrar el formulario de edición de un director
-    public function verEditarDirector(Request $request)
-    {
-        $director = Director::find($request->id);
-        return view('directores.editar', @compact('director'));
+        return Director::with('usuario')->find($id);
     }
 
     // Actualizar la información de un director en la base de datos
-    public function editarDirector(Request $request)
+    public function update(Request $request, $id)
     {
         $reglas = [
+            'nombre' => 'required|string',
+            'apellidos' => 'required|string',
+            'direccion' => 'required|string',
+            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'correo' => 'required|email',
+            'fechaNacimiento' => 'required|date',
             'escuela' => 'required|string',
+            'voz' => 'required|string',
         ];
 
         $mensajes = [
-            'escuela.required' => 'La escuela es obligatoria.',
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellidos.required' => 'Los apellidos son obligatorios.',
+            'direccion.required' => 'La dirección es obligatoria.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
+            'correo.required' => 'El correo es obligatorio.',
+            'correo.email' => 'El correo es tiene que ser formato x@x.x.',
+            'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+            'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
+            'voz.required' => 'La voz es obligatoria.',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
 
-        $director = Director::find($request->id);
-        $director->update($request->all());
-
-        return redirect()->route('directores.mostrar')
-            ->with('success', 'director actualizado');
+        $director = Director::find($id);
+        $usuario = Usuario::find($director->idUsuario);
+        $inputs = $request->input();
+        $usuario->nombre = $inputs->nombre;
+        $usuario->apellidos = $inputs->apellidos;
+        $usuario->direccion = $inputs->direccion;
+        $usuario->telefono = $inputs->telefono;
+        $usuario->correo = $inputs->correo;
+        $usuario->fechaNacimiento = $inputs->fechaNacimiento;
+        $usuario->save();
+        $director->escuela = $inputs->escuela;
+        $respuesta = $director->save();
+        return $respuesta;
     }
 
     // Eliminar un director de la base de datos
-    public function eliminarDirector(Request $request)
+    public function destroy($id)
     {
-        $director = Director::find($request->id);
-        $director->delete();
-
-        return redirect()->route('directores.mostrar')
-            ->with('success', 'director eliminado');
+        $director = Director::find($id);
+        if ($director) {
+            $director->delete();
+        }
     }
 }

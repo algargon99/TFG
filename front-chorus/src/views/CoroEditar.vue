@@ -41,7 +41,7 @@
 
 <script>
 
-document.title = 'Chorus - Crear Coro';
+document.title = 'Chorus - Editar Coro';
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -56,7 +56,7 @@ export default {
       direccion: '',
       tipo: '',
       estilo: '',
-      url: '/api',
+      url: '/api/coros',
       cargando: false,
     };
   },

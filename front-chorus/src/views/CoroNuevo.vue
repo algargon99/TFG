@@ -52,7 +52,7 @@ export default {
       direccion: '',
       tipo: '',
       estilo: '',
-      url: '/api/',
+      url: '/api/coros',
       cargando: false,
     };
   },

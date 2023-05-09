@@ -40,9 +40,8 @@
 
 <script>
 
-document.title = 'Chorus - Crear Coro';
+document.title = 'Chorus - Ver Coro';
 
-import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
 import axios from "../../axiosConfig";
 
@@ -55,7 +54,7 @@ export default {
       direccion: '',
       tipo: '',
       estilo: '',
-      url: '/api',
+      url: '/api/coros',
       cargando: false,
     };
   },
@@ -76,30 +75,6 @@ export default {
           this.estilo = res.data.estilo;
         }
       );
-    },
-    editar() {
-      event.preventDefault();
-      this.cargando = true;
-      if (this.nombre.trim() === '') {
-        mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
-      } else if (this.ciudad.trim() === '') {
-        mostrarAlerta('Ingrese una ciudad', 'warning', 'ciudad')
-      } else if (this.direccion.trim() === '') {
-        mostrarAlerta('Ingrese una dirección', 'warning', 'direccion')
-      } else if (this.tipo.trim() === '') {
-        mostrarAlerta('Ingrese un tipo', 'warning', 'tipo')
-      } else if (this.estilo.trim() === '') {
-        mostrarAlerta('Ingrese un estilo', 'warning', 'estilo')
-      } else {
-        var parametros = {
-          nombre: this.nombre.trim(),
-          ciudad: this.ciudad.trim(),
-          direccion: this.direccion.trim(),
-          tipo: this.tipo.trim(),
-          estilo: this.estilo.trim(),
-        };
-        enviarSolicitud('PUT', parametros, this.url, 'Coro actualizado');
-      }
     },
   },
 };

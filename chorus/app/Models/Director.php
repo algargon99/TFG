@@ -9,6 +9,10 @@ class Director extends Model
 {
     use HasFactory;
     
+    protected $fillable = [
+        'escuela',
+    ];
+
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'idUsuario');

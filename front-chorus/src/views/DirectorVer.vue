@@ -3,7 +3,7 @@
     <div class="col-md-6 offset-md-3">
       <div class="card">
         <div class="card-header bg-primary text-white text-center">
-          Detalle del cantor
+          Detalle del director
         </div>
         <div class="card-body">
 
@@ -33,13 +33,13 @@
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
-            <label v-text="voz" class="form-control"></label>
+            <label v-text="escuela" class="form-control"></label>
           </div>
         </div>
       </div>
     </div>
     <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/cantores' }" class='btn btn-danger'>
+      <router-link :to="{ path: '/directores' }" class='btn btn-danger'>
         <i class="fa-solid fa-arrow-left"></i> Volver
       </router-link>
     </div>
@@ -48,7 +48,7 @@
 
 <script>
 
-document.title = 'Chorus - Ver Cantor';
+document.title = 'Chorus - Ver Director';
 
 import { useRoute } from "vue-router";
 import axios from "../../axiosConfig";
@@ -63,8 +63,8 @@ export default {
       telefono: '',
       correo: '',
       fechaNacimiento: '',
-      voz: '',
-      url: '/api/cantores',
+      escuela: '',
+      url: '/api/directores',
       cargando: false,
     };
   },
@@ -72,10 +72,10 @@ export default {
     const route = useRoute();
     this.id = route.params.id;
     this.url += '/' + this.id;
-    this.getCantor();
+    this.getDirector();
   },
   methods: {
-    getCantor() {
+    getDirector() {
       axios.get(this.url).then(
         res => {
           this.nombre = res.data.usuario.nombre;
@@ -84,7 +84,7 @@ export default {
           this.telefono = res.data.usuario.telefono;
           this.correo = res.data.usuario.correo;
           this.fechaNacimiento = res.data.usuario.fechaNacimiento;
-          this.voz = res.data.voz;
+          this.escuela = res.data.escuela;
         }
       );
     },

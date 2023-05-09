@@ -9,6 +9,16 @@ class Usuario extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nombre',
+        'apellidos',
+        'direccion',
+        'telefono',
+        'correo',
+        'fechaNacimiento'
+
+    ];
+
     public function cantor()
     {
         return $this->hasOne(Cantor::class, 'idUsuario');

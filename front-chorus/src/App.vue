@@ -30,8 +30,39 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Partituras</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Usuarios</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Cantores
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <router-link class="dropdown-item" to="/cantores">Listar cantores</router-link>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <router-link to="/crearCantor" class="dropdown-item">Crear cantor</router-link>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Directores
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <router-link class="dropdown-item" to="/directores">Listar directores</router-link>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <router-link to="/crearDirector" class="dropdown-item">Crear director</router-link>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>

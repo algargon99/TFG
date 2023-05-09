@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\AudioController;
 use App\Http\Controllers\CantorController;
 use App\Http\Controllers\CoroController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\PartituraController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,12 +20,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 //COROS
-Route::get('/', [CoroController::class, 'mostrarCoros'])->name('mostrarCoros');
-Route::get('/{id}', [CoroController::class, 'verCoro'])->name('verCoro');
-Route::post('/', [CoroController::class, 'crearCoro'])->name('crearCoro');
-Route::delete('/{id}', [CoroController::class, 'eliminarCoro'])->name('eliminarCoro');
-Route::put('/{id}', [CoroController::class, 'editarCoro'])->name('editarCoro');
+Route::apiResource('coros', CoroController::class);
 
 //CANTORES
-Route::get('/cantores', [CantorController::class, 'mostrarCantores'])->name('mostrarCantores');
-Route::delete('/cantores/{id}', [CantorController::class, 'eliminarCantor'])->name('eliminarCantor');
+Route::apiResource('cantores', CantorController::class);
+
+//DIRECTORES
+Route::apiResource('directores', DirectorController::class);
+
+//PARTITURAS
+Route::apiResource('partituras', PartituraController::class);
+
+//AUDIOS
+Route::apiResource('audios', AudioController::class);
+
+//VIDEOS
+Route::apiResource('videos', VideoController::class);
