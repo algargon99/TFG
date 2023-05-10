@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <router-link class="navbar-brand " to="/">
         <img src='../public/logo.png' alt="Logo" height="60">
@@ -17,7 +17,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li>
-                <router-link class="dropdown-item" to="/">Listar coros</router-link>
+                <router-link class="dropdown-item" to="/coros">Lista de coros</router-link>
               </li>
               <li>
                 <hr class="dropdown-divider">
@@ -27,9 +27,6 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Partituras</a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
@@ -37,7 +34,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li>
-                <router-link class="dropdown-item" to="/cantores">Listar cantores</router-link>
+                <router-link class="dropdown-item" to="/cantores">Lista de cantores</router-link>
               </li>
               <li>
                 <hr class="dropdown-divider">
@@ -54,7 +51,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li>
-                <router-link class="dropdown-item" to="/directores">Listar directores</router-link>
+                <router-link class="dropdown-item" to="/directores">Lista de directores</router-link>
               </li>
               <li>
                 <hr class="dropdown-divider">
@@ -68,7 +65,49 @@
       </div>
     </div>
   </nav>
-  <div class="container-fluid">
+  <div id="contenedor">
     <router-view />
   </div>
+  <div>
+    <button v-if="showScrollToTop" @click="scrollToTop" href="" class="scroll-to-top" variant="primary">
+      Subir arriba
+    </button>
+  </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      showScrollToTop: false
+    };
+  },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      this.showScrollToTop = scrollTop > 100;
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  }
+};
+</script>
+
+<style>
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+}
+</style>

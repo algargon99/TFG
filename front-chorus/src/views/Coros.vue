@@ -1,5 +1,8 @@
 <template>
-  <div class="row my-5">
+  <div class="gradiente titulo ps-5 pt-4">
+    <span class="h1 text-white">Lista de coros</span>
+  </div>
+  <div class="row g-0 my-5">
     <div class="col-lg-8 offset-lg-2">
       <div class="table-responsive bg-white borde">
         <table class="table table-hover">

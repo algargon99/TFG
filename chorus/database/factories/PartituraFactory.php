@@ -16,8 +16,8 @@ class PartituraFactory extends Factory
             'nombre' => $this->faker->sentence(2),
             'autor' => $this->faker->name(),
             'anio' => $this->faker->year(),
-            'voces' => $this->faker->randomNumber(1),
-            'archivo' => Str::random(10) . '.pdf',
+            'voces' => $this->faker->randomNumber(1)+1,
+            'archivo' => 'pdf/birthday.pdf',
             'idCoro' => $this
         ];
     }

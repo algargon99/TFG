@@ -20,6 +20,11 @@ import DirectorNuevo from '../views/DirectorNuevo.vue'
 import DirectorEditar from '../views/DirectorEditar.vue'
 import DirectorVer from '../views/DirectorVer.vue'
 
+//PARTITURAS
+import PartituraNueva from '../views/PartituraNueva.vue'
+import PartituraEditar from '../views/PartituraEditar.vue'
+import PartituraVer from '../views/PartituraVer.vue'
+
 const routes = [
   {
     path: '/',
@@ -31,7 +36,7 @@ const routes = [
     name: 'coros',
     component: Coros
   },
-  
+
   {
     path: '/crearCoro',
     name: 'crearCoro',
@@ -86,6 +91,21 @@ const routes = [
     path: '/editarDirector/:id',
     name: 'editarDirector',
     component: DirectorEditar
+  }, 
+  {
+    path: '/crearPartitura',
+    name: 'crearPartitura',
+    component: PartituraNueva
+  },
+  {
+    path: '/verPartitura/:id',
+    name: 'verPartitura',
+    component: PartituraVer
+  },
+  {
+    path: '/editarPartitura/:id',
+    name: 'editarPartitura',
+    component: PartituraEditar
   },
 ]
 

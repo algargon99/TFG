@@ -1,45 +1,48 @@
 <template>
-  <div class="row mt-3">
+  <div class="gradiente titulo ps-5 pt-4">
+    <span class="h1 text-white">Editar director {{nombre}} {{apellidos}}</span>
+  </div>
+  <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">
         <div class="card-header bg-primary text-white text-center">
-          Editar cantor
+          Editar director
         </div>
         <div class="card-body">
           <form class="form" v-on:submit="editar()">
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del cantor"
+              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-              <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del cantor"
+              <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-              <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del cantor"
+              <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
-              <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del cantor"
+              <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
-              <input type="email" required v-model="correo" id="correo" placeholder="Correo del cantor"
+              <input type="email" required v-model="correo" id="correo" placeholder="Correo del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
               <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
-                placeholder="Fecha de nacimiento del cantor" class="form-control">
+                placeholder="Fecha de nacimiento del director" class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
-              <input type="text" required v-model="voz" id="voz" placeholder="Voz del cantor" class="form-control">
+              <input type="text" required v-model="escuela" id="escuela" placeholder="Escuela del director" class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">
               <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Actualizar</button>
@@ -49,7 +52,7 @@
       </div>
     </div>
     <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/cantores' }" class='btn btn-danger'>
+      <router-link :to="{ path: '/directores' }" class='btn btn-danger'>
         <i class="fa-solid fa-arrow-left"></i> Volver
       </router-link>
     </div>
@@ -58,7 +61,7 @@
 
 <script>
 
-document.title = 'Chorus - Editar Coro';
+document.title = 'Chorus - Editar director';
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -74,8 +77,8 @@ export default {
       telefono: '',
       correo: '',
       fechaNacimiento: '',
-      voz: '',
-      url: '/api/cantores',
+      escuela: '',
+      url: '/api/directores',
       cargando: false,
     };
   },
@@ -83,19 +86,20 @@ export default {
     const route = useRoute();
     this.id = route.params.id;
     this.url += '/' + this.id;
-    this.getCantor();
+    this.getDirector();
   },
   methods: {
-    getCantor() {
+    getDirector() {
       axios.get(this.url).then(
         res => {
+          console.log(res);
           this.nombre = res.data.usuario.nombre;
           this.apellidos = res.data.usuario.apellidos;
           this.direccion = res.data.usuario.direccion;
           this.telefono = res.data.usuario.telefono;
           this.correo = res.data.usuario.correo;
           this.fechaNacimiento = res.data.usuario.fechaNacimiento;
-          this.voz = res.data.voz;
+          this.escuela = res.data.escuela;
         }
       );
     },
@@ -114,8 +118,8 @@ export default {
         mostrarAlerta('Ingrese un correo', 'warning', 'correo')
       } else if (this.fechaNacimiento.trim() === '') {
         mostrarAlerta('Ingrese una fecha', 'warning', 'fechaNacimiento')
-      } else if (this.voz.trim() === '') {
-        mostrarAlerta('Ingrese una voz', 'warning', 'voz')
+      } else if (this.escuela.trim() === '') {
+        mostrarAlerta('Ingrese una escuela', 'warning', 'escuela')
       } else {
         var parametros = {
           nombre: this.nombre.trim(),
@@ -124,9 +128,10 @@ export default {
           telefono: this.telefono.trim(),
           correo: this.correo.trim(),
           fechaNacimiento: this.fechaNacimiento.trim(),
-          voz: this.voz.trim(),
+          escuela: this.escuela.trim(),
         };
-        enviarSolicitud('PUT', parametros, this.url, 'Cantor actualizado');
+        console.log(parametros);
+        enviarSolicitud('PUT', parametros, this.url, 'Director actualizado','directores');
       }
     },
   },

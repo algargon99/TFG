@@ -45,6 +45,8 @@ export function confirmar(url, id, titulo, mensaje, clase) {
 }
 
 export function enviarSolicitud(metodo, parametros, urlid, mensaje,clase) {
+    console.log(parametros);
+    console.log(urlid);
     axios({
         method: metodo,
         url: urlid,

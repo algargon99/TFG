@@ -1,7 +1,7 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
     <span class="h1 text-white">Crear coro</span>
-  </div>
+  </div> 
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">

@@ -1,5 +1,8 @@
 <template>
-  <div class="row mt-3">
+  <div class="gradiente titulo ps-5 pt-4">
+    <span class="h1 text-white">Crear cantor</span>
+  </div>
+  <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">
         <div class="card-header bg-primary text-white text-center">
@@ -37,6 +40,10 @@
               <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
                 placeholder="Fecha de nacimiento del cantor" class="form-control">
             </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <input type="date" required v-model="voz" id="voz" placeholder="Voz del cantor" class="form-control">
+            </div>
             <div class="d-grid col-6 mx-auto mb-3">
               <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Crear cantor</button>
             </div>
@@ -62,6 +69,7 @@ export default {
       telefono: '',
       correo: '',
       fechaNacimiento: '',
+      voz: '',
       url: '/api/cantores',
       cargando: false,
     };
@@ -82,6 +90,8 @@ export default {
         mostrarAlerta('Ingrese un correo', 'warning', 'correo')
       } else if (this.fechaNacimiento.trim() === '') {
         mostrarAlerta('Ingrese una fecha de nacimiento', 'warning', 'fechaNacimiento')
+      } else if (this.voz.trim() === '') {
+        mostrarAlerta('Ingrese una voz', 'warning', 'voz')
       } else {
         var parametros = {
           nombre: this.nombre.trim(),
@@ -90,6 +100,7 @@ export default {
           telefono: this.telefono.trim(),
           correo: this.correo.trim(),
           fechaNacimiento: this.fechaNacimiento.trim(),
+          voz: this.voz.trim(),
         };
         enviarSolicitud('POST', parametros, this.url, 'Cantor creado');
       }

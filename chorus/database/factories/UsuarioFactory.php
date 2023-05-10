@@ -15,9 +15,9 @@ class UsuarioFactory extends Factory
             'nombre' => $this->faker->firstName,
             'apellidos' => $this->faker->lastName,
             'direccion' => $this->faker->address,
-            'telefono' => $this->faker->phoneNumber,
+            'telefono' => $this->faker->numerify('6########'),
             'correo' => $this->faker->unique()->safeEmail,
-            'fechaNacimiento' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            'fechaNacimiento' => $this->faker->dateTimeBetween('-100 years', '-18 years')->format('Y-m-d'),
             'password' => bcrypt('password')
         ];
     }

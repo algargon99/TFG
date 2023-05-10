@@ -23,11 +23,9 @@ class CantorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
-            'password' => 'required|string|regex:/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8}$/',
-            'repetirPass' => 'required|string|same:password',
             'voz' => 'required|string',
         ];
 
@@ -36,15 +34,11 @@ class CantorController extends Controller
             'apellidos.required' => 'Los apellidos son obligatorios.',
             'direccion.required' => 'La dirección es obligatoria.',
             'telefono.required' => 'El teléfono es obligatorio.',
-            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
+            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras.',
             'correo.required' => 'El correo es obligatorio.',
             'correo.email' => 'El correo es tiene que ser formato x@x.x.',
             'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
             'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
-            'password.required' => 'La contraseña es obligatoria.',
-            'password.regex' => 'La contraseña tiene que tener mínimo 8 caractéres con al menos una minúscula, una mayúscula y un número',
-            'repetirPass.required' => 'La contraseña repetida es obligatoria.',
-            'repetirPass.same' => 'La contraseñas no concuerdan.',
             'voz.required' => 'La voz es obligatoria.',
         ];
 
@@ -56,19 +50,19 @@ class CantorController extends Controller
 
         $inputs = $request->input();
         $usuario = New Usuario();
-        $usuario->nombre = $inputs->nombre;
-        $usuario->apellidos = $inputs->apellidos;
-        $usuario->direccion = $inputs->direccion;
-        $usuario->telefono = $inputs->telefono;
-        $usuario->correo = $inputs->correo;
-        $usuario->fechaNacimiento = $inputs->fechaNacimiento;
-        $pass  = substr($inputs->nombre, 0, 3) . substr($inputs->apellidos[0], 0, 3);
+        $usuario->nombre = $inputs["nombre"];
+        $usuario->apellidos = $inputs["apellidos"];
+        $usuario->direccion = $inputs["direccion"];
+        $usuario->telefono = $inputs["telefono"];
+        $usuario->correo = $inputs["correo"];
+        $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
+        $pass  = substr($inputs["nombre"], 0, 3) . substr($inputs["apellidos"], 0, 3);
         $usuario->password = bcrypt($pass);
         $usuario->save();
         
         $cantor = new Cantor();
-        $cantor->voz = $inputs->voz;
-        $cantor->idUsuario = $usuario->id;
+        $cantor->voz = $inputs["voz"];
+        $cantor->idUsuario = $usuario["id"];
 
         $respuesta = $cantor->save();
         return $respuesta;
@@ -88,9 +82,8 @@ class CantorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/',
             'correo' => 'required|email',
-            'fechaNacimiento' => 'required|date',
             'voz' => 'required|string',
         ];
 
@@ -99,11 +92,9 @@ class CantorController extends Controller
             'apellidos.required' => 'Los apellidos son obligatorios.',
             'direccion.required' => 'La dirección es obligatoria.',
             'telefono.required' => 'El teléfono es obligatorio.',
-            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
+            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras.',
             'correo.required' => 'El correo es obligatorio.',
             'correo.email' => 'El correo es tiene que ser formato x@x.x.',
-            'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
-            'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
             'voz.required' => 'La voz es obligatoria.',
         ];
 
@@ -116,14 +107,14 @@ class CantorController extends Controller
         $cantor = Cantor::find($id);
         $usuario = Usuario::find($cantor->idUsuario);
         $inputs = $request->input();
-        $usuario->nombre = $inputs->nombre;
-        $usuario->apellidos = $inputs->apellidos;
-        $usuario->direccion = $inputs->direccion;
-        $usuario->telefono = $inputs->telefono;
-        $usuario->correo = $inputs->correo;
-        $usuario->fechaNacimiento = $inputs->fechaNacimiento;
+        $usuario->nombre = $inputs["nombre"];
+        $usuario->apellidos = $inputs["apellidos"];
+        $usuario->direccion = $inputs["direccion"];
+        $usuario->telefono = $inputs["telefono"];
+        $usuario->correo = $inputs["correo"];
+        $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
         $usuario->save();
-        $cantor->voz = $inputs->voz;
+        $cantor->voz = $inputs["voz"];
         $respuesta = $cantor->save();
         return $respuesta;
        

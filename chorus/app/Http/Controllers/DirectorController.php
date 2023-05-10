@@ -22,7 +22,7 @@ class DirectorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
             'escuela' => 'required|string',
@@ -33,11 +33,11 @@ class DirectorController extends Controller
             'apellidos.required' => 'Los apellidos son obligatorios.',
             'direccion.required' => 'La dirección es obligatoria.',
             'telefono.required' => 'El teléfono es obligatorio.',
-            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
+            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras.',
             'correo.required' => 'El correo es obligatorio.',
             'correo.email' => 'El correo es tiene que ser formato x@x.x.',
             'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
-            'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
+            'fechaNacimiento.date' => 'La fecha de nacimiento tiene que ser formato correcto.',
             'escuela.required' => 'La escuela es obligatoria.',
         ];
 
@@ -48,20 +48,20 @@ class DirectorController extends Controller
         }
 
         $inputs = $request->input();
-        $usuario = New Usuario();
-        $usuario->nombre = $inputs->nombre;
-        $usuario->apellidos = $inputs->apellidos;
-        $usuario->direccion = $inputs->direccion;
-        $usuario->telefono = $inputs->telefono;
-        $usuario->correo = $inputs->correo;
-        $usuario->fechaNacimiento = $inputs->fechaNacimiento;
-        $pass  = substr($inputs->nombre, 0, 3) . substr($inputs->apellidos[0], 0, 3);
+        $usuario = new Usuario();
+        $usuario->nombre = $inputs["nombre"];
+        $usuario->apellidos = $inputs["apellidos"];
+        $usuario->direccion = $inputs["direccion"];
+        $usuario->telefono = $inputs["telefono"];
+        $usuario->correo = $inputs["correo"];
+        $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
+        $pass  = substr($inputs["nombre"], 0, 3) . substr($inputs["apellidos"], 0, 3);
         $usuario->password = bcrypt($pass);
         $usuario->save();
-        
+
         $director = new Director();
         $director->escuela = $inputs->escuela;
-        $director->idUsuario = $usuario->id;
+        $director->idUsuario = $usuario["id"];
 
         $respuesta = $director->save();
         return $respuesta;
@@ -80,11 +80,10 @@ class DirectorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'telefono' => 'required|string|regex:/^\d{9}/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
             'escuela' => 'required|string',
-            'voz' => 'required|string',
         ];
 
         $mensajes = [
@@ -92,12 +91,12 @@ class DirectorController extends Controller
             'apellidos.required' => 'Los apellidos son obligatorios.',
             'direccion.required' => 'La dirección es obligatoria.',
             'telefono.required' => 'El teléfono es obligatorio.',
-            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
+            'telefono.regex' => 'El teléfono tiene que ser un número de 9 cifras.',
             'correo.required' => 'El correo es obligatorio.',
             'correo.email' => 'El correo es tiene que ser formato x@x.x.',
             'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
             'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
-            'voz.required' => 'La voz es obligatoria.',
+            'escuela.required' => 'La escuela es obligatoria.',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -105,18 +104,18 @@ class DirectorController extends Controller
         if ($validaciones->fails()) {
             return $validaciones->errors()->all();
         }
-
+        
         $director = Director::find($id);
         $usuario = Usuario::find($director->idUsuario);
         $inputs = $request->input();
-        $usuario->nombre = $inputs->nombre;
-        $usuario->apellidos = $inputs->apellidos;
-        $usuario->direccion = $inputs->direccion;
-        $usuario->telefono = $inputs->telefono;
-        $usuario->correo = $inputs->correo;
-        $usuario->fechaNacimiento = $inputs->fechaNacimiento;
+        $usuario->nombre = $inputs["nombre"];
+        $usuario->apellidos = $inputs["apellidos"];
+        $usuario->direccion = $inputs["direccion"];
+        $usuario->telefono = $inputs["telefono"];
+        $usuario->correo = $inputs["correo"];
+        $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
         $usuario->save();
-        $director->escuela = $inputs->escuela;
+        $director->escuela = $inputs["escuela"];
         $respuesta = $director->save();
         return $respuesta;
     }

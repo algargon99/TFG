@@ -1,43 +1,42 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">Coro {{ nombre }}</span>
+    <span class="h1 text-white">Partitura {{ nombre }}</span>
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
+      <div class="m-4">
+        <iframe :src="archivo" type="application/pdf" width="100%" height="1000px" />
+      </div>
       <div class="card">
         <div class="card-header bg-primary text-white text-center">
-          Detalle del coro
+          Detalle de la partitura
         </div>
         <div class="card-body">
 
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
             <label v-text="nombre" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-city"></i></span>
-            <label v-text="ciudad" class="form-control"></label>
+            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <label v-text="autor" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-            <label v-text="direccion" class="form-control"></label>
+            <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+            <label v-text="anio" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
-            <label v-text="tipo" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
-            <label v-text="estilo" class="form-control"></label>
+            <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+            <label v-text="voces" class="form-control"></label>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="titulo ps-5 pt-4">
+  <!-- <div class="titulo ps-5 pt-4">
     <span class="h1 text-white">Partituras del coro {{ nombre }}</span>
-  </div>
-  <div class="row g-0 my-5">
+  </div> -->
+  <!-- <div class="row g-0 my-5">
     <div class="col-lg-8 offset-lg-2">
       <div class="table-responsive bg-white borde">
         <table class="table table-hover">
@@ -64,12 +63,12 @@
               <td v-text="partitura.anio"></td>
               <td v-text="partitura.voces"></td>
               <td>
-                <router-link :to="{ path: '/verPartitura/' + partitura.id }" class="btn btn-info">
+                <router-link :to="{ path: 'verPartitura/' + partitura.id }" class="btn btn-info">
                   <i class="fa-solid fa-eye"></i>
                 </router-link>
               </td>
               <td>
-                <router-link :to="{ path: '/editarPartitura/' + partitura.id }" class="btn btn-warning">
+                <router-link :to="{ path: 'editarPartitura/' + partitura.id }" class="btn btn-warning">
                   <i class="fa-solid fa-edit"></i>
                 </router-link>
               </td>
@@ -90,17 +89,18 @@
         </div>
       </div>
     </div>
-  </div>
+
+  </div> -->
   <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/coros' }" class='btn btn-danger'>
-        <i class="fa-solid fa-arrow-left"></i> Volver
-      </router-link>
-    </div>
+    <router-link :to="{ path: '/verCoro/' + { id } }" class='btn btn-danger'>
+      <i class="fa-solid fa-arrow-left"></i> Volver
+    </router-link>
+  </div>
 </template>
 
 <script>
 
-document.title = 'Chorus - Ver Coro';
+document.title = 'Chorus - Ver Partitura';
 
 import { useRoute } from "vue-router";
 import axios from "../../axiosConfig";
@@ -109,16 +109,15 @@ export default {
   data() {
     return {
       id: 0,
+      idPartitura: 0,
       nombre: '',
-      ciudad: '',
-      direccion: '',
-      tipo: '',
-      estilo: '',
-      url: '/api/coros',
+      autor: '',
+      voces: '',
+      url: '/api/partituras',
       cargando: false,
-      partituras: null,
       currentPage: 1,
       perPage: 5,
+      archivo: process.env.BASE_URL + 'pdf/birthday.pdf'
     };
   },
   computed: {
@@ -139,44 +138,46 @@ export default {
       }
     },
   },
-  
+
   methods: {
-    getCoro() {
+    getPartitura() {
       axios.get(this.url).then(
         res => {
+          console.log(res);
           this.nombre = res.data.nombre;
-          this.ciudad = res.data.ciudad;
-          this.direccion = res.data.direccion;
-          this.tipo = res.data.tipo;
-          this.estilo = res.data.estilo;
+          this.autor = res.data.autor;
+          this.anio = res.data.anio;
+          this.voces = res.data.voces;
+          this.id = res.data.idCoro;
         }
       );
     },
-    listaPartituras() {
-      this.cargando = true;
-      axios.get('/api/coros/' + this.id + '/partituras').then(
-        res => {
-          this.partituras = res.data;
-          this.cargando = false;
-        }
-      ).catch(error => {
-        console.error(error);
-      });
-    },
-    eliminar(idPartitura, nombre) {
-      confirmar('/api/coros/' + this.id + '/partituras', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'partituras');
-      this.cargando = false;
-    },
+    // listaPartituras() {
+    //   this.cargando = true;
+    //   axios.get('/api/coros/' + this.id + '/partituras').then(
+    //     res => {
+    //       console.log(res);
+    //       this.partituras = res.data;
+    //       this.cargando = false;
+    //     }
+    //   ).catch(error => {
+    //     console.error(error);
+    //   });
+    // },
+    // eliminar(idPartitura, nombre) {
+    //   confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'partituras');
+    //   this.cargando = false;
+    // },
     changePage(page) {
       this.currentPage = page;
     },
   },
   mounted() {
     const route = useRoute();
-    this.id = route.params.id;
-    this.url += '/' + this.id;
-    this.getCoro();
-    this.listaPartituras();
+    this.idPartitura = route.params.id;
+    this.url += '/' + this.idPartitura;
+    this.getPartitura();
+    //this.listaPartituras();
   },
 };
 </script>

@@ -1,5 +1,8 @@
 <template>
-  <div class="row mt-3">
+  <div class="gradiente titulo ps-5 pt-4">
+    <span class="h1 text-white">{{nombre}} {{apellidos}}</span>
+  </div>
+  <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">
         <div class="card-header bg-primary text-white text-center">
