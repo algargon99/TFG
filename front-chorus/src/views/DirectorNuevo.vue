@@ -5,7 +5,7 @@
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">
-        <div class="card-header bg-primary text-white text-center">
+        <div class="card-header bg-dark text-white text-center">
           A&ntilde;adir nuevo cantor
         </div>
         <div class="card-body">
@@ -103,7 +103,7 @@ export default {
           fechaNacimiento: this.fechaNacimiento.trim(),
           escuela: this.escuela.trim(),
         };
-        enviarSolicitud('POST', parametros, this.url, 'Director creado');
+        enviarSolicitud('POST', parametros, this.url, 'Director creado','directores');
       }
     },
   },

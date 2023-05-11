@@ -5,7 +5,7 @@
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">
-        <div class="card-header bg-primary text-white text-center">
+        <div class="card-header bg-dark text-white text-center">
             Crear nuevo coro
         </div>
         <div class="card-body">
@@ -81,7 +81,7 @@ export default {
           tipo: this.tipo.trim(),
           estilo: this.estilo.trim(),
         };
-        enviarSolicitud('POST',parametros,this.url,'Coro creado');
+        enviarSolicitud('POST',parametros,this.url,'Coro creado','coros');
       }
     },
   },

@@ -2,17 +2,18 @@
   <div class="gradiente titulo ps-5 pt-4">
     <span class="h1 text-white">Partitura {{ nombre }}</span>
   </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3">
-      <div class="m-4">
-        <iframe :src="archivo" type="application/pdf" width="100%" height="1000px" />
-      </div>
+  <div class="row g-0">
+    <div class="col-md-1"></div>
+    <div class="m-4 col-md-6">
+      <iframe :src="archivo" type="application/pdf" width="100%" height="1000px" />
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-3 d-flex align-items-center">
       <div class="card">
-        <div class="card-header bg-primary text-white text-center">
+        <div class="card-header bg-dark text-white text-center">
           Detalle de la partitura
         </div>
         <div class="card-body">
-
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
             <label v-text="nombre" class="form-control"></label>
@@ -31,7 +32,9 @@
           </div>
         </div>
       </div>
+
     </div>
+    <div class="col-md-1"></div>
   </div>
   <!-- <div class="titulo ps-5 pt-4">
     <span class="h1 text-white">Partituras del coro {{ nombre }}</span>
@@ -92,7 +95,7 @@
 
   </div> -->
   <div class="col-6 mx-auto my-3">
-    <router-link :to="{ path: '/verCoro/' + { id } }" class='btn btn-danger'>
+    <router-link :to="{ path: '/verCoro/' + id }" class='btn btn-danger'>
       <i class="fa-solid fa-arrow-left"></i> Volver
     </router-link>
   </div>
@@ -112,6 +115,7 @@ export default {
       idPartitura: 0,
       nombre: '',
       autor: '',
+      anio: '',
       voces: '',
       url: '/api/partituras',
       cargando: false,

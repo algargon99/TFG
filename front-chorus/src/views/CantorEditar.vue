@@ -5,7 +5,7 @@
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">
-        <div class="card-header bg-primary text-white text-center">
+        <div class="card-header bg-dark text-white text-center">
           Editar cantor
         </div>
         <div class="card-body">
@@ -129,7 +129,7 @@ export default {
           fechaNacimiento: this.fechaNacimiento.trim(),
           voz: this.voz.trim(),
         };
-        enviarSolicitud('PUT', parametros, this.url, 'Cantor actualizado');
+        enviarSolicitud('PUT', parametros, this.url, 'Cantor actualizado','cantores');
       }
     },
   },
