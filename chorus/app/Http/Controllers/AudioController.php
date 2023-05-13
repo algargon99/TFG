@@ -3,23 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audio;
+use App\Models\Partitura;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AudioController extends Controller
 {
-    public function mostrarAudios()
+    public function index($id)
     {
-        $audio = Audio::all();
-        return view('audio', compact('audio'));
+        $partitura = Partitura::find($id);
+        return $partitura->audios;
     }
 
-    public function verCrearAudio()
-    {
-        return view('verNewAudio');
-    }
-
-    public function crearAudio(Request $request)
+    public function store(Request $request)
     {
 
         $reglas = [
@@ -42,40 +39,38 @@ class AudioController extends Controller
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
-        $audio = new Audio();
-
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
+        
+        try {
+            DB::beginTransaction();
+            $audio = new Audio();
+            $audio->obra = $request->obra;
+            $audio->duracion = $request->duracion;
+            $audio->interprete = $request->interprete;
+            $naudio = 'audios/' . $_FILES['audio']['name'];
+            move_uploaded_file($_FILES['audio']['tmp_name'], $naudio);
+            $audio->audio = $naudio;
+            $audio->idPartitura = $request->idPartitura;
 
-        $audio = new Audio();
-        $audio->obra = $request->obra;
-        $audio->duracion = $request->duracion;
-        $audio->interprete = $request->interprete;
-        $naudio = 'audios/' . $_FILES['audio']['name'];
-        move_uploaded_file($_FILES['audio']['tmp_name'], $naudio);
-        $audio->audio = $naudio;
-        $audio->idPartitura = $request->idPartitura;
+            $res = $audio->save();
+            DB::commit();
 
-        $audio->save();
+            return $res;
+        } catch (\Exception $e) {
 
-        return redirect()->route('audio.index')->with('success', 'Audio creado correctamente');
+            DB::rollBack();
+            return $e->getMessage();
+        }
     }
 
-    public function show(Request $request)
+    public function show($id)
     {
-        return view('audio.show', compact('audio'));
+        return Audio::find($id);
     }
 
-    public function edit(Request $request)
-    {
-        return view('audio.edit', compact('audio'));
-    }
-
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $reglas = [
             'obra' => 'required|string|max:255',
@@ -96,35 +91,40 @@ class AudioController extends Controller
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
-        $audio = Audio::find($request->id);
+        $audio = Audio::find($id);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
 
-        $audio->obra = $request->obra;
-        $audio->duracion = $request->duracion;
-        $audio->interprete = $request->interprete;
-        $naudio = 'audios/' . $_FILES['audio']['name'];
-        if ($naudio != "") {
-            move_uploaded_file($_FILES['audio']['tmp_name'], $naudio);
-            $audio->audio = $naudio;
+        try {
+            DB::beginTransaction();
+            $audio->obra = $request->obra;
+            $audio->duracion = $request->duracion;
+            $audio->interprete = $request->interprete;
+            $naudio = 'audios/' . $_FILES['audio']['name'];
+            if ($naudio != "") {
+                move_uploaded_file($_FILES['audio']['tmp_name'], $naudio);
+                $audio->audio = $naudio;
+            }
+            $audio->idPartitura = $request->idPartitura;
+
+            $res = $audio->save();
+
+            DB::commit();
+            return $res;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
         }
-        $audio->idPartitura = $request->idPartitura;
-
-        $audio->save();
-
-        return redirect()->route('audio.index')->with('success', 'Audio actualizado correctamente');
     }
 
-    public function destroy(Request $request)
+    // Eliminar una partitura de la base de datos
+    public function destroy($id)
     {
-        $audio = Audio::find($request->id);
-        $audio->delete();
-
-        return redirect()->route('audio.index')->with('success', 'Audio eliminado correctamente');
+        $audio = Audio::find($id);
+        if ($audio) {
+            $audio->delete();
+        }
     }
 }

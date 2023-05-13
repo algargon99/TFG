@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware(['guest'])
+    ->name('login');
 
 //COROS
 Route::apiResource('coros', CoroController::class);

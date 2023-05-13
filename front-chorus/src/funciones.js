@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import axios from "../axiosConfig";
 
 export function mostrarAlerta(titulo, icono, foco = '') {
-    
+
     if (foco != '') {
         document.getElementById(foco).focus();
     }
@@ -37,14 +37,14 @@ export function confirmar(url, id, titulo, mensaje, clase) {
         cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar'
     }).then((res) => {
         if (res.isConfirmed) {
-            enviarSolicitud('DELETE', { id: id }, urlid, 'Eliminado con éxito',clase);
+            enviarSolicitud('DELETE', { id: id }, urlid, 'Eliminado con éxito', clase);
         } else {
             mostrarAlerta('Operación cancelada', 'info');
         }
     });
 }
 
-export function enviarSolicitud(metodo, parametros, urlid, mensaje,clase) {
+export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
     console.log(parametros);
     console.log(urlid);
     axios({
@@ -57,7 +57,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje,clase) {
         if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
             window.setTimeout(function () {
-                window.location.href = "/"+clase
+                window.location.href = "/" + clase
             }, 1000);
         } else {
             mostrarAlerta('Sin respuesta', 'error')
@@ -68,3 +68,23 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje,clase) {
     });
 }
 
+export function login(email, password, mensaje) {
+    axios.post('/login', {
+        email: email,
+        password: password,
+    }).then(res => {
+        var estado = res.status;
+        console.log(estado);
+        if (estado == 200 || estado == 201) {
+            mostrarAlerta(mensaje, 'success');
+            window.setTimeout(function () {
+                window.location.href = "/coros"
+            }, 1000);
+        } else {
+            mostrarAlerta('Sin respuesta', 'error')
+        }
+    }).catch(error => {
+        mostrarAlerta('Error de conexión', 'error');
+        console.log(error);
+    });
+}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Coro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CoroController extends Controller
@@ -40,9 +41,20 @@ class CoroController extends Controller
             return $validaciones->errors()->all();
         }
 
-        $inputs = $request->input();
-        $respuesta = Coro::create($inputs);
-        return $respuesta;
+        DB::beginTransaction();
+
+        try {
+            $inputs = $request->input();
+            $respuesta = Coro::create($inputs);
+
+            DB::commit();
+
+            return $respuesta;
+            
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Error al almacenar el coro'], 500);
+        }
     }
 
     // Mostrar el detalle de un coro
@@ -77,9 +89,19 @@ class CoroController extends Controller
             return $validaciones->errors()->all();
         }
 
-        $coro = Coro::find($id);
-        $res = $coro->update($request->input());
-        return $res;
+        DB::beginTransaction();
+
+        try {
+            $coro = Coro::find($id);
+            $res = $coro->update($request->input());
+
+            DB::commit();
+
+            return $res;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Error al actualizar el coro'], 500);
+        }
 
     }
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cantor;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CantorController extends Controller
@@ -23,7 +23,7 @@ class CantorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/',
+            'telefono' => 'required|string|regex:/^\d{9}/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
             'voz' => 'required|string',
@@ -49,7 +49,8 @@ class CantorController extends Controller
         }
 
         $inputs = $request->input();
-        $usuario = New Usuario();
+
+        $usuario = new Usuario();
         $usuario->nombre = $inputs["nombre"];
         $usuario->apellidos = $inputs["apellidos"];
         $usuario->direccion = $inputs["direccion"];
@@ -58,15 +59,31 @@ class CantorController extends Controller
         $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
         $pass  = substr($inputs["nombre"], 0, 3) . substr($inputs["apellidos"], 0, 3);
         $usuario->password = bcrypt($pass);
-        $usuario->save();
-        
+
         $cantor = new Cantor();
         $cantor->voz = $inputs["voz"];
-        $cantor->idUsuario = $usuario["id"];
 
-        $respuesta = $cantor->save();
-        return $respuesta;
+        // Inicia la transacción
+        DB::beginTransaction();
 
+        try {
+            // Inserta el registro del usuario
+            $usuario->save();
+
+            // Asigna el ID del usuario al cantor y guarda el registro del cantor
+            $cantor->idUsuario = $usuario["id"];
+            $res = $cantor->save();
+
+            // Si todas las operaciones se han completado correctamente, se realiza el commit
+            DB::commit();
+
+            return $res;
+        } catch (\Exception $e) {
+            // Si se produce un error, se realiza el rollback para revertir todas las operaciones
+            DB::rollback();
+
+            return $e->getMessage();
+        }
     }
 
     // Mostrar el detalle de un cantor
@@ -82,7 +99,7 @@ class CantorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/',
+            'telefono' => 'required|string|regex:/^\d{9}/',
             'correo' => 'required|email',
             'voz' => 'required|string',
         ];
@@ -104,20 +121,45 @@ class CantorController extends Controller
             return $validaciones->errors()->all();
         }
 
-        $cantor = Cantor::find($id);
-        $usuario = Usuario::find($cantor->idUsuario);
+
         $inputs = $request->input();
-        $usuario->nombre = $inputs["nombre"];
-        $usuario->apellidos = $inputs["apellidos"];
-        $usuario->direccion = $inputs["direccion"];
-        $usuario->telefono = $inputs["telefono"];
-        $usuario->correo = $inputs["correo"];
-        $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
-        $usuario->save();
-        $cantor->voz = $inputs["voz"];
-        $respuesta = $cantor->save();
-        return $respuesta;
-       
+
+        // Iniciar la transacción
+        DB::beginTransaction();
+
+        try {
+            // Buscar el cantor por ID
+            $cantor = Cantor::find($id);
+
+            // Verificar si el cantor existe
+            if (!$cantor) {
+                throw new \Exception('Cantor no encontrado');
+            }
+
+            // Actualizar los datos del usuario relacionado al cantor
+            $usuario = Usuario::find($cantor->idUsuario);
+            $usuario->nombre = $inputs["nombre"];
+            $usuario->apellidos = $inputs["apellidos"];
+            $usuario->direccion = $inputs["direccion"];
+            $usuario->telefono = $inputs["telefono"];
+            $usuario->correo = $inputs["correo"];
+            $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
+            $usuario->save();
+
+            // Actualizar la voz del cantor
+            $cantor->voz = $inputs["voz"];
+            $res = $cantor->save();
+
+            // Confirmar la transacción
+            DB::commit();
+
+            return $res;
+        } catch (\Exception $e) {
+            // Si se produce un error, realizar el rollback para revertir todas las operaciones
+            DB::rollback();
+
+            return $e->getMessage();
+        }
     }
 
     // Eliminar un cantor de la base de datos

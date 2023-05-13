@@ -2,24 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Partitura;
 use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class VideoController extends Controller
 {
-    public function mostrarVideos()
+    public function index($id)
     {
-        $video = Video::all();
-        return view('video', compact('video'));
+        $partitura = Partitura::find($id);
+        return $partitura->audios;
     }
 
-    public function verCrearVideo()
-    {
-        return view('verNewVideo');
-    }
-
-    public function crearVideo(Request $request)
+    public function store(Request $request)
     {
 
         $reglas = [
@@ -44,37 +41,39 @@ class VideoController extends Controller
         $video = new Video();
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
 
-        $video = new Video();
-        $video->nombre = $request->nombre;
-        $video->interprete = $request->interprete;
-        $video->year = $request->year;
-        $nvideo = 'videos/' . $_FILES['video']['name'];
-        move_uploaded_file($_FILES['video']['tmp_name'], $nvideo);
-        $video->video = $nvideo;
-        $video->idPartitura = $request->idPartitura;
+        try {
+            DB::beginTransaction();
+            $video = new Video();
+            $video->nombre = $request->nombre;
+            $video->interprete = $request->interprete;
+            $video->year = $request->year;
+            $nvideo = 'videos/' . $_FILES['video']['name'];
+            move_uploaded_file($_FILES['video']['tmp_name'], $nvideo);
+            $video->video = $nvideo;
+            $video->idPartitura = $request->idPartitura;
 
-        $video->save();
 
-        return redirect()->route('video.index')->with('success', 'Video creado correctamente');
+            $res = $video->save();
+            DB::commit();
+
+            return $res;
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return $e->getMessage();
+        }
     }
 
-    public function show(Request $request)
+    public function show($id)
     {
-        return view('video.show', compact('video'));
+        return Video::find($id);
     }
 
-    public function edit(Request $request)
-    {
-        return view('video.edit', compact('video'));
-    }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $reglas = [
             'nombre' => 'required|string',
@@ -95,34 +94,36 @@ class VideoController extends Controller
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
 
-        $video = Video::find($request->id);
+        $video = Video::find($id);
 
-        $video->obra = $request->obra;
-        $video->duracion = $request->duracion;
-        $video->interprete = $request->interprete;
-        $nvideo = 'videos/' . $_FILES['video']['name'];
-        if ($nvideo != "") {
-            move_uploaded_file($_FILES['video']['tmp_name'], $nvideo);
-            $video->video = $nvideo;
+        try {
+            DB::beginTransaction();
+            $video->obra = $request->obra;
+            $video->duracion = $request->duracion;
+            $video->interprete = $request->interprete;
+            $nvideo = 'videos/' . $_FILES['video']['name'];
+            if ($nvideo != "") {
+                move_uploaded_file($_FILES['video']['tmp_name'], $nvideo);
+                $video->video = $nvideo;
+            }
+            $video->idPartitura = $request->idPartitura;
+            $res = $video->save();
+            DB::commit();
+            return $res;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
         }
-        $video->idPartitura = $request->idPartitura;
-
-        $video->save();
-
-        return redirect()->route('video.index')->with('success', 'Video actualizado correctamente');
     }
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $video = Video::find($request->id);
-        $video->delete();
-
-        return redirect()->route('video.index')->with('success', 'Video eliminado correctamente');
+        $video = Video::find($id);
+        if ($video) {
+            $video->delete();
+        }
     }
 }

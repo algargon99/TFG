@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Director;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class DirectorController extends Controller
@@ -22,7 +23,7 @@ class DirectorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/',
+            'telefono' => 'required|string|regex:/^\d{9}/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
             'escuela' => 'required|string',
@@ -57,14 +58,32 @@ class DirectorController extends Controller
         $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
         $pass  = substr($inputs["nombre"], 0, 3) . substr($inputs["apellidos"], 0, 3);
         $usuario->password = bcrypt($pass);
-        $usuario->save();
 
         $director = new Director();
         $director->escuela = $inputs->escuela;
-        $director->idUsuario = $usuario["id"];
+        
 
-        $respuesta = $director->save();
-        return $respuesta;
+        // Inicia la transacción
+        DB::beginTransaction();
+
+        try {
+            // Inserta el registro del usuario
+            $usuario->save();
+
+            // Asigna el ID del usuario al director y guarda el registro del director
+            $director->idUsuario = $usuario["id"];
+            $res = $director->save();
+
+            // Si todas las operaciones se han completado correctamente, se realiza el commit
+            DB::commit();
+
+            return $res;
+        } catch (\Exception $e) {
+            // Si se produce un error, se realiza el rollback para revertir todas las operaciones
+            DB::rollback();
+
+            return $e->getMessage();
+        }
     }
 
     // Mostrar el detalle de un director
@@ -114,10 +133,28 @@ class DirectorController extends Controller
         $usuario->telefono = $inputs["telefono"];
         $usuario->correo = $inputs["correo"];
         $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
-        $usuario->save();
         $director->escuela = $inputs["escuela"];
-        $respuesta = $director->save();
-        return $respuesta;
+
+        // Inicia la transacción
+        DB::beginTransaction();
+
+        try {
+            // Inserta el registro del usuario
+            $usuario->save();
+
+            // Guarda el registro del director
+            $res = $director->save();
+
+            // Si todas las operaciones se han completado correctamente, se realiza el commit
+            DB::commit();
+
+            return $res;
+        } catch (\Exception $e) {
+            // Si se produce un error, se realiza el rollback para revertir todas las operaciones
+            DB::rollback();
+
+            return $e->getMessage();
+        }
     }
 
     // Eliminar un director de la base de datos
