@@ -1,35 +1,35 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">Editar coro {{nombre}}</span>
+    <span class="h1 text-white">Editar partitura {{nombre}}</span>
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">
         <div class="card-header bg-dark text-white text-center">
-          Editar coro
+          Editar partitura
         </div>
         <div class="card-body">
           <form class="form" v-on:submit="editar()">
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
-              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del coro" class="form-control">
+              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre de la partitura" class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-city"></i></span>
-              <input type="text" required v-model="ciudad" id="ciudad" placeholder="Ciudad del coro" class="form-control">
+              <input type="text" required v-model="autor" id="autor" placeholder="Autor de la partitura" class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-              <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del coro"
+              <input type="text" required v-model="anio" id="anio" placeholder="Año de la partitura"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
-              <input type="text" required v-model="tipo" id="tipo" placeholder="Tipo del coro" class="form-control">
+              <input type="text" required v-model="voces" id="voces" placeholder="Voces de la partitura" class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
-              <input type="text" required v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
+              <input type="text" required v-model="archivo" id="archivo" placeholder="Estilo del coro" class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">
 

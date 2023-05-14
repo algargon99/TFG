@@ -88,14 +88,19 @@
             </li>
           </ul>
         </div>
+        <div class="d-flex justify-content-center">
+          <router-link :to="{ path: '/crearPartitura/'+this.id }" class='btn btn-primary'>
+            <i class="fa-solid fa-archive"></i> Nueva partitura
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
   <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/coros' }" class='btn btn-danger'>
-        <i class="fa-solid fa-arrow-left"></i> Volver
-      </router-link>
-    </div>
+    <router-link :to="{ path: '/coros' }" class='btn btn-danger'>
+      <i class="fa-solid fa-arrow-left"></i> Volver
+    </router-link>
+  </div>
 </template>
 
 <script>
@@ -139,7 +144,7 @@ export default {
       }
     },
   },
-  
+
   methods: {
     getCoro() {
       axios.get(this.url).then(

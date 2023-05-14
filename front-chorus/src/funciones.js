@@ -45,20 +45,19 @@ export function confirmar(url, id, titulo, mensaje, clase) {
 }
 
 export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
-    console.log(parametros);
-    console.log(urlid);
+
     axios({
         method: metodo,
         url: urlid,
         data: parametros
     }).then(function (res) {
         var estado = res.status;
-        console.log(estado);
+        console.log(res);
         if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
-            window.setTimeout(function () {
-                window.location.href = "/" + clase
-            }, 1000);
+            // window.setTimeout(function () {
+            //     window.location.href = "/" + clase
+            // }, 30000);
         } else {
             mostrarAlerta('Sin respuesta', 'error')
         }

@@ -93,7 +93,7 @@ const routes = [
     component: DirectorEditar
   }, 
   {
-    path: '/crearPartitura',
+    path: '/crearPartitura/:id',
     name: 'crearPartitura',
     component: PartituraNueva
   },
