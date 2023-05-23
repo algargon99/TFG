@@ -21,7 +21,8 @@ class PartituraController extends Controller
     public function store(Request $request, $id)
     {
 
-        return $request;
+
+        return $request->partitura;
 
         $reglas = [
             'nombre' => 'required|string',

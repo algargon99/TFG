@@ -10,7 +10,7 @@
         </div>
 
         <div class="card-body">
-          <form class="form" enctype="multipart/form-data" v-on:submit="guardar()">
+          <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="guardar()">
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
               <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre de la partitura"
