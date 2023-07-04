@@ -6,6 +6,7 @@ use App\Models\Coro;
 use App\Models\Partitura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -20,10 +21,16 @@ class PartituraController extends Controller
 
     public function store(Request $request, $id)
     {
-
-
-        return $request->partitura;
-
+        if ($request->hasFile('partitura')) {
+            $archivo = $request->file('partitura');
+            
+            // Imprimir información del archivo en la consola o en el log del controlador
+            Log::info('Nombre del archivo: '.$archivo->getClientOriginalName());
+            Log::info('Tipo MIME: '.$archivo->getClientMimeType());
+            Log::info('Tamaño: '.$archivo->getSize().' bytes');
+        }
+            return $archivo;
+        
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',

@@ -105,9 +105,10 @@ export default {
       reader.onload = function () {
         var url = URL.createObjectURL(file); // Obtiene la URL del archivo
         this.archivo = url;
-        console.log(this.archivo);
       }.bind(this);
       reader.readAsArrayBuffer(file);
+      var archivoPDF = this.$refs.archivoInput.files[0];
+      console.log(archivoPDF);
     }
   },
 };

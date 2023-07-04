@@ -46,10 +46,22 @@ export function confirmar(url, id, titulo, mensaje, clase) {
 
 export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
 
+    if (hayArchivo(parametros)) {
+        const formData = new FormData();
+        Object.keys(parametros).forEach(key => {
+            console.log(parametros[key]);
+            formData.append(key, parametros[key]);
+        });
+        parametros = formData;
+    }
+    //console.log(parametros);
     axios({
         method: metodo,
         url: urlid,
-        data: parametros
+        data: parametros,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
     }).then(function (res) {
         var estado = res.status;
         console.log(res);
@@ -86,4 +98,12 @@ export function login(email, password, mensaje) {
         mostrarAlerta('Error de conexión', 'error');
         console.log(error);
     });
+}
+
+function hayArchivo(parametros) {
+    var existe = false;
+    if (parametros["partitura"] || parametros["audio"] || parametros["video"] || parametros["fotos"]) {
+        existe = true;
+    }
+    return existe;
 }
