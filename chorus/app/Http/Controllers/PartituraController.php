@@ -6,7 +6,6 @@ use App\Models\Coro;
 use App\Models\Partitura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -23,14 +22,15 @@ class PartituraController extends Controller
     {
         if ($request->hasFile('partitura')) {
             $archivo = $request->file('partitura');
-            
-            // Imprimir información del archivo en la consola o en el log del controlador
-            Log::info('Nombre del archivo: '.$archivo->getClientOriginalName());
-            Log::info('Tipo MIME: '.$archivo->getClientMimeType());
-            Log::info('Tamaño: '.$archivo->getSize().' bytes');
+            // Obtener la ruta completa donde se guardará el archivo
+            $ruta = public_path('pdf') . '/' . $archivo->getClientOriginalName();
+
+            // Mover el archivo a la ubicación deseada
+            $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
         }
-            return $archivo;
-        
+
+        return "Archivo guardado en " . $ruta;
+
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
@@ -65,19 +65,18 @@ class PartituraController extends Controller
             $partitura->autor = $request->autor;
             $partitura->anio = $request->anio;
             $partitura->voces = $request->voces;
-            
+
             if ($request->hasFile('partitura')) {
                 $archivo = $request->file('partitura');
                 $nombreArchivo = $archivo->getClientOriginalName();
-                $nuevoArchivo = $nombreArchivo.'.pdf';
+                $nuevoArchivo = $nombreArchivo . '.pdf';
                 $rutaDestino = 'localhost:8080/public/pdf';
-    
+
                 $archivo->storeAs($rutaDestino, $nuevoArchivo);
-                $partitura->archivo = "pdf/".$nombreArchivo;
+                $partitura->archivo = "pdf/" . $nombreArchivo;
             } else {
-                
             }
-            
+
 
             $partitura->idCoro = $id;
 
@@ -143,7 +142,6 @@ class PartituraController extends Controller
 
             DB::commit();
             return $res;
-
         } catch (\Exception $e) {
             DB::rollBack();
             return $e->getMessage();
