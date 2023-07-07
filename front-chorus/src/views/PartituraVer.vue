@@ -152,6 +152,7 @@ export default {
           this.autor = res.data.autor;
           this.anio = res.data.anio;
           this.voces = res.data.voces;
+          this.archivo = 
           this.id = res.data.idCoro;
         }
       );

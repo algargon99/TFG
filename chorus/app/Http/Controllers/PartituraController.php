@@ -20,16 +20,8 @@ class PartituraController extends Controller
 
     public function store(Request $request, $id)
     {
-        if ($request->hasFile('partitura')) {
-            $archivo = $request->file('partitura');
-            // Obtener la ruta completa donde se guardará el archivo
-            $ruta = public_path('pdf') . '/' . $archivo->getClientOriginalName();
 
-            // Mover el archivo a la ubicación deseada
-            $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
-        }
 
-        return "Archivo guardado en " . $ruta;
 
         $reglas = [
             'nombre' => 'required|string',
@@ -68,15 +60,9 @@ class PartituraController extends Controller
 
             if ($request->hasFile('partitura')) {
                 $archivo = $request->file('partitura');
-                $nombreArchivo = $archivo->getClientOriginalName();
-                $nuevoArchivo = $nombreArchivo . '.pdf';
-                $rutaDestino = 'localhost:8080/public/pdf';
-
-                $archivo->storeAs($rutaDestino, $nuevoArchivo);
-                $partitura->archivo = "pdf/" . $nombreArchivo;
-            } else {
+                $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
+                $partitura->archivo = '/' . $archivo->getClientOriginalName();
             }
-
 
             $partitura->idCoro = $id;
 

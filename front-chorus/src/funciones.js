@@ -65,11 +65,14 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
     }).then(function (res) {
         var estado = res.status;
         console.log(res);
-        if (estado == 200 || estado == 201) {
+        if (Array.isArray(res.data)) {
+            mostrarAlerta(res.data.join('\n'), 'error');
+        }
+        else if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
-            // window.setTimeout(function () {
-            //     window.location.href = "/" + clase
-            // }, 30000);
+            window.setTimeout(function () {
+                window.location.href = "/" + clase
+            }, 3000);
         } else {
             mostrarAlerta('Sin respuesta', 'error')
         }
