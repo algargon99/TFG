@@ -69,6 +69,7 @@ export default {
       anio: '',
       voces: '',
       archivo: '',
+      coro: '',
       url: '/api/partituras',
       cargando: false,
     };
@@ -88,12 +89,14 @@ export default {
           this.anio = res.data.anio;
           this.voces = res.data.voces;
           this.archivo = 'http://localhost:8000/' + res.data.archivo;
-          this.id = res.data.idCoro;
+          this.coro = res.data.idCoro;
         }
+        
       );
     },
     editar() {
       event.preventDefault();
+      
       var archivo = this.$refs.archivoInput.files[0];
       if (typeof archivo === 'undefined') {
         archivo = "Antiguo";
@@ -108,6 +111,7 @@ export default {
       } else if (this.voces === '') {
         mostrarAlerta('Ingrese un número de voces', 'warning', 'voces')
       } else {
+        var coro = this.coro;
         var parametros = {
           nombre: this.nombre.trim(),
           autor: this.autor.trim(),
@@ -115,7 +119,8 @@ export default {
           voces: this.voces,
           partitura: archivo
         };
-        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada','partituras');
+        console.log(this.url);
+        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada','verCoro/'+ coro);
       }
     },
     previsualizarPDF(event) {

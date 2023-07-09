@@ -46,33 +46,37 @@ export function confirmar(url, id, titulo, mensaje, clase) {
 
 export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
 
+    var tipo = '';
     if (hayArchivo(parametros)) {
         const formData = new FormData();
         Object.keys(parametros).forEach(key => {
-            console.log(parametros[key]);
             formData.append(key, parametros[key]);
+            console.log(formData.get(key));
         });
         parametros = formData;
+        tipo = 'multipart/form-data';
+    } else {
+        parametros = JSON.stringify(parametros);
+        tipo = 'application/json';
     }
-    //console.log(parametros);
     axios({
         method: metodo,
         url: urlid,
         data: parametros,
         headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': tipo
         }
     }).then(function (res) {
         var estado = res.status;
-        //console.log(res);
-        if (Array.isArray(res.data)) {
+        console.log(res);
+        if (res.data != 1) {
             mostrarAlerta(res.data.join('\n'), 'error');
         }
         else if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
-            window.setTimeout(function () {
-                window.location.href = "/" + clase
-            }, 3000);
+            //window.setTimeout(function () {
+            //    window.location.href = "/" + clase
+            //}, 3000);
         } else {
             mostrarAlerta('Sin respuesta', 'error')
         }
@@ -105,7 +109,7 @@ export function login(email, password, mensaje) {
 
 function hayArchivo(parametros) {
     var existe = false;
-    if (parametros["partitura"] || parametros["audio"] || parametros["video"] || parametros["fotos"]) {
+    if (parametros["partitura"] != 'Antiguo') {
         existe = true;
     }
     return existe;
