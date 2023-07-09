@@ -64,7 +64,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
         }
     }).then(function (res) {
         var estado = res.status;
-        console.log(res);
+        //console.log(res);
         if (Array.isArray(res.data)) {
             mostrarAlerta(res.data.join('\n'), 'error');
         }

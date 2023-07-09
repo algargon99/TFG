@@ -1,6 +1,6 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">Editar partitura {{nombre}}</span>
+    <span class="h1 text-white">Editar partitura {{ nombre }}</span>
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
@@ -9,34 +9,39 @@
           Editar partitura
         </div>
         <div class="card-body">
-          <form class="form" v-on:submit="editar()">
+          <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
-              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre de la partitura" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-city"></i></span>
-              <input type="text" required v-model="autor" id="autor" placeholder="Autor de la partitura" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-              <input type="text" required v-model="anio" id="anio" placeholder="Año de la partitura"
+              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre de la partitura"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-city"></i></span>
+              <input type="text" required v-model="autor" id="autor" placeholder="Autor de la partitura"
+                class="form-control">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+              <input type="text" required v-model="anio" id="anio" placeholder="Año de la partitura" class="form-control">
+            </div>
+            <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
-              <input type="text" required v-model="voces" id="voces" placeholder="Voces de la partitura" class="form-control">
+              <input type="text" required v-model="voces" id="voces" placeholder="Voces de la partitura"
+                class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
-              <input type="text" required v-model="archivo" id="archivo" placeholder="Estilo del coro" class="form-control">
+              <input v-on:change="previsualizarPDF" ref="archivoInput" type="file" id="partitura" accept="application/pdf"
+                class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">
-
-              <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Actualizar</button>
+              <button class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Editar partitura</button>
             </div>
           </form>
         </div>
+      </div>
+      <div class="d-flex justify-content-center my-4">
+        <embed :src="this.archivo" type="application/pdf" width="80%" height="1000px" id="archivo" />
       </div>
     </div>
     <div class="col-6 mx-auto my-3">
@@ -60,11 +65,11 @@ export default {
     return {
       id: 0,
       nombre: '',
-      ciudad: '',
-      direccion: '',
-      tipo: '',
-      estilo: '',
-      url: '/api/coros',
+      autor: '',
+      anio: '',
+      voces: '',
+      archivo: '',
+      url: '/api/partituras',
       cargando: false,
     };
   },
@@ -72,44 +77,58 @@ export default {
     const route = useRoute();
     this.id = route.params.id;
     this.url += '/' + this.id;
-    this.getCoro();
+    this.getPartitura();
   },
   methods: {
-    getCoro(){
+    getPartitura() {
       axios.get(this.url).then(
-        res=>{
+        res => {
           this.nombre = res.data.nombre;
-          this.ciudad = res.data.ciudad;
-          this.direccion = res.data.direccion;
-          this.tipo = res.data.tipo;
-          this.estilo = res.data.estilo;
+          this.autor = res.data.autor;
+          this.anio = res.data.anio;
+          this.voces = res.data.voces;
+          this.archivo = 'http://localhost:8000/' + res.data.archivo;
+          this.id = res.data.idCoro;
         }
       );
     },
     editar() {
       event.preventDefault();
+      var archivo = this.$refs.archivoInput.files[0];
+      if (typeof archivo === 'undefined') {
+        archivo = "Antiguo";
+      }
       this.cargando = true;
       if (this.nombre.trim() === '') {
         mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
-      } else if (this.ciudad.trim() === '') {
-        mostrarAlerta('Ingrese una ciudad', 'warning', 'ciudad')
-      } else if (this.direccion.trim() === '') {
-        mostrarAlerta('Ingrese una dirección', 'warning', 'direccion')
-      } else if (this.tipo.trim() === '') {
-        mostrarAlerta('Ingrese un tipo', 'warning', 'tipo')
-      } else if (this.estilo.trim() === '') {
-        mostrarAlerta('Ingrese un estilo', 'warning', 'estilo')
+      } else if (this.autor.trim() === '') {
+        mostrarAlerta('Ingrese un autor', 'warning', 'autor')
+      } else if (this.anio === '') {
+        mostrarAlerta('Ingrese un año', 'warning', 'anio')
+      } else if (this.voces === '') {
+        mostrarAlerta('Ingrese un número de voces', 'warning', 'voces')
       } else {
         var parametros = {
           nombre: this.nombre.trim(),
-          ciudad: this.ciudad.trim(),
-          direccion: this.direccion.trim(),
-          tipo: this.tipo.trim(),
-          estilo: this.estilo.trim(),
+          autor: this.autor.trim(),
+          anio: this.anio,
+          voces: this.voces,
+          partitura: archivo
         };
-        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizado');
+        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada','partituras');
       }
     },
+    previsualizarPDF(event) {
+      var file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function () {
+        var url = URL.createObjectURL(file); // Obtiene la URL del archivo
+        this.archivo = url;
+      }.bind(this);
+      reader.readAsArrayBuffer(file);
+      var archivoPDF = this.$refs.archivoInput.files[0];
+      console.log(archivoPDF);
+    }
   },
 };
 </script>

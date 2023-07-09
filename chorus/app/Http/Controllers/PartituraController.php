@@ -20,9 +20,6 @@ class PartituraController extends Controller
 
     public function store(Request $request, $id)
     {
-
-
-
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
@@ -84,13 +81,14 @@ class PartituraController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        return $request;
+        
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
             'anio' => 'required|integer|min:0',
             'voces' => 'required|integer|min:1',
-            'partitura' => 'required|mimes:PDF|max:2048',
+            'archivo' => 'required|mimes:PDF|max:2048',
         ];
 
         $mensajes = [
@@ -102,9 +100,9 @@ class PartituraController extends Controller
             'voces.required' => 'Las voces son obligatorias.',
             'voces.integer' => 'Las voces tiene que ser un número entero.',
             'voces.min' => 'Tiene que haber al menos una voz.',
-            'partitura.required' => 'El partitura es obligatoria',
-            'partitura.mimes' => 'El tipo de archivo tiene que ser de PDF',
-            'partitura.max' => 'El archivo puede pesar como máximo 2 MB',
+            'archivo.required' => 'El partitura es obligatoria',
+            'archivo.mimes' => 'El tipo de archivo tiene que ser de PDF',
+            'archivo.max' => 'El archivo puede pesar como máximo 2 MB',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -121,9 +119,12 @@ class PartituraController extends Controller
             $partitura->autor = $request->autor;
             $partitura->anio = $request->anio;
             $partitura->voces = $request->voces;
-            $npartitura = 'partituras/' . $_FILES['partitura']['name'];
-            move_uploaded_file($_FILES['partitura']['tmp_name'], $npartitura);
-            $partitura->partitura = $npartitura;
+
+            if ($request->hasFile('partitura')) {
+                $archivo = $request->file('partitura');
+                $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
+                $partitura->archivo = '/' . $archivo->getClientOriginalName();
+            }
             $res = $partitura->save();
 
             DB::commit();

@@ -36,64 +36,6 @@
     </div>
     <div class="col-md-1"></div>
   </div>
-  <!-- <div class="titulo ps-5 pt-4">
-    <span class="h1 text-white">Partituras del coro {{ nombre }}</span>
-  </div> -->
-  <!-- <div class="row g-0 my-5">
-    <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive bg-white borde">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Nº</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">A&ntilde;o</th>
-              <th scope="col">Voces</th>
-              <th scope="col">Ver</th>
-              <th scope="col">Editar</th>
-              <th scope="col">Borrar</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <tr v-if="cargando">
-              <td colspan="8">
-                <h4>Cargando...</h4>
-              </td>
-            </tr>
-            <tr v-else v-for="(partitura, i) in paginatedItems" :key="partitura.id">
-              <td v-text="(i + 1)"></td>
-              <td v-text="partitura.nombre"></td>
-              <td v-text="partitura.anio"></td>
-              <td v-text="partitura.voces"></td>
-              <td>
-                <router-link :to="{ path: 'verPartitura/' + partitura.id }" class="btn btn-info">
-                  <i class="fa-solid fa-eye"></i>
-                </router-link>
-              </td>
-              <td>
-                <router-link :to="{ path: 'editarPartitura/' + partitura.id }" class="btn btn-warning">
-                  <i class="fa-solid fa-edit"></i>
-                </router-link>
-              </td>
-              <td>
-                <button v-on:click="eliminar(partitura.id, partitura.nombre)" class="btn btn-danger">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="d-flex justify-content-center">
-          <ul class="pagination">
-            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-              <a @click="changePage(page)" class="page-link" href="#">{{ page }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-  </div> -->
   <div class="col-6 mx-auto my-3">
     <router-link :to="{ path: '/verCoro/' + id }" class='btn btn-danger'>
       <i class="fa-solid fa-arrow-left"></i> Volver
@@ -121,7 +63,7 @@ export default {
       cargando: false,
       currentPage: 1,
       perPage: 5,
-      archivo: process.env.BASE_URL + 'pdf/birthday.pdf'
+      archivo: ''
     };
   },
   computed: {
@@ -147,32 +89,15 @@ export default {
     getPartitura() {
       axios.get(this.url).then(
         res => {
-          console.log(res);
           this.nombre = res.data.nombre;
           this.autor = res.data.autor;
           this.anio = res.data.anio;
           this.voces = res.data.voces;
-          this.archivo = 
+          this.archivo = 'http://localhost:8000/' + res.data.archivo;
           this.id = res.data.idCoro;
         }
       );
     },
-    // listaPartituras() {
-    //   this.cargando = true;
-    //   axios.get('/api/coros/' + this.id + '/partituras').then(
-    //     res => {
-    //       console.log(res);
-    //       this.partituras = res.data;
-    //       this.cargando = false;
-    //     }
-    //   ).catch(error => {
-    //     console.error(error);
-    //   });
-    // },
-    // eliminar(idPartitura, nombre) {
-    //   confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'partituras');
-    //   this.cargando = false;
-    // },
     changePage(page) {
       this.currentPage = page;
     },
@@ -182,7 +107,6 @@ export default {
     this.idPartitura = route.params.id;
     this.url += '/' + this.idPartitura;
     this.getPartitura();
-    //this.listaPartituras();
   },
 };
 </script>

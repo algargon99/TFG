@@ -37,6 +37,8 @@ Route::apiResource('directores', DirectorController::class);
 Route::get('coros/{id}/partituras', [PartituraController::class,'index']);
 Route::get('partituras/{id}', [PartituraController::class,'show']);
 Route::post('partituras/{id}', [PartituraController::class,'store']);
+Route::put('partituras/{id}', [PartituraController::class,'update']);
+
 
 //AUDIOS
 Route::apiResource('audios', AudioController::class);
