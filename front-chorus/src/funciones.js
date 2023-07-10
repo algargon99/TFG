@@ -108,9 +108,15 @@ export function login(email, password, mensaje) {
 }
 
 function hayArchivo(parametros) {
-    var existe = false;
-    if (parametros["partitura"] != 'Antiguo') {
-        existe = true;
+    for (const key in parametros) {
+        if (parametros.hasOwnProperty(key) && parametros[key] instanceof File) {
+            const archivo = parametros[key];
+            const tipo = archivo.type.split('/')[0]; 
+
+            if (tipo === 'image' || tipo === 'audio' || tipo === 'video' || tipo === 'application') {
+                return true;
+            }
+        }
     }
-    return existe;
+    return false;
 }

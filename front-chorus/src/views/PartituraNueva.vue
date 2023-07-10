@@ -77,7 +77,7 @@ export default {
   methods: {
     guardar() {
       event.preventDefault();
-      var archivo = this.$refs.archivoInput.files[0];
+      var partitura = this.$refs.archivoInput.files[0];
       this.cargando = true;
       if (this.nombre.trim() === '') {
         mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
@@ -93,7 +93,7 @@ export default {
           autor: this.autor.trim(),
           anio: this.anio.trim(),
           voces: this.voces.trim(),
-          partitura: archivo,
+          archivo: partitura,
         };
         console.log(parametros);
         enviarSolicitud('POST', parametros, this.url, 'Partitura creada', "coros");

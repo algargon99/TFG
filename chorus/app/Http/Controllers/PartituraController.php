@@ -20,6 +20,7 @@ class PartituraController extends Controller
 
     public function store(Request $request, $id)
     {
+
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
@@ -55,8 +56,8 @@ class PartituraController extends Controller
             $partitura->anio = $request->anio;
             $partitura->voces = $request->voces;
 
-            if ($request->hasFile('partitura')) {
-                $archivo = $request->file('partitura');
+            if ($request->hasFile('archivo')) {
+                $archivo = $request->file('archivo');
                 $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
                 $partitura->archivo = 'pdf/' . $archivo->getClientOriginalName();
             }
@@ -81,14 +82,13 @@ class PartituraController extends Controller
 
     public function update(Request $request, $id)
     {
-        return 'HOLA';
 
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
             'anio' => 'required|integer|min:0',
             'voces' => 'required|integer|min:1',
-            'partitura' => 'mimes:PDF|max:2048',
+            'archivo' => 'mimes:PDF|max:2048',
         ];
 
         $mensajes = [
@@ -100,8 +100,8 @@ class PartituraController extends Controller
             'voces.required' => 'Las voces son obligatorias.',
             'voces.integer' => 'Las voces tiene que ser un número entero.',
             'voces.min' => 'Tiene que haber al menos una voz.',
-            'partitura.mimes' => 'El tipo de archivo tiene que ser de PDF',
-            'partitura.max' => 'El archivo puede pesar como máximo 2 MB',
+            'archivo.mimes' => 'El tipo de archivo tiene que ser de PDF',
+            'archivo.max' => 'El archivo puede pesar como máximo 2 MB',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -119,8 +119,8 @@ class PartituraController extends Controller
             $partitura->anio = $request->anio;
             $partitura->voces = $request->voces;
 
-            if ($request->hasFile('partitura')) {
-                $archivo = $request->file('partitura');
+            if ($request->hasFile('archivo')) {
+                $archivo = $request->file('archivo');
                 $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
                 $partitura->archivo = '/' . $archivo->getClientOriginalName();
             }

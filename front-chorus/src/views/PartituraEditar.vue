@@ -35,7 +35,7 @@
                 class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">
-              <button class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Editar partitura</button>
+              <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Editar partitura</button>
             </div>
           </form>
         </div>
@@ -97,9 +97,9 @@ export default {
     editar() {
       event.preventDefault();
       
-      var archivo = this.$refs.archivoInput.files[0];
+      var partitura = this.$refs.archivoInput.files[0];
       if (typeof archivo === 'undefined') {
-        archivo = "Antiguo";
+        partitura = "Antiguo";
       }
       this.cargando = true;
       if (this.nombre.trim() === '') {
@@ -117,9 +117,8 @@ export default {
           autor: this.autor.trim(),
           anio: this.anio,
           voces: this.voces,
-          partitura: archivo
+          archivo: partitura
         };
-        console.log(this.url);
         enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada','verCoro/'+ coro);
       }
     },
@@ -131,8 +130,6 @@ export default {
         this.archivo = url;
       }.bind(this);
       reader.readAsArrayBuffer(file);
-      var archivoPDF = this.$refs.archivoInput.files[0];
-      console.log(archivoPDF);
     }
   },
 };
