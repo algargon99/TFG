@@ -46,14 +46,17 @@ export function confirmar(url, id, titulo, mensaje, clase) {
 
 export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
 
-    console.log(parametros);
     var tipo = '';
-    if (hayArchivo(parametros)) {    
+    if (hayArchivo(parametros)) {
         const formData = new FormData();
         Object.keys(parametros).forEach(key => {
             formData.append(key, parametros[key]);
-            formData.append('_method', 'PUT');
+
         });
+        if (metodo == 'PUT' && clase != 'coros') {
+            formData.append('_method', 'PUT');
+            metodo = 'POST';
+        }
         parametros = formData;
         tipo = 'multipart/form-data';
     } else {
@@ -75,9 +78,9 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
             mostrarAlerta(res.data.join('\n'), 'error');
         } else if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
-            //window.setTimeout(function () {
-            //    window.location.href = "/" + clase
-            //}, 3000);
+            window.setTimeout(function () {
+                window.location.href = "/" + clase
+            }, 3000);
         } else {
             mostrarAlerta('Sin respuesta', 'error')
         }

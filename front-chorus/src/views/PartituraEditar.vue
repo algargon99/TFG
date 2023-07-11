@@ -119,7 +119,7 @@ export default {
           voces: this.voces,
           archivo: partitura
         };
-        enviarSolicitud('POST', parametros, this.url, 'Partitura actualizada','verCoro/'+ coro);
+        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada','verCoro/'+ coro);
       }
     },
     previsualizarPDF(event) {

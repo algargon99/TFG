@@ -108,6 +108,7 @@
 document.title = 'Chorus - Ver Coro';
 
 import { useRoute } from "vue-router";
+import { confirmar} from '../funciones';
 import axios from "../../axiosConfig";
 
 export default {
@@ -169,7 +170,7 @@ export default {
       });
     },
     eliminar(idPartitura, nombre) {
-      confirmar('/api/coros/' + this.id + '/partituras', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'partituras');
+      confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'partituras');
       this.cargando = false;
     },
     changePage(page) {

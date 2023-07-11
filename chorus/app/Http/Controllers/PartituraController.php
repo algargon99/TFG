@@ -80,8 +80,8 @@ class PartituraController extends Controller
     }
 
     public function update(Request $request, $id)
-    { 
-        
+    {
+
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
@@ -135,8 +135,21 @@ class PartituraController extends Controller
     public function destroy($id)
     {
         $partitura = Partitura::find($id);
-        if ($partitura) {
-            $partitura->delete();
+        if (isset($partitura)) {
+            $res = Partitura::destroy($id);
+            if ($res) {
+                return 1;
+            } else {
+                return response()->json([
+                    'data' => $partitura,
+                    'mensaje' => 'Partitura no borrada'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'data' => $partitura,
+                'mensaje' => 'Partitura no existe'
+            ]);
         }
     }
 }

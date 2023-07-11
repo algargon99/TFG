@@ -109,8 +109,21 @@ class CoroController extends Controller
     public function destroy($id)
     {
         $coro = Coro::find($id);
-        if ($coro) {
-            $coro->delete();
+        if (isset($coro)) {
+            $res = Coro::destroy($id);
+            if ($res) {
+                return 1;
+            } else {
+                return response()->json([
+                    'data' => $coro,
+                    'mensaje' => 'Coro no borrado'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'data' => $coro,
+                'mensaje' => 'Coro no existe'
+            ]);
         }
     }
 }
