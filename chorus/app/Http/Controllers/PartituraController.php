@@ -136,6 +136,13 @@ class PartituraController extends Controller
     {
         $partitura = Partitura::find($id);
         if (isset($partitura)) {
+            $videos = $partitura->videos->count();
+            $audios = $partitura->audios->count();
+
+            if ($audios > 0 || $videos > 0) {
+                return ['Hay ' . $audios . ' audios asociados', 'Hay ' . $videos . ' vídeos asociados'];
+            }
+
             $res = Partitura::destroy($id);
             if ($res) {
                 return 1;

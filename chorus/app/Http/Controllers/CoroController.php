@@ -110,6 +110,11 @@ class CoroController extends Controller
     {
         $coro = Coro::find($id);
         if (isset($coro)) {
+            $partituras = $coro->partituras->count();
+
+            if ($partituras > 0) {
+                return ['Hay ' . $partituras . ' partituras asociadas',''];
+            }
             $res = Coro::destroy($id);
             if ($res) {
                 return 1;
