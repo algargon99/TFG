@@ -41,7 +41,6 @@ class PartituraController extends Controller
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
-        $partitura = new Partitura();
 
         if ($validaciones->fails()) {
             return $validaciones->errors()->all();
@@ -81,14 +80,13 @@ class PartituraController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-
+    { 
+        
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
             'anio' => 'required|integer|min:0',
-            'voces' => 'required|integer|min:1',
-            'archivo' => 'mimes:PDF|max:2048',
+            'voces' => 'required|integer|min:1'
         ];
 
         $mensajes = [
@@ -99,9 +97,8 @@ class PartituraController extends Controller
             'anio.min' => 'Tiene que ser por lo menos el año 0.',
             'voces.required' => 'Las voces son obligatorias.',
             'voces.integer' => 'Las voces tiene que ser un número entero.',
-            'voces.min' => 'Tiene que haber al menos una voz.',
-            'archivo.mimes' => 'El tipo de archivo tiene que ser de PDF',
-            'archivo.max' => 'El archivo puede pesar como máximo 2 MB',
+            'voces.min' => 'Tiene que haber al menos una voz.'
+
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -122,7 +119,7 @@ class PartituraController extends Controller
             if ($request->hasFile('archivo')) {
                 $archivo = $request->file('archivo');
                 $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
-                $partitura->archivo = '/' . $archivo->getClientOriginalName();
+                $partitura->archivo = 'pdf/' . $archivo->getClientOriginalName();
             }
             $res = $partitura->save();
 

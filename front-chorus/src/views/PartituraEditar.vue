@@ -98,7 +98,7 @@ export default {
       event.preventDefault();
       
       var partitura = this.$refs.archivoInput.files[0];
-      if (typeof archivo === 'undefined') {
+      if (typeof partitura === 'undefined') {
         partitura = "Antiguo";
       }
       this.cargando = true;
@@ -119,7 +119,7 @@ export default {
           voces: this.voces,
           archivo: partitura
         };
-        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada','verCoro/'+ coro);
+        enviarSolicitud('POST', parametros, this.url, 'Partitura actualizada','verCoro/'+ coro);
       }
     },
     previsualizarPDF(event) {

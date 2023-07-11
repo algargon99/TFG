@@ -104,7 +104,6 @@ export default {
       this.cargando = true;
       axios.get('/api/coros').then(
         res => {
-          console.log(res);
           this.coros = res.data;
           this.cargando = false;
         }

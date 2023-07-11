@@ -103,7 +103,7 @@ export default {
       var file = event.target.files[0];
       var reader = new FileReader();
       reader.onload = function () {
-        var url = URL.createObjectURL(file); // Obtiene la URL del archivo
+        var url = URL.createObjectURL(file);
         this.archivo = url;
       }.bind(this);
       reader.readAsArrayBuffer(file);

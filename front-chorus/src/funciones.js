@@ -46,12 +46,13 @@ export function confirmar(url, id, titulo, mensaje, clase) {
 
 export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
 
+    console.log(parametros);
     var tipo = '';
-    if (hayArchivo(parametros)) {
+    if (hayArchivo(parametros)) {    
         const formData = new FormData();
         Object.keys(parametros).forEach(key => {
             formData.append(key, parametros[key]);
-            console.log(formData.get(key));
+            formData.append('_method', 'PUT');
         });
         parametros = formData;
         tipo = 'multipart/form-data';
@@ -59,6 +60,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
         parametros = JSON.stringify(parametros);
         tipo = 'application/json';
     }
+
     axios({
         method: metodo,
         url: urlid,
@@ -71,8 +73,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
         console.log(res);
         if (res.data != 1) {
             mostrarAlerta(res.data.join('\n'), 'error');
-        }
-        else if (estado == 200 || estado == 201) {
+        } else if (estado == 200 || estado == 201) {
             mostrarAlerta(mensaje, 'success');
             //window.setTimeout(function () {
             //    window.location.href = "/" + clase
@@ -111,7 +112,7 @@ function hayArchivo(parametros) {
     for (const key in parametros) {
         if (parametros.hasOwnProperty(key) && parametros[key] instanceof File) {
             const archivo = parametros[key];
-            const tipo = archivo.type.split('/')[0]; 
+            const tipo = archivo.type.split('/')[0];
 
             if (tipo === 'image' || tipo === 'audio' || tipo === 'video' || tipo === 'application') {
                 return true;
