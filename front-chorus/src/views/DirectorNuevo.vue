@@ -11,39 +11,39 @@
         <div class="card-body">
           <form class="form" v-on:submit="guardar()">
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
               <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
               <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
               <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
               <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
               <input type="email" required v-model="correo" id="correo" placeholder="Correo del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
               <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
-                placeholder="Fecha de nacimiento del director" class="form-control">
+                class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
-              <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
-                placeholder="Fecha de nacimiento del director" class="form-control">
+              <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+              <input type="text" required v-model="escuela" id="escuela"
+                placeholder="Escuela del director" class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">
               <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Crear director</button>
@@ -57,7 +57,7 @@
 
 <script>
 
-document.title = 'Chorus - Crear Coro';
+document.title = 'Chorus - Crear Director';
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 
@@ -71,7 +71,7 @@ export default {
       correo: '',
       fechaNacimiento: '',
       escuela: '',
-      url: '/api/cantores',
+      url: '/api/directores',
       cargando: false,
     };
   },

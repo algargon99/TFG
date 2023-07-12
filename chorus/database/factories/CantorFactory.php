@@ -12,7 +12,7 @@ class CantorFactory extends Factory
 
     public function definition()
     {
-        $voz = $this->faker->randomElement(['soprano', 'contralto', 'tenor', 'bajo']);
+        $voz = $this->faker->randomElement(['Soprano', 'Contralto', 'Tenor', 'Bajo']);
 
         return [
             'voz' => $voz,

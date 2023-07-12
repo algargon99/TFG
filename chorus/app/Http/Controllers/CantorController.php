@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cantor;
+use App\Models\RelUsuarioCoro;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -166,8 +167,32 @@ class CantorController extends Controller
     public function destroy($id)
     {
         $cantor = Cantor::find($id);
-        if ($cantor) {
-            $cantor->delete();
+
+        if (isset($cantor)) {
+            $coroUsuarioExists = RelUsuarioCoro::where('usuario_id', $cantor->idUsuario)->exists();
+
+            $a = 1;
+            if ($coroUsuarioExists) {
+                $a = RelUsuarioCoro::where('usuario_id', $cantor->idUsuario)->delete();
+            }
+
+            $c = $cantor->delete();
+
+            $b = Usuario::where('id', $cantor->idUsuario)->delete();
+
+            if ($a > 0 && $b == 1 && $c == 1) {
+                return 1;
+            } else {
+                return response()->json([
+                    'data' => $cantor,
+                    'mensaje' => 'Cantor no borrado'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'data' => $cantor,
+                'mensaje' => 'Cantor no existe'
+            ]);
         }
     }
 }

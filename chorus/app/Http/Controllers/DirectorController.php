@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Director;
+use App\Models\RelUsuarioCoro;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +61,7 @@ class DirectorController extends Controller
         $usuario->password = bcrypt($pass);
 
         $director = new Director();
-        $director->escuela = $inputs->escuela;
+        $director->escuela = $inputs["escuela"];
         
 
         // Inicia la transacción
@@ -161,8 +162,32 @@ class DirectorController extends Controller
     public function destroy($id)
     {
         $director = Director::find($id);
-        if ($director) {
-            $director->delete();
+
+        if (isset($director)) {
+            $coroUsuarioExists = RelUsuarioCoro::where('usuario_id', $director->idUsuario)->exists();
+
+            $a = 1;
+            if ($coroUsuarioExists) {
+                $a = RelUsuarioCoro::where('usuario_id', $director->idUsuario)->delete();
+            }
+
+            $c = $director->delete();
+
+            $b = Usuario::where('id', $director->idUsuario)->delete();
+
+            if ($a > 0 && $b == 1 && $c == 1) {
+                return 1;
+            } else {
+                return response()->json([
+                    'data' => $director,
+                    'mensaje' => 'Director no borrado'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'data' => $director,
+                'mensaje' => 'Director no existe'
+            ]);
         }
     }
 }
