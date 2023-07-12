@@ -42,7 +42,8 @@ Route::delete('partituras/{id}', [PartituraController::class,'destroy']);
 
 
 //AUDIOS
-Route::apiResource('audios', AudioController::class);
+Route::get('partitura/{id}/audios/', [AudioController::class,'index']);
+//Route::apiResource('audios', AudioController::class);
 
 //VIDEOS
 Route::apiResource('videos', VideoController::class);

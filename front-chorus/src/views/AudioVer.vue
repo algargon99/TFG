@@ -37,7 +37,7 @@
     <div class="col-md-1"></div>
   </div>
   <div class="titulo ps-5 pt-4">
-    <span class="h1 text-white">Audios de la partitura {{ nombre }}</span>
+    <span class="h1 text-white">Audios de la paritura {{ nombre }}</span>
   </div>
   <div class="row g-0 my-5">
     <div class="col-lg-8 offset-lg-2">
@@ -132,17 +132,17 @@ export default {
   },
   computed: {
     totalPagesAudio() {
-      if (Array.isArray(this.audios)) {
-        return Math.ceil(this.audios.length / this.perPage);
+      if (Array.isArray(this.partituras)) {
+        return Math.ceil(this.partituras.length / this.perPage);
       } else {
         return 0;
       }
     },
     paginatedItemsAudio() {
-      if (Array.isArray(this.audios)) {
+      if (Array.isArray(this.partituras)) {
         const start = (this.currentPage - 1) * this.perPage;
         const end = start + this.perPage;
-        return this.audios.slice(start, end);
+        return this.partituras.slice(start, end);
       } else {
         return [];
       }
@@ -167,12 +167,11 @@ export default {
     },
     listaAudios() {
       this.cargando = true;
-      axios.get('/api/partitura/' + this.idPartitura + '/audios').then(
+      axios.get('/api/partituras/' + this.idPartitura + '/audios').then(
         res => {
           this.audios = res.data;
           this.cargando = false;
         }
-        
       ).catch(error => {
         console.error(error);
       });

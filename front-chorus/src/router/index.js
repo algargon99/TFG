@@ -25,6 +25,11 @@ import PartituraNueva from '../views/PartituraNueva.vue'
 import PartituraEditar from '../views/PartituraEditar.vue'
 import PartituraVer from '../views/PartituraVer.vue'
 
+//PARTITURAS
+import AudioNuevo from '../views/AudioNuevo.vue'
+import AudioEditar from '../views/AudioEditar.vue'
+import AudioVer from '../views/AudioVer.vue'
+
 const routes = [
   {
     path: '/',
@@ -106,6 +111,21 @@ const routes = [
     path: '/editarPartitura/:id',
     name: 'editarPartitura',
     component: PartituraEditar
+  },
+  {
+    path: '/crearAudio/:id',
+    name: 'crearAudio',
+    component: AudioNuevo
+  },
+  {
+    path: '/verAudio/:id',
+    name: 'verAudio',
+    component: AudioVer
+  },
+  {
+    path: '/editarAudio/:id',
+    name: 'editarAudio',
+    component: AudioEditar
   },
 ]
 

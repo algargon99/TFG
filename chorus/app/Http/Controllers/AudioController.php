@@ -13,7 +13,11 @@ class AudioController extends Controller
     public function index($id)
     {
         $partitura = Partitura::find($id);
-        return $partitura->audios;
+        if ($partitura) {
+            return $partitura->audios;
+        } else {
+            return "Nada";
+        }
     }
 
     public function store(Request $request)
@@ -42,7 +46,7 @@ class AudioController extends Controller
         if ($validaciones->fails()) {
             return $validaciones->errors()->all();
         }
-        
+
         try {
             DB::beginTransaction();
             $audio = new Audio();
