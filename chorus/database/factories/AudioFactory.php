@@ -15,7 +15,7 @@ class AudioFactory extends Factory
             'obra' => $this->faker->sentence,
             'duracion' => $this->faker->numberBetween(60, 600),
             'interprete' => $this->faker->name,
-            'audio' => 'https://example.com/audio.mp3',
+            'audio' => 'audio/ejemplo.mp3',
             'idPartitura' => $this
         ];
     }

@@ -16,7 +16,7 @@ class VideoFactory extends Factory
             'nombre' => $this->faker->sentence(3),
             'interprete' => $this->faker->name(),
             'year' => $this->faker->year(),
-            'video' => $this->faker->imageUrl(),
+            'video' => 'video/ejemplo.mp4',
             'idPartitura' => $this
         ];
     }

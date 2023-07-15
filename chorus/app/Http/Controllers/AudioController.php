@@ -20,14 +20,13 @@ class AudioController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
 
         $reglas = [
             'obra' => 'required|string|max:255',
             'duracion' => 'required|integer|min:1',
-            'interprete' => 'required|string|max:255',
-            'audio' => 'required|mimetypes:audio/*|max:2048',
+            'interprete' => 'required|string|max:255'
         ];
 
         $mensajes = [
@@ -36,9 +35,6 @@ class AudioController extends Controller
             'duracion.integer' => 'La duración ha de ser un número entero.',
             'duracion.min' => 'La duración tiene que ser mínimo de 1 minuto.',
             'interprete.required' => 'El interprete es obligatorio.',
-            'audio.required' => 'El audio es obligatorio',
-            'audio.mimetypes' => 'El tipo de archivo tiene que ser de audio',
-            'audio.max' => 'El archivo puede pesar como máximo 2 MB',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -53,10 +49,13 @@ class AudioController extends Controller
             $audio->obra = $request->obra;
             $audio->duracion = $request->duracion;
             $audio->interprete = $request->interprete;
-            $naudio = 'audios/' . $_FILES['audio']['name'];
-            move_uploaded_file($_FILES['audio']['tmp_name'], $naudio);
-            $audio->audio = $naudio;
-            $audio->idPartitura = $request->idPartitura;
+
+            if ($request->hasFile('archivo')) {
+                $archivo = $request->file('archivo');
+                $archivo->move(public_path('audio'), $archivo->getClientOriginalName());
+                $audio->audio = 'audio/' . $archivo->getClientOriginalName();
+            }
+            $audio->idPartitura = $id;
 
             $res = $audio->save();
             DB::commit();
@@ -80,7 +79,6 @@ class AudioController extends Controller
             'obra' => 'required|string|max:255',
             'duracion' => 'required|integer|min:1',
             'interprete' => 'required|string|max:255',
-            'audio' => 'mimetypes:audio/*|max:2048',
         ];
 
         $mensajes = [
@@ -89,8 +87,6 @@ class AudioController extends Controller
             'duracion.integer' => 'La duración ha de ser un número entero.',
             'duracion.min' => 'La duración tiene que ser mínimo de 1 minuto.',
             'interprete.required' => 'El interprete es obligatorio.',
-            'audio.mimetypes' => 'El tipo de archivo tiene que ser de audio',
-            'audio.max' => 'El archivo puede pesar como máximo 2 MB',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -106,12 +102,11 @@ class AudioController extends Controller
             $audio->obra = $request->obra;
             $audio->duracion = $request->duracion;
             $audio->interprete = $request->interprete;
-            $naudio = 'audios/' . $_FILES['audio']['name'];
-            if ($naudio != "") {
-                move_uploaded_file($_FILES['audio']['tmp_name'], $naudio);
-                $audio->audio = $naudio;
+            if ($request->hasFile('archivo')) {
+                $archivo = $request->file('archivo');
+                $archivo->move(public_path('audio'), $archivo->getClientOriginalName());
+                $audio->audio = 'audio/' . $archivo->getClientOriginalName();
             }
-            $audio->idPartitura = $request->idPartitura;
 
             $res = $audio->save();
 
@@ -127,8 +122,22 @@ class AudioController extends Controller
     public function destroy($id)
     {
         $audio = Audio::find($id);
-        if ($audio) {
-            $audio->delete();
+        if (isset($audio)) {
+
+            $res = Audio::destroy($id);
+            if ($res) {
+                return 1;
+            } else {
+                return response()->json([
+                    'data' => $audio,
+                    'mensaje' => 'Audio no borrado'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'data' => $audio,
+                'mensaje' => 'Partituro no existe'
+            ]);
         }
     }
 }

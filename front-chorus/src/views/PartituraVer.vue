@@ -4,12 +4,8 @@
   </div>
   <div class="row g-0">
     <div class="col-md-1"></div>
-    <div class="m-4 col-md-6">
-      <iframe :src="archivo" type="application/pdf" width="100%" height="1000px" />
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-3 d-flex align-items-center">
-      <div class="card">
+    <div class="col-md-4  d-flex align-items-center">
+      <div class="card w-75">
         <div class="card-header bg-dark text-white text-center">
           Detalle de la partitura
         </div>
@@ -32,8 +28,11 @@
           </div>
         </div>
       </div>
-
     </div>
+    <div class="m-4 col-md-6">
+      <iframe :src="archivo" type="application/pdf" width="100%" height="1000px" />
+    </div>
+
     <div class="col-md-1"></div>
   </div>
   <div class="titulo ps-5 pt-4">
@@ -76,7 +75,7 @@
                 </router-link>
               </td>
               <td>
-                <button v-on:click="eliminar(audio.id, audio.nombre)" class="btn btn-danger">
+                <button v-on:click="eliminar(audio.id, audio.obra)" class="btn btn-danger">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
@@ -91,7 +90,7 @@
           </ul>
         </div>
         <div class="d-flex justify-content-center">
-          <router-link :to="{ path: '/crearAudio/'+this.id }" class='btn btn-primary'>
+          <router-link :to="{ path: '/crearAudio/' + this.id }" class='btn btn-primary'>
             <i class="fa-solid fa-archive"></i> Nuevo audio
           </router-link>
         </div>
@@ -110,7 +109,7 @@
 document.title = 'Chorus - Ver Partitura';
 
 import { useRoute } from "vue-router";
-import { confirmar} from '../funciones';
+import { confirmar } from '../funciones';
 import axios from "../../axiosConfig";
 
 export default {
@@ -172,13 +171,12 @@ export default {
           this.audios = res.data;
           this.cargando = false;
         }
-        
       ).catch(error => {
         console.error(error);
       });
     },
     eliminar(idAudio, nombre) {
-      confirmar('/api/audios/', idAudio, 'Eliminar audio', 'Confirmar eliminación de audio ' + nombre, 'audios');
+      confirmar('/api/audios/', idAudio, 'Eliminar audio', 'Confirmar eliminación de audio ' + nombre, 'verPartitura/' + this.idPartitura);
       this.cargando = false;
     },
   },

@@ -56,7 +56,7 @@
 
 <script>
 
-document.title = 'Chorus - Crear Coro';
+document.title = 'Chorus - Crear Cantor';
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 

@@ -53,7 +53,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
             formData.append(key, parametros[key]);
 
         });
-        if (metodo == 'PUT' && clase != 'coros') {
+        if (metodo == 'PUT') {
             formData.append('_method', 'PUT');
             metodo = 'POST';
         }

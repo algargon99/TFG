@@ -1,60 +1,55 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">Editar partitura {{ nombre }}</span>
+    <span class="h1 text-white">Editar audio {{ obra }}</span>
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
       <div class="card">
         <div class="card-header bg-dark text-white text-center">
-          Editar partitura
+          Editar audio
         </div>
         <div class="card-body">
           <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
-              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre de la partitura"
+              <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+              <input type="text" required v-model="obra" id="obra" placeholder="Obra del audio" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text"><i class="fa-solid fa-clock"></i></span>
+              <input type="text" required v-model="duracion" id="duracion" placeholder="Duración del audio"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-city"></i></span>
-              <input type="text" required v-model="autor" id="autor" placeholder="Autor de la partitura"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
-              <input type="text" required v-model="anio" id="anio" placeholder="Año de la partitura" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
-              <input type="text" required v-model="voces" id="voces" placeholder="Voces de la partitura"
+              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+              <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del audio"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
-              <input v-on:change="previsualizarPDF" ref="archivoInput" type="file" id="partitura" accept="application/pdf"
-                class="form-control">
+              <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio"
+                accept="audio/mp3" class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">
-              <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Editar partitura</button>
+              <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Editar audio</button>
             </div>
           </form>
         </div>
       </div>
       <div class="d-flex justify-content-center my-4">
-        <embed :src="this.archivo" type="application/pdf" width="80%" height="1000px" id="archivo" />
+        <audio :src="this.archivo" controls id="archivo" />
       </div>
     </div>
     <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/coros' }" class='btn btn-danger'>
-        <i class="fa-solid fa-arrow-left"></i> Volver
-      </router-link>
-    </div>
+    <router-link :to="{ path: '/verPartitura/' + this.partitura }" class='btn btn-danger'>
+      <i class="fa-solid fa-arrow-left"></i> Volver
+    </router-link>
+  </div>
   </div>
 </template>
 
 <script>
 
-document.title = 'Chorus - Editar Coro';
+document.title = 'Chorus - Editar Audio';
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -64,13 +59,13 @@ export default {
   data() {
     return {
       id: 0,
-      nombre: '',
-      autor: '',
-      anio: '',
-      voces: '',
+      obra: '',
+      duracion: '',
+      interprete: '',
       archivo: '',
-      coro: '',
-      url: '/api/partituras',
+      archivoBase: '', 
+      partitura: 0,
+      url: '/api/audios',
       cargando: false,
     };
   },
@@ -84,52 +79,51 @@ export default {
     getPartitura() {
       axios.get(this.url).then(
         res => {
-          this.nombre = res.data.nombre;
-          this.autor = res.data.autor;
-          this.anio = res.data.anio;
-          this.voces = res.data.voces;
-          this.archivo = 'http://localhost:8000/' + res.data.archivo;
-          this.coro = res.data.idCoro;
+          this.obra = res.data.obra;
+          this.duracion = res.data.duracion;
+          this.interprete = res.data.interprete;
+          this.archivo = 'http://localhost:8000/' + res.data.audio;
+          this.partitura = res.data.idPartitura;
         }
-        
+
       );
     },
     editar() {
       event.preventDefault();
-      
-      var partitura = this.$refs.archivoInput.files[0];
-      if (typeof partitura === 'undefined') {
-        partitura = "Antiguo";
+      var audio = this.$refs.archivoInput.files[0];
+      if (typeof audio === 'undefined') {
+        audio = "Antiguo";
       }
       this.cargando = true;
-      if (this.nombre.trim() === '') {
-        mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
-      } else if (this.autor.trim() === '') {
-        mostrarAlerta('Ingrese un autor', 'warning', 'autor')
-      } else if (this.anio === '') {
-        mostrarAlerta('Ingrese un año', 'warning', 'anio')
-      } else if (this.voces === '') {
-        mostrarAlerta('Ingrese un número de voces', 'warning', 'voces')
+      if (this.obra.trim() === '') {
+        mostrarAlerta('Ingrese una obra', 'warning', 'obra')
+      } else if (this.duracion === '') {
+        mostrarAlerta('Ingrese una duración', 'warning', 'duracion')
+      } else if (this.interprete === '') {
+        mostrarAlerta('Ingrese un interprete', 'warning', 'interprete')
       } else {
-        var coro = this.coro;
+        
         var parametros = {
-          nombre: this.nombre.trim(),
-          autor: this.autor.trim(),
-          anio: this.anio,
-          voces: this.voces,
-          archivo: partitura
+          obra: this.obra.trim(),
+          duracion: this.duracion,
+          interprete: this.interprete.trim(),
+          archivo: audio
         };
-        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada','verCoro/'+ coro);
+        enviarSolicitud('PUT', parametros, this.url, 'Audio actualizado', 'verPartitura/' + this.partitura);
       }
     },
-    previsualizarPDF(event) {
+    previsualizarAudio(event) {
       var file = event.target.files[0];
-      var reader = new FileReader();
-      reader.onload = function () {
-        var url = URL.createObjectURL(file); // Obtiene la URL del archivo
-        this.archivo = url;
-      }.bind(this);
-      reader.readAsArrayBuffer(file);
+      if (typeof file != 'undefined') {
+        var reader = new FileReader();
+        reader.onload = function () {
+          var url = URL.createObjectURL(file);
+          this.archivo = url;
+        }.bind(this);
+        reader.readAsArrayBuffer(file);
+      } else {
+        this.archivo = process.env.BASE_URL + 'audio/ejemplo.mp3';
+      }
     }
   },
 };

@@ -54,7 +54,7 @@
 
 <script>
 
-document.title = 'Chorus - Editar Coro';
+document.title = 'Chorus - Editar Partitura';
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -69,6 +69,7 @@ export default {
       anio: '',
       voces: '',
       archivo: '',
+      archivoBase: '', 
       coro: '',
       url: '/api/partituras',
       cargando: false,
@@ -89,14 +90,15 @@ export default {
           this.anio = res.data.anio;
           this.voces = res.data.voces;
           this.archivo = 'http://localhost:8000/' + res.data.archivo;
+          this.archivoBase = 'http://localhost:8000/' + res.data.archivo;
           this.coro = res.data.idCoro;
         }
-        
+
       );
     },
     editar() {
       event.preventDefault();
-      
+
       var partitura = this.$refs.archivoInput.files[0];
       if (typeof partitura === 'undefined') {
         partitura = "Antiguo";
@@ -119,17 +121,21 @@ export default {
           voces: this.voces,
           archivo: partitura
         };
-        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada','verCoro/'+ coro);
+        enviarSolicitud('PUT', parametros, this.url, 'Partitura actualizada', 'verCoro/' + coro);
       }
     },
     previsualizarPDF(event) {
       var file = event.target.files[0];
-      var reader = new FileReader();
-      reader.onload = function () {
-        var url = URL.createObjectURL(file); // Obtiene la URL del archivo
-        this.archivo = url;
-      }.bind(this);
-      reader.readAsArrayBuffer(file);
+      if (typeof file != 'undefined') {
+        var reader = new FileReader();
+        reader.onload = function () {
+          var url = URL.createObjectURL(file); // Obtiene la URL del archivo
+          this.archivo = url;
+        }.bind(this);
+        reader.readAsArrayBuffer(file);
+      } else {
+        this.archivo = this.archivoBase;
+      }
     }
   },
 };
