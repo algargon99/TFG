@@ -8,7 +8,7 @@
       <audio :src="archivo" controls></audio>
     </div>
     <div class="col-md-1"></div>
-    <div class="col-md-5 d-flex align-items-center">
+    <div class="col-md-5 d-flex align-items-center justify-content-center">
       <div class="card">
         <div class="card-header bg-dark text-white text-center">
           Detalle del audio
@@ -39,7 +39,7 @@
 
 <script>
 
-document.title = 'Chorus - Ver Audio';
+
 
 import { useRoute } from "vue-router";
 import axios from "../../axiosConfig";
@@ -75,6 +75,7 @@ export default {
     this.idAudio = route.params.id;
     this.url += '/' + this.idAudio;
     this.getAudio();
+    document.title = 'Chorus - Ver Audio';
   },
 };
 </script>

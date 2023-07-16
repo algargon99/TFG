@@ -105,7 +105,7 @@
 
 <script>
 
-document.title = 'Chorus - Ver Coro';
+
 
 import { useRoute } from "vue-router";
 import { confirmar} from '../funciones';
@@ -183,6 +183,7 @@ export default {
     this.url += '/' + this.id;
     this.getCoro();
     this.listaPartituras();
+    document.title = 'Chorus - Ver Coro';
   },
 };
 </script>

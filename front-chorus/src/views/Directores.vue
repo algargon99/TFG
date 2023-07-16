@@ -69,7 +69,7 @@
   
 <script>
 
-document.title = 'Chorus - Directores';
+
 
 import axios from "../../axiosConfig";
 import { confirmar } from '../funciones';
@@ -123,6 +123,7 @@ export default {
   },
   mounted() {
     this.listaDirectores();
+    document.title = 'Chorus - Directores';
   },
 };
 </script>

@@ -25,10 +25,15 @@ import PartituraNueva from '../views/PartituraNueva.vue'
 import PartituraEditar from '../views/PartituraEditar.vue'
 import PartituraVer from '../views/PartituraVer.vue'
 
-//PARTITURAS
+//AUDIOS
 import AudioNuevo from '../views/AudioNuevo.vue'
 import AudioEditar from '../views/AudioEditar.vue'
 import AudioVer from '../views/AudioVer.vue'
+
+//VIDEOS
+import VideoNuevo from '../views/VideoNuevo.vue'
+import VideoEditar from '../views/VideoEditar.vue'
+import VideoVer from '../views/VideoVer.vue'
 
 const routes = [
   {
@@ -96,7 +101,7 @@ const routes = [
     path: '/editarDirector/:id',
     name: 'editarDirector',
     component: DirectorEditar
-  }, 
+  },
   {
     path: '/crearPartitura/:id',
     name: 'crearPartitura',
@@ -127,6 +132,22 @@ const routes = [
     name: 'editarAudio',
     component: AudioEditar
   },
+  {
+    path: '/editarVideo/:id',
+    name: 'editarVideo',
+    component: VideoEditar
+  }, 
+  {
+    path: '/crearVideo/:id',
+    name: 'crearVideo',
+    component: VideoNuevo
+  },
+  {
+    path: '/verVideo/:id',
+    name: 'verVideo',
+    component: VideoVer
+  },
+
 ]
 
 const router = createRouter({

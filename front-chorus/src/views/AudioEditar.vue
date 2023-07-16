@@ -26,8 +26,8 @@
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
-              <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio"
-                accept="audio/mp3" class="form-control">
+              <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio" accept="audio/mp3"
+                class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">
               <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Editar audio</button>
@@ -40,16 +40,16 @@
       </div>
     </div>
     <div class="col-6 mx-auto my-3">
-    <router-link :to="{ path: '/verPartitura/' + this.partitura }" class='btn btn-danger'>
-      <i class="fa-solid fa-arrow-left"></i> Volver
-    </router-link>
-  </div>
+      <router-link :to="{ path: '/verPartitura/' + this.partitura }" class='btn btn-danger'>
+        <i class="fa-solid fa-arrow-left"></i> Volver
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
 
-document.title = 'Chorus - Editar Audio';
+
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -63,7 +63,7 @@ export default {
       duracion: '',
       interprete: '',
       archivo: '',
-      archivoBase: '', 
+      archivoBase: '',
       partitura: 0,
       url: '/api/audios',
       cargando: false,
@@ -74,6 +74,7 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getPartitura();
+    document.title = 'Chorus - Editar Audio';
   },
   methods: {
     getPartitura() {
@@ -102,7 +103,7 @@ export default {
       } else if (this.interprete === '') {
         mostrarAlerta('Ingrese un interprete', 'warning', 'interprete')
       } else {
-        
+
         var parametros = {
           obra: this.obra.trim(),
           duracion: this.duracion,

@@ -66,7 +66,7 @@
 
 <script>
 
-document.title = 'Chorus - Coros';
+
 
 import axios from "../../axiosConfig";
 import { confirmar } from '../funciones';
@@ -121,6 +121,7 @@ export default {
   },
   mounted() {
     this.listaCoros();
+    document.title = 'Chorus - Coros';
   },
 };
 </script>

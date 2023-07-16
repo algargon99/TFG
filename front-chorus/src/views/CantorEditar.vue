@@ -61,7 +61,7 @@
 
 <script>
 
-document.title = 'Chorus - Editar cantor';
+
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -87,6 +87,7 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getCantor();
+    document.title = 'Chorus - Editar cantor';
   },
   methods: {
     getCantor() {

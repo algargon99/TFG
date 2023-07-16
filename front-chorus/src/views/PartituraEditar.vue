@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/coros' }" class='btn btn-danger'>
+      <router-link :to="{ path: '/verCoro/' + coro }" class='btn btn-danger'>
         <i class="fa-solid fa-arrow-left"></i> Volver
       </router-link>
     </div>
@@ -54,7 +54,7 @@
 
 <script>
 
-document.title = 'Chorus - Editar Partitura';
+
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -69,8 +69,8 @@ export default {
       anio: '',
       voces: '',
       archivo: '',
-      archivoBase: '', 
-      coro: '',
+      archivoBase: '',
+      coro: 0,
       url: '/api/partituras',
       cargando: false,
     };
@@ -80,6 +80,7 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getPartitura();
+    document.title = 'Chorus - Editar Partitura';
   },
   methods: {
     getPartitura() {

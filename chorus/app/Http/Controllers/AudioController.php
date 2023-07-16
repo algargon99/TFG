@@ -136,7 +136,7 @@ class AudioController extends Controller
         } else {
             return response()->json([
                 'data' => $audio,
-                'mensaje' => 'Partituro no existe'
+                'mensaje' => 'Audio no existe'
             ]);
         }
     }

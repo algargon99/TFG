@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string("nombre");
             $table->string("interprete");
-            $table->year("year");
+            $table->integer("year");
             $table->string("video");
             $table->unsignedBigInteger("idPartitura");
             $table->foreign('idPartitura')->references('id')->on('partituras')->onDelete('restrict');

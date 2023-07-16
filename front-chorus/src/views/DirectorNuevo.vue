@@ -57,7 +57,6 @@
 
 <script>
 
-document.title = 'Chorus - Crear Director';
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 
@@ -74,6 +73,9 @@ export default {
       url: '/api/directores',
       cargando: false,
     };
+  },
+  mounted() {
+    document.title = 'Chorus - Crear Director';
   },
   methods: {
     guardar() {

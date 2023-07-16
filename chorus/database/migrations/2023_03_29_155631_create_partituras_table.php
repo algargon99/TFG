@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string("nombre");
             $table->string("autor");
-            $table->year("anio");
+            $table->integer("anio");
             $table->integer("voces");
             $table->string("archivo");
             $table->unsignedBigInteger("idCoro");

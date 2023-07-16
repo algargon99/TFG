@@ -75,7 +75,7 @@
                 </router-link>
               </td>
               <td>
-                <button v-on:click="eliminar(audio.id, audio.obra)" class="btn btn-danger">
+                <button v-on:click="eliminarAudio(audio.id, audio.obra)" class="btn btn-danger">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </td>
@@ -84,7 +84,7 @@
         </table>
         <div class="d-flex justify-content-center">
           <ul class="pagination">
-            <li class="page-item" v-for="page in totalPagesAudio" :key="page" :class="{ active: page === currentPage }">
+            <li class="page-item" v-for="page in totalPagesAudio" :key="page" :class="{ active: page === currentPageAudio }">
               <a @click="changePageAudio(page)" class="page-link" href="#">{{ page }}</a>
             </li>
           </ul>
@@ -92,6 +92,68 @@
         <div class="d-flex justify-content-center">
           <router-link :to="{ path: '/crearAudio/' + this.id }" class='btn btn-primary'>
             <i class="fa-solid fa-archive"></i> Nuevo audio
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="titulo ps-5 pt-4">
+    <span class="h1 text-white">V&iacute;deos de la partitura {{ nombre }}</span>
+  </div>
+  <div class="row g-0 my-5">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="table-responsive bg-white borde">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Nº</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Int&eacute;rprete</th>
+              <th scope="col">A&ntilde;o</th>
+              <th scope="col">Ver</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Borrar</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr v-if="cargando">
+              <td colspan="8">
+                <h4>Cargando...</h4>
+              </td>
+            </tr>
+            <tr v-else v-for="(video, i) in paginatedItemsVideo" :key="video.id">
+              <td v-text="(i + 1)"></td>
+              <td v-text="video.nombre"></td>
+              <td v-text="video.interprete"></td>
+              <td v-text="video.year"></td>
+              <td>
+                <router-link :to="{ path: '/verVideo/' + video.id }" class="btn btn-info">
+                  <i class="fa-solid fa-eye"></i>
+                </router-link>
+              </td>
+              <td>
+                <router-link :to="{ path: '/editarVideo/' + video.id }" class="btn btn-warning">
+                  <i class="fa-solid fa-edit"></i>
+                </router-link>
+              </td>
+              <td>
+                <button v-on:click="eliminarVideo(video.id, video.nombre)" class="btn btn-danger">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item" v-for="page in totalPagesVideo" :key="page" :class="{ active: page === currentPageVideo }">
+              <a @click="changePageVideo(page)" class="page-link" href="#">{{ page }}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="d-flex justify-content-center">
+          <router-link :to="{ path: '/crearVideo/' + this.id }" class='btn btn-primary'>
+            <i class="fa-solid fa-archive"></i> Nuevo v&iacute;deo
           </router-link>
         </div>
       </div>
@@ -106,7 +168,7 @@
 
 <script>
 
-document.title = 'Chorus - Ver Partitura';
+
 
 import { useRoute } from "vue-router";
 import { confirmar } from '../funciones';
@@ -124,7 +186,9 @@ export default {
       url: '/api/partituras',
       cargando: false,
       audios: null,
-      currentPage: 1,
+      videos: null,
+      currentPageAudio: 1,
+      currentPageVideo: 1,
       perPage: 5,
       archivo: ''
     };
@@ -139,9 +203,25 @@ export default {
     },
     paginatedItemsAudio() {
       if (Array.isArray(this.audios)) {
-        const start = (this.currentPage - 1) * this.perPage;
+        const start = (this.currentPageAudio - 1) * this.perPage;
         const end = start + this.perPage;
         return this.audios.slice(start, end);
+      } else {
+        return [];
+      }
+    },
+    totalPagesVideo() {
+      if (Array.isArray(this.videos)) {
+        return Math.ceil(this.videos.length / this.perPage);
+      } else {
+        return 0;
+      }
+    },
+    paginatedItemsVideo() {
+      if (Array.isArray(this.videos)) {
+        const start = (this.currentPageVideo - 1) * this.perPage;
+        const end = start + this.perPage;
+        return this.videos.slice(start, end);
       } else {
         return [];
       }
@@ -162,7 +242,10 @@ export default {
       );
     },
     changePageAudio(page) {
-      this.currentPage = page;
+      this.currentPageAudio = page;
+    },
+    changePageVideo(page) {
+      this.currentPageVideo = page;
     },
     listaAudios() {
       this.cargando = true;
@@ -175,8 +258,23 @@ export default {
         console.error(error);
       });
     },
-    eliminar(idAudio, nombre) {
+    listaVideos() {
+      this.cargando = true;
+      axios.get('/api/partitura/' + this.idPartitura + '/videos').then(
+        res => {
+          this.videos = res.data;
+          this.cargando = false;
+        }
+      ).catch(error => {
+        console.error(error);
+      });
+    },
+    eliminarAudio(idAudio, nombre) {
       confirmar('/api/audios/', idAudio, 'Eliminar audio', 'Confirmar eliminación de audio ' + nombre, 'verPartitura/' + this.idPartitura);
+      this.cargando = false;
+    },
+    eliminarVideo(idVideo, nombre) {
+      confirmar('/api/videos/', idVideo, 'Eliminar vídeo', 'Confirmar eliminación de vídeo ' + nombre, 'verPartitura/' + this.idPartitura);
       this.cargando = false;
     },
   },
@@ -186,6 +284,8 @@ export default {
     this.url += '/' + this.idPartitura;
     this.getPartitura();
     this.listaAudios();
+    this.listaVideos();
+    document.title = 'Chorus - Ver Partitura';
   },
 };
 </script>

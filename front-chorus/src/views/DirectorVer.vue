@@ -50,7 +50,7 @@
 
 <script>
 
-document.title = 'Chorus - Ver Director';
+
 
 import { useRoute } from "vue-router";
 import axios from "../../axiosConfig";
@@ -75,6 +75,7 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getDirector();
+    document.title = 'Chorus - Ver Director';
   },
   methods: {
     getDirector() {

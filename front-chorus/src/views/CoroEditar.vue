@@ -1,6 +1,6 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">Editar coro {{nombre}}</span>
+    <span class="h1 text-white">Editar coro {{ nombre }}</span>
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
@@ -49,7 +49,7 @@
 
 <script>
 
-document.title = 'Chorus - Editar Coro';
+
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -73,11 +73,12 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getCoro();
+    document.title = 'Chorus - Editar Coro';
   },
   methods: {
-    getCoro(){
+    getCoro() {
       axios.get(this.url).then(
-        res=>{
+        res => {
           this.nombre = res.data.nombre;
           this.ciudad = res.data.ciudad;
           this.direccion = res.data.direccion;
@@ -107,7 +108,7 @@ export default {
           tipo: this.tipo.trim(),
           estilo: this.estilo.trim(),
         };
-        enviarSolicitud('PUT', parametros, this.url, 'Coro actualizado','coros');
+        enviarSolicitud('PUT', parametros, this.url, 'Coro actualizado', 'coros');
       }
     },
   },

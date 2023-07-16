@@ -13,17 +13,20 @@ class VideoController extends Controller
     public function index($id)
     {
         $partitura = Partitura::find($id);
-        return $partitura->audios;
+        if ($partitura) {
+            return $partitura->videos;
+        } else {
+            return "Nada";
+        }
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
 
         $reglas = [
             'nombre' => 'required|string',
             'interprete' => 'required|string',
-            'year' => 'required|integer|min:0',
-            'video' => 'required|mimetypes:video/*',
+            'year' => 'required|integer|min:0|max:2023'
         ];
 
         $mensajes = [
@@ -32,8 +35,7 @@ class VideoController extends Controller
             'year.required' => 'El año es obligatorio.',
             'year.integer' => 'El año del vídeo tiene que ser numérico.',
             'year.min' => 'El año del vídeo tiene que ser al menos el año 0.',
-            'video.required' => 'El video es obligatorio',
-            'video.mimetypes' => 'El tipo de archivo tiene que ser de vídeo',
+            'year.max' => 'El año del vídeo tiene que ser como mucho el año 2023.'
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -50,10 +52,12 @@ class VideoController extends Controller
             $video->nombre = $request->nombre;
             $video->interprete = $request->interprete;
             $video->year = $request->year;
-            $nvideo = 'videos/' . $_FILES['video']['name'];
-            move_uploaded_file($_FILES['video']['tmp_name'], $nvideo);
-            $video->video = $nvideo;
-            $video->idPartitura = $request->idPartitura;
+            if ($request->hasFile('archivo')) {
+                $archivo = $request->file('archivo');
+                $archivo->move(public_path('video'), $archivo->getClientOriginalName());
+                $video->video = 'video/' . $archivo->getClientOriginalName();
+            }
+            $video->idPartitura = $id;
 
 
             $res = $video->save();
@@ -78,8 +82,7 @@ class VideoController extends Controller
         $reglas = [
             'nombre' => 'required|string',
             'interprete' => 'required|string',
-            'year' => 'required|integer|min:0',
-            'video' => 'mimetypes:video/*',
+            'year' => 'required|integer|min:0|max:2023',
         ];
 
         $mensajes = [
@@ -88,7 +91,7 @@ class VideoController extends Controller
             'year.required' => 'El año es obligatorio.',
             'year.integer' => 'El año del vídeo tiene que ser numérico.',
             'year.min' => 'El año del vídeo tiene que ser al menos el año 0.',
-            'video.mimetypes' => 'El tipo de archivo tiene que ser de vídeo',
+            'year.max' => 'El año del vídeo tiene que ser como mucho el año 2023.'
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -101,15 +104,14 @@ class VideoController extends Controller
 
         try {
             DB::beginTransaction();
-            $video->obra = $request->obra;
-            $video->duracion = $request->duracion;
+            $video->nombre = $request->nombre;
             $video->interprete = $request->interprete;
-            $nvideo = 'videos/' . $_FILES['video']['name'];
-            if ($nvideo != "") {
-                move_uploaded_file($_FILES['video']['tmp_name'], $nvideo);
-                $video->video = $nvideo;
+            $video->year = $request->year;
+            if ($request->hasFile('archivo')) {
+                $archivo = $request->file('archivo');
+                $archivo->move(public_path('video'), $archivo->getClientOriginalName());
+                $video->video = 'video/' . $archivo->getClientOriginalName();
             }
-            $video->idPartitura = $request->idPartitura;
             $res = $video->save();
             DB::commit();
             return $res;
@@ -122,8 +124,22 @@ class VideoController extends Controller
     public function destroy($id)
     {
         $video = Video::find($id);
-        if ($video) {
-            $video->delete();
+        if (isset($video)) {
+
+            $res = Video::destroy($id);
+            if ($res) {
+                return 1;
+            } else {
+                return response()->json([
+                    'data' => $video,
+                    'mensaje' => 'Video no borrado'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'data' => $video,
+                'mensaje' => 'Video no existe'
+            ]);
         }
     }
 }

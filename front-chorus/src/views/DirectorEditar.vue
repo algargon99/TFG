@@ -61,7 +61,7 @@
 
 <script>
 
-document.title = 'Chorus - Editar director';
+
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -87,6 +87,7 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getDirector();
+    document.title = 'Chorus - Editar director';
   },
   methods: {
     getDirector() {

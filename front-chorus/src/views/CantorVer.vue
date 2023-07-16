@@ -1,6 +1,6 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">{{nombre}} {{apellidos}}</span>
+    <span class="h1 text-white">{{ nombre }} {{ apellidos }}</span>
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
@@ -51,7 +51,7 @@
 
 <script>
 
-document.title = 'Chorus - Ver Cantor';
+
 
 import { useRoute } from "vue-router";
 import axios from "../../axiosConfig";
@@ -76,6 +76,7 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getCantor();
+    document.title = 'Chorus - Ver Cantor';
   },
   methods: {
     getCantor() {

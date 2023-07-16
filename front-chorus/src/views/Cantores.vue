@@ -69,7 +69,7 @@
   
 <script>
 
-document.title = 'Chorus - Cantores';
+
 
 import axios from "../../axiosConfig";
 import { confirmar } from '../funciones';
@@ -114,7 +114,7 @@ export default {
       });
     },
     eliminar(id, nombre, apellidos) {
-      confirmar('/api/cantores/', id, 'Eliminar cantor', 'Confirmar eliminación del cantor ' + nombre + ' ' + apellidos,"cantores");
+      confirmar('/api/cantores/', id, 'Eliminar cantor', 'Confirmar eliminación del cantor ' + nombre + ' ' + apellidos, "cantores");
       this.cargando = false;
     },
     changePage(page) {
@@ -123,6 +123,7 @@ export default {
   },
   mounted() {
     this.listaCantores();
+    document.title = 'Chorus - Cantores';
   },
 };
 </script>

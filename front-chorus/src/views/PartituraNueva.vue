@@ -56,7 +56,7 @@
 
 <script>
 
-document.title = 'Chorus - Crear Partitura';
+
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -79,6 +79,7 @@ export default {
     const route = useRoute();
     this.coro = route.params.id;
     this.url += '/' + this.coro;
+    document.title = 'Chorus - Crear Partitura';
   },
   methods: {
     guardar() {

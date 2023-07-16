@@ -56,7 +56,7 @@
 
 <script>
 
-document.title = 'Chorus - Crear Cantor';
+
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 
@@ -102,9 +102,12 @@ export default {
           fechaNacimiento: this.fechaNacimiento.trim(),
           voz: this.voz.trim(),
         };
-        enviarSolicitud('POST', parametros, this.url, 'Cantor creado','cantores');
+        enviarSolicitud('POST', parametros, this.url, 'Cantor creado', 'cantores');
       }
     },
+  },
+  mounted() {
+    document.title = 'Chorus - Crear Cantor';
   },
 };
 </script>

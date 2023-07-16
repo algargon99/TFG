@@ -24,7 +24,7 @@ class PartituraController extends Controller
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
-            'anio' => 'required|integer|min:0',
+            'anio' => 'required|integer|min:0|max:2023',
             'voces' => 'required|integer|min:1',
         ];
 
@@ -34,6 +34,7 @@ class PartituraController extends Controller
             'anio.required' => 'El año es obligatorio.',
             'anio.integer' => 'El año ha de ser un número entero.',
             'anio.min' => 'Tiene que ser por lo menos el año 0.',
+            'anio.max' => 'El año de la partitura tiene que ser como mucho el año 2023.',
             'voces.required' => 'Las voces son obligatorias.',
             'voces.integer' => 'Las voces tiene que ser un número entero.',
             'voces.min' => 'Tiene que haber al menos una voz.',
@@ -85,7 +86,7 @@ class PartituraController extends Controller
         $reglas = [
             'nombre' => 'required|string',
             'autor' => 'required|string',
-            'anio' => 'required|integer|min:0',
+            'anio' => 'required|integer|min:0|max:2023',
             'voces' => 'required|integer|min:1'
         ];
 
@@ -95,6 +96,7 @@ class PartituraController extends Controller
             'anio.required' => 'El año es obligatorio.',
             'anio.integer' => 'El año ha de ser un número entero.',
             'anio.min' => 'Tiene que ser por lo menos el año 0.',
+            'anio.max' => 'El año de la partitura tiene que ser como mucho el año 2023.',
             'voces.required' => 'Las voces son obligatorias.',
             'voces.integer' => 'Las voces tiene que ser un número entero.',
             'voces.min' => 'Tiene que haber al menos una voz.'

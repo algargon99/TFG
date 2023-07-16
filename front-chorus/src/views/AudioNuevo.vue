@@ -27,7 +27,7 @@
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
-              <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="partitura" required
+              <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio" required
                 accept="audio/mp3" class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">
@@ -51,7 +51,7 @@
 
 <script>
 
-document.title = 'Chorus - Crear Audio';
+
 
 import { mostrarAlerta, enviarSolicitud } from '../funciones';
 import { useRoute } from "vue-router";
@@ -73,6 +73,7 @@ export default {
     const route = useRoute();
     this.partitura = route.params.id;
     this.url += '/' + this.partitura;
+    document.title = 'Chorus - Crear Audio';
   },
   methods: {
     guardar() {
