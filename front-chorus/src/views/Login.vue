@@ -18,7 +18,12 @@
             <input type="password" v-model="password" class="form-control" id="password" placeholder="Contraseña"
               required>
           </div>
-          <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+          <div class="d-flex justify-content-center m-3">
+            <button type="submit" class="btn btn-primary ">Iniciar sesión</button>
+          </div>
+          <div class="d-flex justify-content-center m-3">
+            <span>¿Quieres unirte a un coro? <a href="/contacto">Cont&aacute;ctanos</a></span>
+          </div>
         </form>
       </div>
     </div>
@@ -52,8 +57,9 @@ export default {
       } else {
         loginBack(email, password)
           .then(data => {
-            if (data == "1") {
+            if (Number.isInteger(data)) {
               mostrarAlerta("Usuario " + email + " ha accedido correctamente", 'success');
+              this.$store.commit('SET_ID', data);
               this.$store.commit('SET_USER', email);
               this.$store.commit('SET_AUTHENTICATED', true);
               window.setTimeout(function () {

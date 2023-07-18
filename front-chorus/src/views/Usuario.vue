@@ -1,6 +1,6 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">{{ nombre }} {{ apellidos }}</span>
+    <span class="h1 text-white">Mi perfil</span>
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3">
@@ -35,8 +35,12 @@
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
-            <label v-text="voz" class="form-control"></label>
+            <label v-if="this.voz" v-text="voz" class="form-control"></label>
+            <label v-if="this.escuela" v-text="escuela" class="form-control"></label>
           </div>
+        </div>
+        <div class="d-flex justify-content-center m-3">
+          <router-link :to="{ path: '/pass' }" class='btn btn-warning'>Cambiar contrase&ntilde;a</router-link>
         </div>
       </div>
     </div>
@@ -58,8 +62,6 @@
 <script>
 
 
-
-import { useRoute } from "vue-router";
 import axios from "../../axiosConfig";
 
 export default {
@@ -72,19 +74,20 @@ export default {
       telefono: '',
       correo: '',
       fechaNacimiento: '',
-      voz: '',
-      url: '/api/cantores',
+      escuela: null,
+      voz: null,
+      url: '/api/usuario',
       cargando: false,
     };
   },
   mounted() {
-    const route = useRoute();
-    this.id = route.params.id;
+    this.id = this.$store.state.id;
     this.url += '/' + this.id;
+    this.getUsuario();
     document.title = 'Chorus - Datos del Usuario';
   },
   methods: {
-    getCantor() {
+    getUsuario() {
       axios.get(this.url).then(
         res => {
           this.nombre = res.data.usuario.nombre;
@@ -93,11 +96,16 @@ export default {
           this.telefono = res.data.usuario.telefono;
           this.correo = res.data.usuario.correo;
           this.fechaNacimiento = res.data.usuario.fechaNacimiento;
-          this.voz = res.data.voz;
+          if (res.data.cantor) {
+            this.voz = res.data.cantor.voz;
+          } else if (res.data.director) {
+            this.escuela = res.data.director.escuela;
+          }
         }
       );
     },
     logout() {
+      this.$store.commit('SET_ID', -1);
       this.$store.commit('SET_USER', null);
       this.$store.commit('SET_AUTHENTICATED', false);
       window.setTimeout(function () {

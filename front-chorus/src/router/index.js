@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue';
 import Usuario from '../views/Usuario.vue';
 import HomeView from '../views/HomeView.vue';
+import Contacto from '../views/Contacto.vue';
+import Pass from '../views/Pass.vue';
 
 //COROS
 import Coros from '../views/Coros.vue'
@@ -44,9 +46,19 @@ const routes = [
     component: Login
   },
   {
+    path: '/pass',
+    name: 'pass',
+    component: Pass
+  },
+  {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/contacto',
+    name: 'contacto',
+    component: Contacto
   },
   {
     path: '/datosUsuario',

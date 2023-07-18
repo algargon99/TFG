@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
@@ -56,12 +57,7 @@ class UsuarioController extends Controller
             ->with('success', 'Usuario actualizado');
     }
 
-    // Eliminar un usuario de la base de datos
-    public function eliminarUsuario(Request $request)
-    {
-        $usuario = Usuario::find($request->id);
-        return $usuario->delete();
-    }
+
 
     public function login(Request $request)
     {
@@ -69,10 +65,69 @@ class UsuarioController extends Controller
         $usuario = Usuario::where('correo', $request->email)->first();
         if (isset($usuario)) {
             if (password_verify($request->password, $usuario->password)) {
-                return "1";
+                return $usuario->id;
             }
             return "pass";
         }
         return "user";
+    }
+
+    public function datosUsuario($id)
+    {
+        $usuario = Usuario::find($id);
+
+        $cantor = $usuario->cantor;
+
+        if ($cantor) {
+            return response()->json(['usuario' => $usuario, 'cantor' => $cantor], 200);
+        }
+
+        $director = $usuario->director;
+
+        if ($director) {
+            return response()->json(['usuario' => $usuario, 'director' => $director], 200);
+        }
+        return response()->json(['usuario' => $usuario], 200);
+    }
+
+    public function cambiarPass(Request $request, $id)
+    {
+        $reglas = [
+            'pass' => 'required|string|max:255',
+            'newpass' => 'required|string|min:8',
+            'renewpass' => 'required|string|min:8',
+        ];
+
+        $mensajes = [
+            'pass.required' => 'La antigua contraseña es obligatorio.',
+            'newpass.required' => 'La nueva contraseña es obligatoria.',
+            'newpass.min' => 'La nueva contraseña tiene que tener al menos 8 caracteres.',
+            'renewpass.required' => 'La nueva contraseña repetida es obligatoria.',
+            'renewpass.min' => 'La nueva contraseña repetida tiene que tener al menos 8 caracteres.',
+        ];
+
+        $validaciones = Validator::make($request->all(), $reglas, $mensajes);
+
+        if ($validaciones->fails()) {
+            return $validaciones->errors()->all();
+        }
+
+        $usuario = Usuario::find($id);
+        if (password_verify($request->pass, $usuario->password) && $request->newpass == $request->renewpass) {
+            try {
+                DB::beginTransaction();
+                $usuario->password = bcrypt($request->pass);
+                $res = $usuario->save();
+                DB::commit();
+                return $res;
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return $e->getMessage();
+            }
+        } elseif (!password_verify($request->pass, $usuario->password)) {
+            return ["La contraseña antigua es incorrecta.",""];
+        } elseif ($request->newpass != $request->renewpass) {
+            return ["Las contraseñas nuevas no coinciden.",""];
+        } 
     }
 }
