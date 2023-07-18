@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Login from '../views/Login.vue';
+import Usuario from '../views/Usuario.vue';
 import HomeView from '../views/HomeView.vue';
 
 //COROS
@@ -38,14 +39,19 @@ import VideoVer from '../views/VideoVer.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     component: Login
   },
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/datosUsuario',
+    name: 'datosUsuario',
+    component: Usuario
   },
   {
     path: '/coros',

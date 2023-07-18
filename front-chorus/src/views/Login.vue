@@ -1,12 +1,27 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4"></div>
-  <div>
-    <h2>Iniciar sesión</h2>
-    <form @submit.prevent="login">
-      <input type="text" v-model="email" placeholder="Correo electrónico" required>
-      <input type="text" v-model="password" placeholder="Contraseña" required>
-      <button type="submit">Iniciar sesión</button>
-    </form>
+  <div class="gradiente titulo ps-5 pt-4">
+    <span class="h1 text-white">Inicio de sesi&oacute;n</span>
+  </div>
+  <div class="container d-flex justify-content-center align-content-center">
+    <div class="card" style="width: 400px;">
+      <div class="d-flex justify-content-center m-3">
+        <img :src="logoUrl" alt="Chorus" class="w-50 rounded">
+      </div>
+      <div class="card-body">
+        <form @submit.prevent="login">
+          <div class="form-group m-3">
+            <label for="email">Correo electrónico</label>
+            <input type="email" v-model="email" class="form-control" id="email" placeholder="Correo electrónico" required>
+          </div>
+          <div class="form-group m-3">
+            <label for="password">Contraseña</label>
+            <input type="password" v-model="password" class="form-control" id="password" placeholder="Contraseña"
+              required>
+          </div>
+          <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
   
@@ -17,9 +32,14 @@ import { mostrarAlerta, loginBack } from '../funciones';
 export default {
   data() {
     return {
+      logoUrl: process.env.BASE_URL + 'logo.png',
       email: '',
       password: '',
     };
+  },
+  mounted() {
+    this.$store.commit('SET_USER', null);
+    this.$store.commit('SET_AUTHENTICATED', false);
   },
   methods: {
     login() {
@@ -32,20 +52,24 @@ export default {
       } else {
         loginBack(email, password)
           .then(data => {
-            console.log(data);
-            mostrarAlerta("Usuario " + email + " ha accedido correctamente", 'success');
-            this.$store.commit('SET_USER', email);
-            this.$store.commit('SET_AUTHENTICATED', true);
-            console.log(this.$store.state.user);
+            if (data == "1") {
+              mostrarAlerta("Usuario " + email + " ha accedido correctamente", 'success');
+              this.$store.commit('SET_USER', email);
+              this.$store.commit('SET_AUTHENTICATED', true);
+              window.setTimeout(function () {
+                window.location.href = "/";
+              }, 1000);
+            } else if (data == "pass") {
+              mostrarAlerta("Contraseña incorrecta", 'error');
+            } else if (data == "user") {
+              mostrarAlerta("Usuario " + email + " no existe", 'error');
+            }
           })
           .catch(error => {
             mostrarAlerta(error.message, 'error');
             console.log(error);
           });
       }
-
-      //this.$router.push('/inicio');
-
     }
   }
 };

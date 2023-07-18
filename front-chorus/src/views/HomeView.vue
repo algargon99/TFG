@@ -1,6 +1,6 @@
 <template>
   <div class="gradiente">
-    <img :src="logoUrl" alt="">
+    <img :src="logoUrl" alt="Chorus">
   </div>
   <div class="col-lg-8 offset-lg-2">
     <div class="bg-white borde" id="fondo">
@@ -41,6 +41,9 @@ export default {
     return {
       logoUrl: process.env.BASE_URL + 'logoBlanco.png'
     };
+  },
+  mounted() {
+    console.log(this.$store.state.user);
   },
 };
 </script>
