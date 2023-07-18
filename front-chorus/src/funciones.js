@@ -90,33 +90,27 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
     });
 }
 
-export function login(email, password, mensaje) {
-    axios.post('/login', {
-        email: email,
-        password: password,
+export function loginBack(email, password) {
+    return axios.post('/api/login', {
+      email: email,
+      password: password,
     }).then(res => {
-        var estado = res.status;
-        console.log(estado);
-        if (estado == 200 || estado == 201) {
-            mostrarAlerta(mensaje, 'success');
-            window.setTimeout(function () {
-                window.location.href = "/coros"
-            }, 1000);
-        } else {
-            mostrarAlerta('Sin respuesta', 'error')
-        }
+      var estado = res.status;
+      if (estado === 200 || estado === 201) {
+        return res.data;
+      } else {
+        throw new Error('Sin respuesta');
+      }
     }).catch(error => {
-        mostrarAlerta('Error de conexión', 'error');
-        console.log(error);
+      throw new Error('Error de conexión');
     });
-}
+  }
 
 function hayArchivo(parametros) {
     for (const key in parametros) {
         if (parametros.hasOwnProperty(key) && parametros[key] instanceof File) {
             const archivo = parametros[key];
             const tipo = archivo.type.split('/')[0];
-
             if (tipo === 'image' || tipo === 'audio' || tipo === 'video' || tipo === 'application') {
                 return true;
             }

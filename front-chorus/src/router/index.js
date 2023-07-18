@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import Login from '../views/Login.vue';
 import HomeView from '../views/HomeView.vue';
 
 //COROS
@@ -38,6 +39,11 @@ import VideoVer from '../views/VideoVer.vue'
 const routes = [
   {
     path: '/',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '/home',
     name: 'home',
     component: HomeView
   },

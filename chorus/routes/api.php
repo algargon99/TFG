@@ -6,6 +6,7 @@ use App\Http\Controllers\CoroController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\PartituraController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,11 +19,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-    ->middleware(['guest'])
-    ->name('login');
+
+Route::post('login', [UsuarioController::class, 'login']);
 
 //COROS
 Route::apiResource('coros', CoroController::class);
