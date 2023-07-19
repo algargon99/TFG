@@ -4,52 +4,116 @@
   </div>
   <div class="col-lg-8 offset-lg-2">
     <div class="bg-white borde" id="fondo">
-      <h1>Bienvenido a la Gestión de Coros</h1>
-      <p>
-        Diseñada para coros de todas las magnitudes, Chorus permite a los
-        usuarios administrar de manera eficiente y efectiva todos los aspectos relacionados con sus coros y las obras
-        interpretadas.
+      <h1 class="m-3">Contacta con el director del coro</h1>
+      <p class="m-4">
+        Bienvenido a Chorus, la plataforma perfecta para todos los amantes de la m&uacute;sica coral. &iquest;Te apasiona
+        el canto en coros y buscas una manera de conectarte con otros entusiastas como t&uacute;? &iexcl;No busques
+        m&aacute;s! Chorus te ofrece una experiencia &uacute;nica para descubrir y unirte a diversos coros en tu
+        &aacute;rea y m&aacute;s all&aacute;. Con nuestra intuitiva aplicaci&oacute;n, podr&aacute;s explorar una amplia
+        gama de coros, desde aquellos que se centran en cl&aacute;sicos atemporales hasta los que celebran la
+        m&uacute;sica contempor&aacute;nea. &iexcl;La comunidad coral te espera con los brazos abiertos y estamos
+        emocionados de que te unas a nosotros en este emocionante viaje musical!
       </p>
-      <p>
-        Con Chorus, puedes crear y gestionar perfiles de usuarios personalizados para cantores y directores,
-        asignándoles los roles y permisos correspondientes. Cada coro tiene su propio espacio dedicado, donde puedes
-        almacenar y organizar las partituras de las obras interpretadas. Además, Chorus facilita la asociación de
-        videos
-        o audios a cada partitura, permitiéndote mantener un archivo completo de las interpretaciones.
-      </p>
-      <p>
-        La aplicación Chorus está impulsada por una robusta base de datos MariaDB, que garantiza la seguridad y la
-        eficiencia en el almacenamiento de todos los datos relacionados con los coros, los usuarios, las partituras y
-        los archivos multimedia asociados. Además, el uso de Docker como entorno de contenedorización asegura una
-        fácil
-        implementación y escalabilidad del proyecto.
-      </p>
-      <p>
-        Ya sea que administres un pequeño coro local o una gran organización coral, Chorus te proporciona las
-        herramientas
-        necesarias para optimizar la gestión de tus coros, las obras interpretadas y el material multimedia asociado.
-        Descubre la experiencia de Chorus y lleva tu experiencia coral al siguiente nivel.
+      <p class="m-4">
+        &iquest;Listo para dar el siguiente paso en tu viaje vocal? Reg&iacute;strate hoy mismo en Chorus y descubre un
+        mundo lleno de armon&iacute;a y melod&iacute;a. Nuestro formulario de inscripci&oacute;n es r&aacute;pido y
+        sencillo. Proporciona tu nombre, apellidos y direcci&oacute;n de correo electr&oacute;nico, elige el coro que
+        m&aacute;s te atraiga y d&eacute;janos un mensaje personal si deseas compartir tus expectativas o preguntas con el
+        director del coro. Una vez que env&iacute;es el formulario, te aseguramos que tus datos ser&aacute;n enviados con
+        seguridad al director correspondiente. Prep&aacute;rate para sumergirte en emocionantes ensayos, presentaciones
+        inolvidables y nuevas amistades en el fascinante mundo coral. &iexcl;&Uacute;nete a Chorus hoy y d&eacute;jate
+        llevar por la m&uacute;sica!
       </p>
     </div>
+  </div>
+  <div class="row mt-3 g-0">
+    <div class="col-md-6 offset-md-3">
+      <div class="card m-3">
+        <div class="card-header bg-dark text-white text-center">
+          Datos de contacto
+        </div>
+        <div class="card-body">
+          <form @submit.prevent="submitForm">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" v-model="nombre" required>
+            </div>
+            <div class="mb-3">
+              <label for="apellidos" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" id="apellidos" v-model="apellidos" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico</label>
+              <input type="email" class="form-control" id="email" v-model="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="coro" class="form-label">Coro</label>
+              <select class="form-control" id="coro" v-model="coro" required>
+                <option v-for="ncoro in coros" :key="ncoro.id" :value="ncoro.nombre">{{ ncoro.nombre }}</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Comentario</label>
+              <textarea class="form-control" id="message" rows="5" v-model="comentario" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 d-flex justify-content-center">
+    <router-link :to="{ path: '/' }" class='btn btn-danger'>
+      <i class="fa-solid fa-arrow-left"></i> Volver
+    </router-link>
   </div>
 </template>
 
 <script>
-document.title = "Chorus - Inicio";
+
+
+import axios from "../../axiosConfig";
+import { mostrarAlerta, enviarSolicitud } from '../funciones';
+
 export default {
   data() {
     return {
-      logoUrl: process.env.BASE_URL + 'logoBlanco.png'
+      logoUrl: process.env.BASE_URL + 'logoBlanco.png',
+      nombre: '',
+      apellidos: '',
+      email: '',
+      coro: '',
+      comentario: '',
+      coros: ''
     };
   },
-  mounted() {
-    console.log(this.$store.state.user);
+  methods: {
+    submitForm() {
+      var parametros = {
+        nombre: this.nombre,
+        apellidos: this.apellidos,
+        email: this.email,
+        coro: this.coro,
+        comentario: this.comentario
+      };
+      enviarSolicitud('POST', parametros, '/api/usuario','¡Gracias por enviar el formulario! Los datos se han registrado correctamente.', '');
+
+    },
+    listaCoros() {
+      this.cargando = true;
+      axios.get('/api/coros').then(
+        res => {
+          this.coros = res.data;
+          this.cargando = false;
+        }
+      ).catch(error => {
+        console.error(error);
+      });
+    }
   },
+  mounted() {
+    this.listaCoros();
+    document.title = "Chorus - Contacta con el director del coro";
+  }
 };
 </script>
-
-<style>
-#fondo {
-  padding: 30px;
-}
-</style>

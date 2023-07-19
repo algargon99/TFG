@@ -125,9 +125,35 @@ class UsuarioController extends Controller
                 return $e->getMessage();
             }
         } elseif (!password_verify($request->pass, $usuario->password)) {
-            return ["La contraseña antigua es incorrecta.",""];
+            return ["La contraseña antigua es incorrecta.", ""];
         } elseif ($request->newpass != $request->renewpass) {
-            return ["Las contraseñas nuevas no coinciden.",""];
-        } 
+            return ["Las contraseñas nuevas no coinciden.", ""];
+        }
+    }
+
+    public function contacto(Request $request)
+    {
+        $reglas = [
+            'nombre' => 'required|string',
+            'apellidos' => 'required|string',
+            'email' => 'required|email',
+        ];
+
+        $mensajes = [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellidos.required' => 'Los apellidos son obligatorios.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El correo electrónico no cumple el formato correcto.',
+        ];
+
+        $validaciones = Validator::make($request->all(), $reglas, $mensajes);
+
+        if ($validaciones->fails()) {
+            return $validaciones->errors()->all();
+        }
+
+        //Crear funcionalidad correo electrónico
+
+        return 1;
     }
 }

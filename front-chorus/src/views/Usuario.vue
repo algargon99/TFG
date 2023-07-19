@@ -6,7 +6,7 @@
     <div class="col-md-6 offset-md-3">
       <div class="card m-3">
         <div class="card-header bg-dark text-white text-center">
-          Detalle del cantor
+          Mi perfil de usuario
         </div>
         <div class="card-body">
           <div class="input-group mb-3">

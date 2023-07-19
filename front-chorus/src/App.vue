@@ -62,53 +62,36 @@
                 </li>
               </ul>
             </li>
+
           </ul>
         </div>
       </div>
-      <div class="d-flex justify-content-end">
-        <router-link v-if="this.$store.state.isAuthenticated === false" class="btn btn-primary" to="/login">Login</router-link>
-        <router-link v-if="this.$store.state.isAuthenticated === true" class="btn btn-success" to='/datosUsuario'>{{this.$store.state.user }}</router-link>
+      <div class="d-flex justify-content-end ">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link v-if="this.$store.state.isAuthenticated === false" class="nav-link" to="/login">Iniciar
+              sesi&oacute;n</router-link>
+            <router-link v-if="this.$store.state.isAuthenticated === true" class="nav-link" to='/datosUsuario'>{{
+              this.$store.state.user }}</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/contacto" class="nav-link">Contacto</router-link>
+          </li>
+        </ul>
+
       </div>
     </div>
   </nav>
-  <div id="contenedor">
+  <div id="contenedor" class="min-vh-100">
     <router-view />
   </div>
+
+  <div>
+    <footer class="fixed-sticked bottom-0 navbar-dark bg-dark ">
+      <div class="gradienteInverso titulo ps-5 pt-4"></div>
+      <div class="d-flex justify-content-center p-4" style="color: rgba(255, 255, 255, 0.55);">
+        © Chorus - Alberto García González 2023. Todos los derechos reservados.
+      </div>
+    </footer>
+  </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      showScrollToTop: false
-    };
-  },
-  created() {
-    window.addEventListener("scroll", this.handleScroll);
-  },
-  beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-  },
-  methods: {
-    handleScroll() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      this.showScrollToTop = scrollTop > 100;
-    },
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
-  }
-};
-</script>
-
-<style>
-.scroll-to-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: none;
-}
-</style>

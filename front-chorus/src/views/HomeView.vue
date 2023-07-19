@@ -35,7 +35,7 @@
 </template>
 
 <script>
-document.title = "Chorus - Inicio";
+
 export default {
   data() {
     return {
@@ -43,7 +43,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$store.state.user);
+    document.title = "Chorus - Inicio";
   },
 };
 </script>

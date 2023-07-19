@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [UsuarioController::class, 'login']);
 Route::get('usuario/{id}', [UsuarioController::class, 'datosUsuario']);
+Route::post('usuario', [UsuarioController::class, 'contacto']);
 Route::put('cambiarPass/{id}', [UsuarioController::class, 'cambiarPass']);
 
 //COROS
