@@ -51,7 +51,6 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
         const formData = new FormData();
         Object.keys(parametros).forEach(key => {
             formData.append(key, parametros[key]);
-
         });
         if (metodo == 'PUT') {
             formData.append('_method', 'PUT');

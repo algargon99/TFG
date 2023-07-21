@@ -1,10 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+//USUARIOS
 import Login from '../views/Login.vue';
 import Usuario from '../views/Usuario.vue';
+import UsuarioEditar from '../views/UsuarioEditar.vue';
 import HomeView from '../views/HomeView.vue';
 import Contacto from '../views/Contacto.vue';
 import Pass from '../views/Pass.vue';
+
+//ASIGNACIONES
+import Asignar from '../views/Asignar.vue';
+import AsignarUsuario from '../views/AsignarUsuario.vue';
+
 
 //COROS
 import Coros from '../views/Coros.vue'
@@ -64,6 +71,21 @@ const routes = [
     path: '/datosUsuario',
     name: 'datosUsuario',
     component: Usuario
+  },
+  {
+    path: '/editarUsuario',
+    name: 'editarUsuario',
+    component: UsuarioEditar
+  },
+  {
+    path: '/asignar',
+    name: 'asignar',
+    component: Asignar
+  },
+  {
+    path: '/asignarUsuario/:id',
+    name: 'asignarUsuario',
+    component: AsignarUsuario
   },
   {
     path: '/coros',

@@ -104,6 +104,7 @@ export default {
       axios.get('/api/coros').then(
         res => {
           this.coros = res.data;
+          this.coro = this.coros[0].id;
           this.cargando = false;
         }
       ).catch(error => {

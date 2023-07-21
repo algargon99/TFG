@@ -62,7 +62,9 @@
                 </li>
               </ul>
             </li>
-
+            <li class="nav-item">
+              <router-link to="/asignar" class="nav-link">Asignar</router-link>
+            </li>
           </ul>
         </div>
       </div>

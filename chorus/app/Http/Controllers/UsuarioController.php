@@ -9,55 +9,57 @@ use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
 {
-
-
     // Actualizar la información de un usuario en la base de datos
-    public function update(Request $request, $id)
+    public function editarPerfil(Request $request, $id)
     {
         $reglas = [
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/[6|7][0-9]{8}/]',
+            'telefono' => 'required|string|regex:/^\d{9}/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
-            'password' => 'required|string|regex:/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8}$/',
-            'repetirPass' => 'required|string|same:password',
+
         ];
 
         $mensajes = [
             'nombre.required' => 'El nombre es obligatorio.',
             'apellidos.required' => 'Los apellidos son obligatorios.',
             'direccion.required' => 'La dirección es obligatoria.',
-            'phone.required' => 'El teléfono es obligatorio.',
-            'phone.regex' => 'El teléfono tiene que ser un número de 9 cifras que empiece por 6 o 7.',
-            'email.required' => 'El correo es obligatorio.',
-            'email.email' => 'El correo es tiene que ser formato x@x.x.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono tiene que ser un número que empiece por 6 o 7.',
+            'correo.required' => 'El correo es obligatorio.',
+            'correo.email' => 'El correo es tiene que ser formato x@x.x.',
             'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
             'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
-            'password.required' => 'La contraseña es obligatoria.',
-            'password.regex' => 'La contraseña tiene que tener mínimo 8 caractéres con al menos una minúscula, una mayúscula y un número',
-            'repetirPass.required' => 'La contraseña repetida es obligatoria.',
-            'repetirPass.same' => 'La contraseñas no concuerdan.',
         ];
+
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
 
         if ($validaciones->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validaciones)
-                ->withInput();
+            return $validaciones->errors()->all();
         }
 
-        $usuario = Usuario::find($request->id);
-        $usuario->update($request->all());
+        $usuario = Usuario::find($id);
 
-        return redirect()->route('usuarios.mostrar')
-            ->with('success', 'Usuario actualizado');
+        DB::beginTransaction();
+
+        try {
+            $usuario->nombre = $request->nombre;
+            $usuario->apellidos = $request->apellidos;
+            $usuario->direccion = $request->direccion;
+            $usuario->correo = $request->correo;
+            $usuario->telefono = $request->telefono;
+            $usuario->fechaNacimiento = $request->fechaNacimiento;
+            $res = $usuario->save();
+            DB::commit();
+            return $res;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return $e->getMessage();
+        }
     }
-
-
 
     public function login(Request $request)
     {
@@ -155,5 +157,12 @@ class UsuarioController extends Controller
         //Crear funcionalidad correo electrónico
 
         return 1;
+    }
+
+    public function usuarios(){
+        $usuarios = Usuario::all();
+        if($usuarios){
+            return $usuarios;
+        }
     }
 }

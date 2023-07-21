@@ -39,8 +39,10 @@
             <label v-if="this.escuela" v-text="escuela" class="form-control"></label>
           </div>
         </div>
-        <div class="d-flex justify-content-center m-3">
-          <router-link :to="{ path: '/pass' }" class='btn btn-warning'>Cambiar contrase&ntilde;a</router-link>
+        <div class="d-flex justify-content-center">
+          <router-link :to="{ path: '/editarUsuario' }" class='btn btn-warning m-3'>Editar usuario</router-link>
+
+          <router-link :to="{ path: '/pass' }" class='btn btn-warning m-3'>Cambiar contrase&ntilde;a</router-link>
         </div>
       </div>
     </div>

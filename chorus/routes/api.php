@@ -5,6 +5,7 @@ use App\Http\Controllers\CantorController;
 use App\Http\Controllers\CoroController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\PartituraController;
+use App\Http\Controllers\RelUsuarioCoroController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
@@ -23,8 +24,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [UsuarioController::class, 'login']);
 Route::get('usuario/{id}', [UsuarioController::class, 'datosUsuario']);
+Route::get('usuarios', [UsuarioController::class, 'usuarios']);
+Route::put('usuario/{id}', [UsuarioController::class, 'editarPerfil']);
 Route::post('usuario', [UsuarioController::class, 'contacto']);
 Route::put('cambiarPass/{id}', [UsuarioController::class, 'cambiarPass']);
+
+//CORO-USUARIO
+Route::post('asignarCoro', [RelUsuarioCoroController::class, 'asignarCoro']);
 
 //COROS
 Route::apiResource('coros', CoroController::class);

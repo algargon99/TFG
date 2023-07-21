@@ -3,66 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\RelUsuarioCoro;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RelUsuarioCoroController extends Controller
 {
-    public function mostrarRelaciones()
+
+    public function asignarCoro(Request $request)
     {
-        $relaciones = RelUsuarioCoro::all();
 
-        return view('relacion.index', compact('relaciones'));
-    }
+        try {
 
-    public function verCrearRelacion()
-    {
-        return view('relacion.create');
-    }
+            DB::beginTransaction();
 
-    public function crearRelacion(Request $request)
-    {
-        $relacion = new RelUsuarioCoro;
+            $rels = RelUsuarioCoro::where('usuario_id', $request->usuario)->where('coro_id', $request->coro)->get();
+            if (count($rels) > 0) {
+                return ['El usuario ya tiene asignado este coro', ''];
+            } else {
+                $relacion = new RelUsuarioCoro;
+                $relacion->usuario_id = $request->usuario;
+                $relacion->coro_id = $request->coro;
+                $res = $relacion->save();
 
-        $relacion->usuario_id = $request->usuario_id;
-        $relacion->coro_id = $request->coro_id;
+                DB::commit();
 
-        $relacion->save();
+                return $res;
+            }
+        } catch (\Exception $e) {
 
-        return redirect()->route('relacion.index');
-    }
-
-    public function verRelacion(Request $request)
-    {
-        $relacion = RelUsuarioCoro::find($request->id);
-
-        return view('relacion.show', compact('relacion'));
-    }
-
-    public function verEditarRelacion(Request $request)
-    {
-        $relacion = RelUsuarioCoro::find($request->id);
-
-        return view('relacion.edit', compact('relacion'));
-    }
-
-    public function editarRelacion(Request $request)
-    {
-        $relacion = RelUsuarioCoro::find($request->id);
-
-        $relacion->usuario_id = $request->usuario_id;
-        $relacion->coro_id = $request->coro_id;
-
-        $relacion->save();
-
-        return redirect()->route('relacion.index');
-    }
-
-    public function eliminarRelacion(Request $request)
-    {
-        $relacion = RelUsuarioCoro::find($request->id);
-
-        $relacion->delete();
-
-        return redirect()->route('relacion.index');
+            DB::rollBack();
+            return $e->getMessage();
+        }
     }
 }
