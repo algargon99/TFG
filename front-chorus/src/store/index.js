@@ -6,11 +6,15 @@ const store = createStore({
   state: {
     id: -1,
     user: null,
+    rol: '0', // 0 invitado/no logueado, 1 administrador, 2 director, 3 cantor
     isAuthenticated: false,
   },
   mutations: {
     SET_USER(state, user) {
       state.user = user;
+    },
+    SET_ROL(state, rol) {
+      state.rol = rol;
     },
     SET_ID(state, id) {
       state.id = id;

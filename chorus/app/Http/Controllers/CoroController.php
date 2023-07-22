@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coro;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -13,6 +14,24 @@ class CoroController extends Controller
     public function index()
     {
         return Coro::all();
+    }
+
+    // Mostrar los coros de un usuario
+    public function corosUsuario($id)
+    {
+        // Obtén el usuario por su ID junto con los coros relacionados
+        $usuarioConCoros = Usuario::with('relUsuarioCoro.coro')->find($id);
+
+
+        if ($usuarioConCoros->admin == 1) {
+            return Coro::all();
+        }
+
+        $corosDelUsuario = $usuarioConCoros->relUsuarioCoro->map(function ($relUsuarioCoro) {
+            return $relUsuarioCoro->coro;
+        });
+
+        return $corosDelUsuario;
     }
 
     // Almacenar un nuevo coro en la base de datos
@@ -50,7 +69,6 @@ class CoroController extends Controller
             DB::commit();
 
             return $respuesta;
-            
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' => 'Error al almacenar el coro'], 500);
@@ -61,7 +79,6 @@ class CoroController extends Controller
     public function show($id)
     {
         return Coro::find($id);
-        
     }
 
     // Actualizar la información de un coro en la base de datos
@@ -102,7 +119,6 @@ class CoroController extends Controller
             DB::rollback();
             return response()->json(['error' => 'Error al actualizar el coro'], 500);
         }
-
     }
 
     // Eliminar un coro de la base de datos
@@ -113,7 +129,7 @@ class CoroController extends Controller
             $partituras = $coro->partituras->count();
 
             if ($partituras > 0) {
-                return ['Hay ' . $partituras . ' partituras asociadas',''];
+                return ['Hay ' . $partituras . ' partituras asociadas', ''];
             }
             $res = Coro::destroy($id);
             if ($res) {

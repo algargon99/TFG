@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string("correo");
             $table->date("fechaNacimiento");
             $table->string("password");
+            $table->string("admin");
         });
     }
 

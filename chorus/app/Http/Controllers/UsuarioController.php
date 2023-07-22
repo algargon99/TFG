@@ -67,7 +67,17 @@ class UsuarioController extends Controller
         $usuario = Usuario::where('correo', $request->email)->first();
         if (isset($usuario)) {
             if (password_verify($request->password, $usuario->password)) {
-                return $usuario->id;
+                $res = [$usuario->id];
+                if ($usuario->admin == 1) {
+                    array_push($res, $usuario->admin);
+                } elseif ($usuario->cantor) {
+                    array_push($res, '3');
+                } elseif ($usuario->director) {
+                    array_push($res, '2');
+                } else {
+                    array_push($res, 'Usuario mal configurado');
+                }
+                return $res;
             }
             return "pass";
         }
@@ -159,9 +169,10 @@ class UsuarioController extends Controller
         return 1;
     }
 
-    public function usuarios(){
+    public function usuarios()
+    {
         $usuarios = Usuario::all();
-        if($usuarios){
+        if ($usuarios) {
             return $usuarios;
         }
     }

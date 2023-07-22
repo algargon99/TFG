@@ -34,6 +34,7 @@ Route::post('asignarCoro', [RelUsuarioCoroController::class, 'asignarCoro']);
 
 //COROS
 Route::apiResource('coros', CoroController::class);
+Route::get('corosUsuario/{id}', [CoroController::class, 'corosUsuario']);
 
 //CANTORES
 Route::apiResource('cantores', CantorController::class);

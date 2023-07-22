@@ -20,20 +20,20 @@
                 <li>
                   <router-link class="dropdown-item" to="/coros">Lista de coros</router-link>
                 </li>
-                <li>
+                <li v-if="this.$store.state.rol === '1' ">
                   <hr class="dropdown-divider">
                 </li>
-                <li>
+                <li v-if="this.$store.state.rol === '1' ">
                   <router-link to="/crearCoro" class="dropdown-item">Crear coro</router-link>
                 </li>
               </ul>
             </li>
-            <li class="nav-item dropdown">
+            <li v-if="this.$store.state.rol === '1'" class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 Cantores
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul  class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
                   <router-link class="dropdown-item" to="/cantores">Lista de cantores</router-link>
                 </li>
@@ -45,7 +45,7 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item dropdown">
+            <li v-if="this.$store.state.rol === '1'" class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 Directores
@@ -62,7 +62,7 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
+            <li v-if="this.$store.state.rol === '1'" class="nav-item">
               <router-link to="/asignar" class="nav-link">Asignar</router-link>
             </li>
           </ul>

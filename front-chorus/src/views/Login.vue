@@ -57,11 +57,12 @@ export default {
       } else {
         loginBack(email, password)
           .then(data => {
-            if (Number.isInteger(data)) {
+            if (Number.isInteger(data[0])) {
               mostrarAlerta("Usuario " + email + " ha accedido correctamente", 'success');
-              this.$store.commit('SET_ID', data);
+              this.$store.commit('SET_ID', data[0]);
               this.$store.commit('SET_USER', email);
               this.$store.commit('SET_AUTHENTICATED', true);
+              this.$store.commit('SET_ROL', data[1]);
               window.setTimeout(function () {
                 window.location.href = "/";
               }, 1000);

@@ -102,7 +102,7 @@ export default {
   methods: {
     listaCoros() {
       this.cargando = true;
-      axios.get('/api/coros').then(
+      axios.get('/api/corosUsuario/' + this.$store.state.id).then(
         res => {
           this.coros = res.data;
           this.cargando = false;
@@ -112,7 +112,7 @@ export default {
       });
     },
     eliminar(id, nombre) {
-      confirmar('/api/coros/', id, 'Eliminar coro', 'Confirmar eliminación del coro ' + nombre,'coros');
+      confirmar('/api/coros/', id, 'Eliminar coro', 'Confirmar eliminación del coro ' + nombre, 'coros');
       this.cargando = false;
     },
     changePage(page) {
