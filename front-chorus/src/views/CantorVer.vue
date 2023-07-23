@@ -11,31 +11,31 @@
         <div class="card-body">
 
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Nombre</span>
             <label v-text="nombre" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Apellidos</span>
             <label v-text="apellidos" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
             <label v-text="direccion" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-phone"></i>&nbsp; Tel&eacute;fono</span>
             <label v-text="telefono" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-envelope"></i>&nbsp; Correo electr&oacute;nico</span>
             <label v-text="correo" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&nbsp; Fecha de nacimiento</span>
             <label v-text="fechaNacimiento" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-music"></i>&nbsp; Voz</span>
             <label v-text="voz" class="form-control"></label>
           </div>
         </div>

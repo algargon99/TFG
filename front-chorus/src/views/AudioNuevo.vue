@@ -12,21 +12,21 @@
         <div class="card-body">
           <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="guardar()">
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-users"></i>&sbquo; Obra</span>
               <input type="text" required v-model="obra" id="obra" placeholder="Nombre de la obra" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-city"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-city"></i>&sbquo; Duraci&oacute;n (segs)</span>
               <input type="text" required v-model="duracion" id="duracion" placeholder="Duración del audio"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&sbquo; Int&eacute;rprete</span>
               <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del audio"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-music"></i>&sbquo; Archivo</span>
               <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio" required
                 accept="audio/mp3" class="form-control">
             </div>
@@ -37,9 +37,8 @@
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center my-4">
-      <audio v-if="this.archivo" :src="this.archivo" controls id="archivo" />
-      <audio v-else :src="this.template" controls id="archivo" />
+    <div v-if="this.archivo != ''" class="d-flex justify-content-center my-4">
+      <audio :src="this.archivo" controls id="archivo" />
     </div>
   </div>
   <div class="col-6 mx-auto my-3">
@@ -62,7 +61,6 @@ export default {
       obra: '',
       duracion: '',
       interprete: '',
-      template: process.env.BASE_URL + 'audio/ejemplo.mp3',
       archivo: '',
       partitura: 0,
       url: '/api/audios',

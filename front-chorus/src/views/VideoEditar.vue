@@ -11,21 +11,21 @@
         <div class="card-body">
           <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-music"></i>&sbquo; Nombre</span>
               <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del vídeo"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-user"></i>&sbquo; Int&eacute;rprete</span>
               <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del vídeo"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&sbquo; A&ntilde;o</span>
               <input type="text" required v-model="year" id="year" placeholder="Año del vídeo" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-video-camera"></i>&sbquo; Archivo</span>
               <input v-on:change="previsualizarVideo" ref="archivoInput" type="file" id="vídeo" accept="video/mp4"
                 class="form-control">
             </div>

@@ -16,8 +16,8 @@
               <th scope="col">Estilo</th>
               <th scope="col">Fecha creaci&oacute;n</th>
               <th scope="col">Ver</th>
-              <th scope="col">Editar</th>
-              <th scope="col">Borrar</th>
+              <th v-if="this.$store.state.rol != '3'" scope="col">Editar</th>
+              <th v-if="this.$store.state.rol === '1'" scope="col">Borrar</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -39,12 +39,12 @@
                   <i class="fa-solid fa-eye"></i>
                 </router-link>
               </td>
-              <td>
+              <td v-if="this.$store.state.rol != '3'">
                 <router-link :to="{ path: 'editarCoro/' + coro.id }" class="btn btn-warning">
                   <i class="fa-solid fa-edit"></i>
                 </router-link>
               </td>
-              <td>
+              <td v-if="this.$store.state.rol === '1'">
                 <button v-on:click="eliminar(coro.id, coro.nombre)" class="btn btn-danger">
                   <i class="fa-solid fa-trash"></i>
                 </button>

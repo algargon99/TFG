@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coro;
+use App\Models\RelUsuarioCoro;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -146,5 +147,34 @@ class CoroController extends Controller
                 'mensaje' => 'Coro no existe'
             ]);
         }
+    }
+
+    public function cantoresCoro($id)
+    {
+        // Obtén el coro por su ID junto con los cantores relacionados
+        $coro = Coro::find($id);
+
+        $usuariosDelCoro = $coro->relUsuarioCoros->pluck('usuario');
+
+        $cantoresDelCoro = $usuariosDelCoro->filter(function ($usuario) {
+            return $usuario->cantor !== null;
+        });
+
+        return $cantoresDelCoro;
+    }
+
+
+    public function directoresCoro($id)
+    {
+        // Obtén el coro por su ID junto con los directores relacionados
+        $coro = Coro::find($id);
+
+        $usuariosDelCoro = $coro->relUsuarioCoros->pluck('usuario');
+
+        $directoresDelCoro = $usuariosDelCoro->filter(function ($usuario) {
+            return $usuario->director !== null;
+        });
+
+        return $directoresDelCoro;
     }
 }

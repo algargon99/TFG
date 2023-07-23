@@ -10,37 +10,38 @@
         </div>
         <div class="card-body">
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Nombre</span>
             <label v-text="nombre" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Apellidos</span>
             <label v-text="apellidos" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
             <label v-text="direccion" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-phone"></i>&nbsp; Tel&eacute;fono</span>
             <label v-text="telefono" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-envelope"></i>&nbsp; Correo electr&oacute;nico</span>
             <label v-text="correo" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&nbsp; Fecha de nacimiento</span>
             <label v-text="fechaNacimiento" class="form-control"></label>
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+          <div v-if="this.$store.state.rol != '1'" class="input-group mb-3">
+            <span v-if="this.voz" class="input-group-text"><i class="fa-solid fa-music"></i>&nbsp; Voz</span>
             <label v-if="this.voz" v-text="voz" class="form-control"></label>
+            <span v-if="this.escuela" class="input-group-text"><i class="fa-solid fa-city"></i>&nbsp; Escuela</span>
             <label v-if="this.escuela" v-text="escuela" class="form-control"></label>
           </div>
         </div>
         <div class="d-flex justify-content-center">
-          <router-link :to="{ path: '/editarUsuario' }" class='btn btn-warning m-3'>Editar usuario</router-link>
+          <router-link :to="{ path: '/editarUsuario' }" class='btn btn-warning m-3'>Editar perfil</router-link>
 
           <router-link :to="{ path: '/pass' }" class='btn btn-warning m-3'>Cambiar contrase&ntilde;a</router-link>
         </div>

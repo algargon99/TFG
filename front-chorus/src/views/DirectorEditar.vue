@@ -11,37 +11,37 @@
         <div class="card-body">
           <form class="form" v-on:submit="editar()">
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Nombre</span>
               <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Apellidos</span>
               <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
               <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-phone"></i>&nbsp; Tel&eacute;fono</span>
               <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-envelope"></i>&nbsp; Correo electr&oacute;nico</span>
               <input type="email" required v-model="correo" id="correo" placeholder="Correo del director"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&nbsp; Fecha de nacimiento</span>
               <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
                 placeholder="Fecha de nacimiento del director" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-city"></i>&nbsp; Escuela</span>
               <input type="text" required v-model="escuela" id="escuela" placeholder="Escuela del director" class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">

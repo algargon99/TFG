@@ -56,7 +56,9 @@
               <label for="message" class="form-label">Comentario</label>
               <textarea class="form-control" id="message" rows="5" v-model="comentario" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+            <div class="mb-3 d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+            </div>
           </form>
         </div>
       </div>
@@ -96,7 +98,7 @@ export default {
         coro: this.coro,
         comentario: this.comentario
       };
-      enviarSolicitud('POST', parametros, '/api/usuario','¡Gracias por enviar el formulario! Los datos se han registrado correctamente.', '');
+      enviarSolicitud('POST', parametros, '/api/usuario', '¡Gracias por enviar el formulario! Los datos se han registrado correctamente.', '');
 
     },
     listaCoros() {

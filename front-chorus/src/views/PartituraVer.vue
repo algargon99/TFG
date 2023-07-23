@@ -11,19 +11,19 @@
         </div>
         <div class="card-body">
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Nombre</span>
             <label v-text="nombre" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Autor</span>
             <label v-text="autor" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&nbsp; A&ntilde;o</span>
             <label v-text="anio" class="form-control"></label>
           </div>
           <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+            <span class="input-group-text"><i class="fa-solid fa-music"></i>&nbsp; Voces</span>
             <label v-text="voces" class="form-control"></label>
           </div>
         </div>
@@ -49,8 +49,8 @@
               <th scope="col">Duraci&oacute;n</th>
               <th scope="col">Int&eacute;rprete</th>
               <th scope="col">Ver</th>
-              <th scope="col">Editar</th>
-              <th scope="col">Borrar</th>
+              <th v-if="this.$store.state.rol != '3'" scope="col">Editar</th>
+              <th v-if="this.$store.state.rol != '3'" scope="col">Borrar</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -69,12 +69,12 @@
                   <i class="fa-solid fa-eye"></i>
                 </router-link>
               </td>
-              <td>
+              <td v-if="this.$store.state.rol != '3'">
                 <router-link :to="{ path: '/editarAudio/' + audio.id }" class="btn btn-warning">
                   <i class="fa-solid fa-edit"></i>
                 </router-link>
               </td>
-              <td>
+              <td v-if="this.$store.state.rol != '3'" >
                 <button v-on:click="eliminarAudio(audio.id, audio.obra)" class="btn btn-danger">
                   <i class="fa-solid fa-trash"></i>
                 </button>
@@ -89,7 +89,7 @@
             </li>
           </ul>
         </div>
-        <div class="d-flex justify-content-center">
+        <div v-if="this.$store.state.rol != '3'" class="d-flex justify-content-center">
           <router-link :to="{ path: '/crearAudio/' + this.id }" class='btn btn-primary'>
             <i class="fa-solid fa-archive"></i> Nuevo audio
           </router-link>
@@ -111,8 +111,8 @@
               <th scope="col">Int&eacute;rprete</th>
               <th scope="col">A&ntilde;o</th>
               <th scope="col">Ver</th>
-              <th scope="col">Editar</th>
-              <th scope="col">Borrar</th>
+              <th v-if="this.$store.state.rol != '3'" scope="col">Editar</th>
+              <th v-if="this.$store.state.rol != '3'" scope="col">Borrar</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -131,12 +131,12 @@
                   <i class="fa-solid fa-eye"></i>
                 </router-link>
               </td>
-              <td>
+              <td v-if="this.$store.state.rol != '3'" >
                 <router-link :to="{ path: '/editarVideo/' + video.id }" class="btn btn-warning">
                   <i class="fa-solid fa-edit"></i>
                 </router-link>
               </td>
-              <td>
+              <td v-if="this.$store.state.rol != '3'" >
                 <button v-on:click="eliminarVideo(video.id, video.nombre)" class="btn btn-danger">
                   <i class="fa-solid fa-trash"></i>
                 </button>
@@ -151,7 +151,7 @@
             </li>
           </ul>
         </div>
-        <div class="d-flex justify-content-center">
+        <div v-if="this.$store.state.rol != '3'" class="d-flex justify-content-center">
           <router-link :to="{ path: '/crearVideo/' + this.id }" class='btn btn-primary'>
             <i class="fa-solid fa-archive"></i> Nuevo v&iacute;deo
           </router-link>

@@ -11,26 +11,26 @@
         <div class="card-body">
           <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-users"></i>&nbsp; Nombre</span>
               <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre de la partitura"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-city"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-city"></i>&nbsp; Autor</span>
               <input type="text" required v-model="autor" id="autor" placeholder="Autor de la partitura"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; A&ntilde;o</span>
               <input type="text" required v-model="anio" id="anio" placeholder="Año de la partitura" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-users"></i> &nbsp; Voces</span>
               <input type="text" required v-model="voces" id="voces" placeholder="Voces de la partitura"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-guitar"></i>&nbsp; Archivo</span>
               <input v-on:change="previsualizarPDF" ref="archivoInput" type="file" id="partitura" accept="application/pdf"
                 class="form-control">
             </div>

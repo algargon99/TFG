@@ -34,4 +34,9 @@ class Usuario extends Model
         return $this->hasMany(RelUsuarioCoro::class, 'usuario_id');
     }
 
+    public function usuarios()
+    {
+        return $this->hasMany(Coro::class, 'idUsuario', 'id');
+    }
+
 }

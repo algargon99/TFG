@@ -11,24 +11,24 @@
         <div class="card-body">
           <form class="form" v-on:submit="editar()">
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-users"></i> &nbsp; Nombre</span>
               <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del coro" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-city"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-city"></i>&nbsp; Ciudad</span>
               <input type="text" required v-model="ciudad" id="ciudad" placeholder="Ciudad del coro" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
               <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del coro"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-users"></i>&nbsp; Tipo</span>
               <input type="text" required v-model="tipo" id="tipo" placeholder="Tipo del coro" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-guitar"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-guitar"></i>&nbsp; Estilo</span>
               <input type="text" required v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
             </div>
             <div class="d-grid col-6 mx-auto mb-3">

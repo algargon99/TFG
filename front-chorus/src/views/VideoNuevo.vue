@@ -12,21 +12,21 @@
         <div class="card-body">
           <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="guardar()">
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-music"></i>&sbquo; Nombre</span>
               <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del vídeo"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-user"></i>&sbquo; Int&eacute;rprete</span>
               <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del vídeo"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&sbquo; A&ntilde;o</span>
               <input type="text" required v-model="year" id="year" placeholder="Año del vídeo" class="form-control">
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-music"></i></span>
+              <span class="input-group-text"><i class="fa-solid fa-video-camera"></i>&sbquo; Archivo</span>
               <input v-on:change="previsualizarVideo" ref="archivoInput" type="file" id="video" required
                 accept="video/mp4" class="form-control">
             </div>
@@ -37,9 +37,8 @@
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center my-4">
-      <video width="600" v-if="this.archivo" :src="this.archivo" type="video/mp4" controls id="archivo" />
-      <video width="600" v-else :src="this.template" controls type="video/mp4" id="archivo" />
+    <div v-if="this.archivo != ''" class="d-flex justify-content-center my-4">
+      <video width="600" :src="this.archivo" type="video/mp4" controls id="archivo" />
     </div>
   </div>
   <div class="col-6 mx-auto my-3">
@@ -62,7 +61,6 @@ export default {
       nombre: '',
       year: '',
       interprete: '',
-      template: process.env.BASE_URL + 'video/ejemplo.mp4',
       archivo: '',
       partitura: 0,
       url: '/api/videos',
