@@ -97,6 +97,7 @@ export function loginBack(email, password) {
       var estado = res.status;
       if (estado === 200 || estado === 201) {
         return res.data;
+        console.log(res.data);
       } else {
         throw new Error('Sin respuesta');
       }
