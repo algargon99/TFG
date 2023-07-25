@@ -151,29 +151,30 @@ class CoroController extends Controller
 
     public function cantoresCoro($id)
     {
-        // Obtén el coro por su ID junto con los cantores relacionados
         $coro = Coro::find($id);
 
-        $usuariosDelCoro = $coro->relUsuarioCoros->pluck('usuario');
+        $usuariosDelCoro = $coro->relUsuarioCoros->map(function ($usuarioCoro) {
+            return $usuarioCoro->usuario;
+        });
 
         $cantoresDelCoro = $usuariosDelCoro->filter(function ($usuario) {
             return $usuario->cantor !== null;
-        });
+        })->values();
 
         return $cantoresDelCoro;
     }
 
-
     public function directoresCoro($id)
     {
-        // Obtén el coro por su ID junto con los directores relacionados
         $coro = Coro::find($id);
 
-        $usuariosDelCoro = $coro->relUsuarioCoros->pluck('usuario');
+        $usuariosDelCoro = $coro->relUsuarioCoros->map(function ($usuarioCoro) {
+            return $usuarioCoro->usuario;
+        });
 
         $directoresDelCoro = $usuariosDelCoro->filter(function ($usuario) {
             return $usuario->director !== null;
-        });
+        })->values();
 
         return $directoresDelCoro;
     }

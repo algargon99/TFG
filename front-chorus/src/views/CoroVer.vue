@@ -179,7 +179,7 @@
               <td v-text="director.direccion"></td>
               <td v-text="director.telefono"></td>
               <td v-text="director.fechaNacimiento"></td>
-              <td v-text="director.director.voz"></td>
+              <td v-text="director.escuela"></td>
               <td v-text="new Date(director.created_at).toLocaleDateString()"></td>
             </tr>
           </tbody>
