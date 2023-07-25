@@ -91,20 +91,21 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
 
 export function loginBack(email, password) {
     return axios.post('/api/login', {
-      email: email,
-      password: password,
+        email: email,
+        password: password,
     }).then(res => {
-      var estado = res.status;
-      if (estado === 200 || estado === 201) {
-        return res.data;
-        console.log(res.data);
-      } else {
-        throw new Error('Sin respuesta');
-      }
+        var estado = res.status;
+        if (estado === 200 || estado === 201) {
+            console.log(res.data);
+            return res.data;
+        } else {
+            throw new Error('Sin respuesta');
+        }
     }).catch(error => {
-      throw new Error('Error de conexión');
+        console.log(error);
+        throw new Error('Error de conexión');
     });
-  }
+}
 
 function hayArchivo(parametros) {
     for (const key in parametros) {
