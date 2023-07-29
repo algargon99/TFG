@@ -13,6 +13,7 @@
               <th scope="col">Apellidos</th>
               <th scope="col">Direcci&oacute;n</th>
               <th scope="col">Tel&eacute;fono</th>
+              <th scope="col">Correo</th>
               <th scope="col">Fecha nacimiento</th>
               <th scope="col">Voz</th>
               <th scope="col">Fecha incorporaci&oacute;n</th>
@@ -33,6 +34,7 @@
               <td v-text="cantor.usuario.apellidos"></td>
               <td v-text="cantor.usuario.direccion"></td>
               <td v-text="cantor.usuario.telefono"></td>
+              <td v-text="cantor.usuario.correo"></td>
               <td v-text="cantor.usuario.fechaNacimiento"></td>
               <td v-text="cantor.voz"></td>
               <td v-text="new Date(cantor.created_at).toLocaleDateString()"></td>

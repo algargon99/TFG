@@ -36,6 +36,15 @@
   </div>
 
   <div class="titulo ps-5 pt-4">
+    <span class="h1 text-white">M&aacute;s sobre el coro {{ nombre }}</span>
+  </div>
+  <div class="row mt-3 g-0">
+    <div class="col-md-6 offset-md-3 bg-white borde">
+      <p class="m-4" v-text="descripcion"></p>
+    </div>
+  </div>
+
+  <div class="titulo ps-5 pt-4">
     <span class="h1 text-white">Partituras del coro {{ nombre }}</span>
   </div>
   <div class="row g-0 my-5">
@@ -219,6 +228,7 @@ export default {
       direccion: '',
       tipo: '',
       estilo: '',
+      descripcion: '',
       url: '/api/coros',
       cargando: false,
       partituras: null,
@@ -291,6 +301,7 @@ export default {
           this.direccion = res.data.direccion;
           this.tipo = res.data.tipo;
           this.estilo = res.data.estilo;
+          this.descripcion = res.data.descripcion;
         }
       );
     },

@@ -17,6 +17,7 @@ class CoroFactory extends Factory
             'direccion' => $this->faker->address,
             'tipo' => $this->faker->randomElement(['Cámara', 'Gospel', 'Polifónico']),
             'estilo' => $this->faker->randomElement(['Rock', 'Pop', 'Jazz', 'Clásico']),
+            'descripcion' => $this->faker->paragraphs(4, true)
         ];
     }
 }

@@ -9,6 +9,8 @@ class Cantor extends Model
 {
     use HasFactory;
 
+    protected $table = 'cantores';
+
     protected $fillable = [
         'voz',
     ];

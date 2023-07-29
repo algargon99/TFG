@@ -31,8 +31,11 @@
               <span class="input-group-text"><i class="fa-solid fa-guitar"></i>&nbsp; Estilo</span>
               <input type="text" required v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
             </div>
+            <div class="input-group mb-3">
+              <span class="w-100">Incluye una peque&ntilde;a descripci&oacute;n:</span>
+              <textarea required v-model="descripcion" placeholder="Descripción" id="descripcion" class="form-control" />
+            </div>
             <div class="d-grid col-6 mx-auto mb-3">
-
               <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Crear coro</button>
             </div>
           </form>
@@ -56,6 +59,7 @@ export default {
       direccion: '',
       tipo: '',
       estilo: '',
+      descripcion: '',
       url: '/api/coros',
       cargando: false,
     };
@@ -74,6 +78,8 @@ export default {
         mostrarAlerta('Ingrese un tipo', 'warning', 'tipo')
       } else if (this.estilo.trim() === '') {
         mostrarAlerta('Ingrese un estilo', 'warning', 'estilo')
+      } else if (this.descripcion.trim() === '') {
+        mostrarAlerta('Ingrese una descripción', 'warning', 'descripcion')
       } else {
         var parametros = {
           nombre: this.nombre.trim(),
@@ -81,6 +87,7 @@ export default {
           direccion: this.direccion.trim(),
           tipo: this.tipo.trim(),
           estilo: this.estilo.trim(),
+          descripcion: this.descripcion.trim(),
         };
         enviarSolicitud('POST', parametros, this.url, 'Coro creado', 'coros');
       }

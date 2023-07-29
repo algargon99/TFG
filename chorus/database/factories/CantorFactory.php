@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Cantor;
-use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CantorFactory extends Factory

@@ -26,7 +26,7 @@
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-users"></i>&nbsp; Voces</span>
-              <input type="text" required v-model="voces" id="voces" placeholder="Voces de la partitura"
+              <input type="number" min="1" required v-model="voces" id="voces" placeholder="Voces de la partitura"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
@@ -90,17 +90,15 @@ export default {
         mostrarAlerta('Ingrese un autor', 'warning', 'autor')
       } else if (this.anio.trim() === '') {
         mostrarAlerta('Ingrese un año', 'warning', 'anio')
-      } else if (this.voces.trim() === '') {
-        mostrarAlerta('Ingrese un número de voces', 'warning', 'voces')
       } else {
         var parametros = {
           nombre: this.nombre.trim(),
           autor: this.autor.trim(),
           anio: this.anio.trim(),
-          voces: this.voces.trim(),
+          voces: this.voces,
           archivo: partitura,
         };
-        enviarSolicitud('POST', parametros, this.url, 'Partitura creada', "coros");
+        enviarSolicitud('POST', parametros, this.url, 'Partitura creada', "verCoro/" + this.coro);
       }
     },
     previsualizarPDF(event) {

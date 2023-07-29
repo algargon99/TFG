@@ -13,6 +13,7 @@
               <th scope="col">Apellidos</th>
               <th scope="col">Direcci&oacute;n</th>
               <th scope="col">Tel&eacute;fono</th>
+              <th scope="col">Correo</th>
               <th scope="col">Fecha nacimiento</th>
               <th scope="col">Escuela</th>
               <th scope="col">Fecha incorporaci&oacute;n</th>
@@ -33,6 +34,7 @@
               <td v-text="director.usuario.apellidos"></td>
               <td v-text="director.usuario.direccion"></td>
               <td v-text="director.usuario.telefono"></td>
+              <td v-text="director.usuario.correo"></td>
               <td v-text="director.usuario.fechaNacimiento"></td>
               <td v-text="director.escuela"></td>
               <td v-text="new Date(director.created_at).toLocaleDateString()"></td>

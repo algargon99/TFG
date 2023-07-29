@@ -11,15 +11,30 @@ class UsuarioFactory extends Factory
 
     public function definition()
     {
+
+        $firstName = $this->faker->firstName;
+        $lastName = $this->faker->lastName;
+
         return [
-            'nombre' => $this->faker->firstName,
-            'apellidos' => $this->faker->lastName,
+            'nombre' => $firstName,
+            'apellidos' => $lastName,
             'direccion' => $this->faker->address,
             'telefono' => $this->faker->numerify('6########'),
-            'correo' => $this->faker->unique()->safeEmail,
+            'correo' => $this->uniqueSafeEmail($firstName, $lastName),
             'fechaNacimiento' => $this->faker->dateTimeBetween('-100 years', '-18 years')->format('Y-m-d'),
             'password' => bcrypt('password'),
             'admin' => '0',
         ];
+    }
+
+    public function uniqueSafeEmail($a, $b)
+    {
+        $i = 1;
+        do {
+            $email = strtolower(substr($a, 0, 3)) . '.' . strtolower($b) . $i . '@example.com';
+            $i++;
+        } while (Usuario::where('correo', $email)->exists());
+
+        return $email;
     }
 }

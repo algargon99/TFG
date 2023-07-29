@@ -26,7 +26,7 @@
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text"><i class="fa-solid fa-users"></i> &nbsp; Voces</span>
-              <input type="text" required v-model="voces" id="voces" placeholder="Voces de la partitura"
+              <input type="number" min="1" required v-model="voces" id="voces" placeholder="Voces de la partitura"
                 class="form-control">
             </div>
             <div class="input-group mb-3">
@@ -94,7 +94,6 @@ export default {
           this.archivoBase = 'http://localhost:8000/' + res.data.archivo;
           this.coro = res.data.idCoro;
         }
-
       );
     },
     editar() {
@@ -111,8 +110,6 @@ export default {
         mostrarAlerta('Ingrese un autor', 'warning', 'autor')
       } else if (this.anio === '') {
         mostrarAlerta('Ingrese un año', 'warning', 'anio')
-      } else if (this.voces === '') {
-        mostrarAlerta('Ingrese un número de voces', 'warning', 'voces')
       } else {
         var coro = this.coro;
         var parametros = {
@@ -130,7 +127,7 @@ export default {
       if (typeof file != 'undefined') {
         var reader = new FileReader();
         reader.onload = function () {
-          var url = URL.createObjectURL(file); // Obtiene la URL del archivo
+          var url = URL.createObjectURL(file);
           this.archivo = url;
         }.bind(this);
         reader.readAsArrayBuffer(file);

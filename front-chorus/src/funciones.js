@@ -73,13 +73,15 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
     }).then(function (res) {
         var estado = res.status;
         console.log(res);
-        if (res.data != 1) {
-            mostrarAlerta(res.data.join('\n'), 'error');
-        } else if (estado == 200 || estado == 201) {
-            mostrarAlerta(mensaje, 'success');
-            window.setTimeout(function () {
-                window.location.href = "/" + clase
-            }, 3000);
+        if (estado == 200 || estado == 201) {
+            if (res.data != 1) {
+                mostrarAlerta(res.data.join('\n'), 'error');
+            } else {
+                mostrarAlerta(mensaje, 'success');
+                window.setTimeout(function () {
+                    window.location.href = "/" + clase
+                }, 3000);
+            }
         } else {
             mostrarAlerta('Sin respuesta', 'error')
         }

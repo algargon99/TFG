@@ -44,7 +44,8 @@ class CoroController extends Controller
             'ciudad' => 'required|string',
             'direccion' => 'required|string',
             'tipo' => 'required|string',
-            'estilo' => 'required|string'
+            'estilo' => 'required|string',
+            'descripcion' => 'required|string'
         ];
 
         $mensajes = [
@@ -53,6 +54,7 @@ class CoroController extends Controller
             'direccion.required' => 'La dirección es obligatoria.',
             'tipo.required' => 'El tipo es obligatorio.',
             'estilo.required' => 'El estilo es obligatorio',
+            'descripcion.required' => 'La descripción es obligatoria',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -61,15 +63,18 @@ class CoroController extends Controller
             return $validaciones->errors()->all();
         }
 
-        DB::beginTransaction();
-
         try {
-            $inputs = $request->input();
-            $respuesta = Coro::create($inputs);
-
+            DB::beginTransaction();
+            $coro = new Coro();
+            $coro->nombre = $request->nombre;
+            $coro->ciudad = $request->ciudad;
+            $coro->direccion = $request->direccion;
+            $coro->tipo = $request->tipo;
+            $coro->estilo = $request->estilo;
+            $coro->descripcion = $request->descripcion;
+            $res = $coro->save();
             DB::commit();
-
-            return $respuesta;
+            return $res;
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' => 'Error al almacenar el coro'], 500);
@@ -90,7 +95,8 @@ class CoroController extends Controller
             'ciudad' => 'required|string',
             'direccion' => 'required|string',
             'tipo' => 'required|string',
-            'estilo' => 'required|string'
+            'estilo' => 'required|string',
+            'descripcion' => 'required|string'
         ];
 
         $mensajes = [
@@ -99,6 +105,7 @@ class CoroController extends Controller
             'direccion.required' => 'La dirección es obligatoria.',
             'tipo.required' => 'El tipo es obligatorio.',
             'estilo.required' => 'El estilo es obligatorio',
+            'descripcion.required' => 'La descripción es obligatoria',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -111,7 +118,13 @@ class CoroController extends Controller
 
         try {
             $coro = Coro::find($id);
-            $res = $coro->update($request->input());
+            $coro->nombre = $request->nombre;
+            $coro->ciudad = $request->ciudad;
+            $coro->direccion = $request->direccion;
+            $coro->tipo = $request->tipo;
+            $coro->estilo = $request->estilo;
+            $coro->descripcion = $request->descripcion;
+            $res = $coro->save();
 
             DB::commit();
 
