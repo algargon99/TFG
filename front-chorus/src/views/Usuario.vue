@@ -66,6 +66,7 @@
 
 
 import axios from "../../axiosConfig";
+import { logout } from "../funciones.js"
 
 export default {
   data() {
@@ -108,13 +109,7 @@ export default {
       );
     },
     logout() {
-      this.$store.commit('SET_ID', -1);
-      this.$store.commit('SET_USER', null);
-      this.$store.commit('SET_AUTHENTICATED', false);
-      this.$store.commit('SET_ROL', '0');
-      window.setTimeout(function () {
-        window.location.href = "/";
-      }, 0);
+      logout(this);
     }
   },
 };

@@ -1,6 +1,6 @@
 <template>
-  <div class="gradiente">
-    <img :src="logoUrl" alt="Chorus">
+  <div class="gradiente titulo ps-5 pt-4">
+    <span class="h1 text-white">Bienvenido a Chorus</span>
   </div>
   <div class="col-lg-8 offset-lg-2">
     <div class="bg-white borde" id="fondo">
@@ -47,7 +47,7 @@
 export default {
   data() {
     return {
-      logoUrl: process.env.BASE_URL + 'logoBlanco.png'
+      logoUrl: process.env.BASE_URL + 'logo.png'
     };
   },
   mounted() {

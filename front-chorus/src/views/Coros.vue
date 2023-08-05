@@ -4,7 +4,7 @@
   </div>
   <div class="row g-0 my-5">
     <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive bg-white borde">
+      <div v-if="this.$store.state.rol == '1'" class="table-responsive bg-white borde">
         <table class="table table-hover">
           <thead>
             <tr>
@@ -59,6 +59,9 @@
             </li>
           </ul>
         </div>
+      </div>
+      <div v-else v-for="(coro, i) in paginatedItems" :key="coro.id" >
+        <div class="bg-white" v-text="coro.nombre"></div>
       </div>
     </div>
   </div>

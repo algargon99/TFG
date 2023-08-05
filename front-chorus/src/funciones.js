@@ -109,6 +109,16 @@ export function loginBack(email, password) {
     });
 }
 
+export function logout(session) {
+    session.$store.commit('SET_ID', -1);
+    session.$store.commit('SET_USER', null);
+    session.$store.commit('SET_AUTHENTICATED', false);
+    session.$store.commit('SET_ROL', '0');
+    window.setTimeout(function () {
+        window.location.href = "/";
+    }.bind(this), 1000);
+}
+
 function hayArchivo(parametros) {
     for (const key in parametros) {
         if (parametros.hasOwnProperty(key) && parametros[key] instanceof File) {

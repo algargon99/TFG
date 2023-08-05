@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <router-link class="navbar-brand " to="/">
-        <img src='../public/logo.png' alt="Logo" height="60">
+        <img src='../public/logoBlanco.png' alt="Logo" height="60">
       </router-link>
       <div v-if="this.$store.state.isAuthenticated === true">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -20,10 +20,10 @@
                 <li>
                   <router-link class="dropdown-item" to="/coros">Lista de coros</router-link>
                 </li>
-                <li v-if="this.$store.state.rol === '1' ">
+                <li v-if="this.$store.state.rol === '1'">
                   <hr class="dropdown-divider">
                 </li>
-                <li v-if="this.$store.state.rol === '1' ">
+                <li v-if="this.$store.state.rol === '1'">
                   <router-link to="/crearCoro" class="dropdown-item">Crear coro</router-link>
                 </li>
               </ul>
@@ -33,7 +33,7 @@
                 aria-expanded="false">
                 Cantores
               </a>
-              <ul  class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
                   <router-link class="dropdown-item" to="/cantores">Lista de cantores</router-link>
                 </li>
