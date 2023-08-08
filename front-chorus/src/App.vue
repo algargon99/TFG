@@ -1,99 +1,120 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <router-link class="navbar-brand " to="/">
-        <img src='../public/logoBlanco.png' alt="Logo" height="60">
-      </router-link>
-      <div v-if="this.$store.state.isAuthenticated === true">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Coros
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <router-link class="dropdown-item" to="/coros">Lista de coros</router-link>
-                </li>
-                <li v-if="this.$store.state.rol === '1'">
-                  <hr class="dropdown-divider">
-                </li>
-                <li v-if="this.$store.state.rol === '1'">
-                  <router-link to="/crearCoro" class="dropdown-item">Crear coro</router-link>
-                </li>
-              </ul>
-            </li>
-            <li v-if="this.$store.state.rol === '1'" class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Cantores
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <router-link class="dropdown-item" to="/cantores">Lista de cantores</router-link>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li>
-                  <router-link to="/crearCantor" class="dropdown-item">Crear cantor</router-link>
-                </li>
-              </ul>
-            </li>
-            <li v-if="this.$store.state.rol === '1'" class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-                Directores
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <router-link class="dropdown-item" to="/directores">Lista de directores</router-link>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li>
-                  <router-link to="/crearDirector" class="dropdown-item">Crear director</router-link>
-                </li>
-              </ul>
-            </li>
-            <li v-if="this.$store.state.rol === '1'" class="nav-item">
-              <router-link to="/asignar" class="nav-link">Asignar</router-link>
-            </li>
-          </ul>
+  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <router-link class="navbar-brand " to="/">
+      <img src='../public/logoBlanco.png' alt="Logo" width="200">
+    </router-link>
+    <div class="navbar-nav">
+      <div class="nav-item d-flex justify-content-end">
+        <div class="nav-item ">
+          <button class="navbar-toggler d-md-none collapsed m-3" type="button" data-bs-toggle="collapse"
+            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="nav-item m-2">
+          <router-link v-if="this.$store.state.isAuthenticated === false" class="nav-link" to="/login">Iniciar
+            sesi&oacute;n</router-link>
+          <router-link v-if="this.$store.state.isAuthenticated === true" class="nav-link" to='/datosUsuario'>{{
+            this.$store.state.user }}</router-link>
+        </div>
+        <div class="nav-item m-2">
+          <router-link to="/contacto" class="nav-link">Contacto</router-link>
         </div>
       </div>
-      <div class="d-flex justify-content-end ">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link v-if="this.$store.state.isAuthenticated === false" class="nav-link" to="/login">Iniciar
-              sesi&oacute;n</router-link>
-            <router-link v-if="this.$store.state.isAuthenticated === true" class="nav-link" to='/datosUsuario'>{{
-              this.$store.state.user }}</router-link>
+    </div>
+  </header>
+
+  <div>
+    <nav v-if="this.$store.state.rol != '0'" id="sidebarMenu"
+      class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item dropdown">
+            <button class="btn nav-link btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+              data-bs-target="#coros-collapse" aria-expanded="false">
+              Coros
+            </button>
+            <div class="collapse" id="coros-collapse">
+              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ">
+                <li class="nav-item">
+                  <router-link class="nav-link" to="/coros">Lista de coros</router-link>
+                </li>
+                <li class="nav-item" v-if="this.$store.state.rol === '1'">
+                  <router-link to="/crearCoro" class="nav-link">Crear coro</router-link>
+                </li>
+              </ul>
+            </div>
           </li>
-          <li class="nav-item">
-            <router-link to="/contacto" class="nav-link">Contacto</router-link>
+          <li v-if="this.$store.state.rol === '1'" class="nav-item dropdown">
+            <button class="btn nav-link btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+              data-bs-target="#cantores-collapse" aria-expanded="false">
+              Cantores
+            </button>
+            <div class="collapse" id="cantores-collapse">
+              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ">
+                <li class="nav-item">
+                  <router-link class="nav-link" to="/cantores">Lista de cantores</router-link>
+                </li>
+                <li class="nav-item" v-if="this.$store.state.rol === '1'">
+                  <router-link to="/crearCantor" class="nav-link">Crear cantor</router-link>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li v-if="this.$store.state.rol === '1'" class="nav-item dropdown">
+            <button class="btn nav-link btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
+              data-bs-target="#directores-collapse" aria-expanded="false">
+              Directores
+            </button>
+            <div class="collapse" id="directores-collapse">
+              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ">
+                <li class="nav-item">
+                  <router-link class="nav-link" to="/directores">Lista de directores</router-link>
+                </li>
+                <li class="nav-item" v-if="this.$store.state.rol === '1'">
+                  <router-link to="/crearDirector" class="nav-link">Crear directores</router-link>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li v-if="this.$store.state.rol === '1'" class="nav-item">
+            <router-link to="/asignar" class="nav-link">Asignar</router-link>
           </li>
         </ul>
-
       </div>
-    </div>
-  </nav>
-  <div id="contenedor" class="min-vh-100">
+    </nav>
+  </div>
+
+  <div id="contenedor" :style="{ marginLeft: margenContenedor }" class="min-vh-100">
     <router-view />
   </div>
 
   <div>
-    <footer class="fixed-sticked bottom-0 navbar-dark bg-dark ">
-      <div class="gradienteInverso titulo ps-5 pt-4"></div>
+    <footer class="fixed-sticked bottom-0 navbar-dark bg-dark">
       <div class="d-flex justify-content-center p-4" style="color: rgba(255, 255, 255, 0.55);">
         © Chorus - Alberto García González 2023. Todos los derechos reservados.
       </div>
     </footer>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      margenContenedor: "0px"
+    };
+  },
+  methods: {
+    rolMargen() {
+      if (this.$store.state.isAuthenticated) {
+        this.margenContenedor = "200px";
+      }
+    }
+  },
+  mounted() {
+    this.rolMargen();
+  },
+};
+</script>

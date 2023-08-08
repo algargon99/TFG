@@ -1,9 +1,14 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
+  <div class="ps-5 pt-5">
     <span class="h1 text-white">Lista de coros</span>
   </div>
   <div class="row g-0 my-5">
     <div class="col-lg-8 offset-lg-2">
+      <div v-if="this.$store.state.rol == '0'" v-for="(coro, i) in this.coros" :key="coro.id">
+        <div>
+          <span v-text="coro.nombre"></span>
+        </div>
+      </div>
       <div v-if="this.$store.state.rol == '1'" class="table-responsive bg-white borde">
         <table class="table table-hover">
           <thead>
@@ -60,9 +65,6 @@
           </ul>
         </div>
       </div>
-      <div v-else v-for="(coro, i) in paginatedItems" :key="coro.id" >
-        <div class="bg-white" v-text="coro.nombre"></div>
-      </div>
     </div>
   </div>
 </template>
@@ -105,7 +107,11 @@ export default {
   methods: {
     listaCoros() {
       this.cargando = true;
-      axios.get('/api/corosUsuario/' + this.$store.state.id).then(
+      var ruta = '/api/coros';
+      if(this.$store.state.isAuthenticated != 0){
+        ruta = '/api/corosUsuario/' + this.$store.state.id
+      }
+      axios.get(ruta).then(
         res => {
           this.coros = res.data;
           this.cargando = false;

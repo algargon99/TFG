@@ -1,6 +1,6 @@
 <template>
   <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">Lista de usuarios</span>
+    <span class="h1">Lista de usuarios</span>
   </div>
   <div class="row my-5 g-0">
     <div class="col-lg-8 offset-lg-2">

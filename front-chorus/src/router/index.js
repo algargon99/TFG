@@ -4,7 +4,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue';
 import Usuario from '../views/Usuario.vue';
 import UsuarioEditar from '../views/UsuarioEditar.vue';
-import HomeView from '../views/HomeView.vue';
 import Contacto from '../views/Contacto.vue';
 import Pass from '../views/Pass.vue';
 
@@ -60,7 +59,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: Coros
   },
   {
     path: '/contacto',
