@@ -1,65 +1,29 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">Coro {{ nombre }}</span>
+  <div class="titulo">
+    <span>Coro {{ nombre }}</span>
   </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header bg-dark text-white text-center">
-          Detalle del coro
-        </div>
-        <div class="card-body">
-
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-users"></i>&nbsp; Nombre</span>
-            <label v-text="nombre" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-city"></i>&nbsp; Ciudad</span>
-            <label v-text="ciudad" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
-            <label v-text="direccion" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-users"></i>&nbsp; Tipo</span>
-            <label v-text="tipo" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-guitar"></i>&nbsp; Estilo</span>
-            <label v-text="estilo" class="form-control"></label>
-          </div>
-        </div>
-      </div>
+  <div class="row my-4 g-0">
+    <div class="primero col-10 col-xl-5 d-flex align-items-center justify-content-center">
+      <img class="img-fluid mx-auto w-8" src='../../public/ejemplo.jpeg' alt="Coro">
+    </div>
+    <div class="col-xl-5 ms-4 bloque d-flex align-items-center">
+      <p class="p-4"> Somos el coro {{ tipo }} de {{ estilo }} {{nombre}} de la ciudad de {{ciudad}}.
+        {{ descripcion }} <br><br> Nos situamos en {{ direccion }}. Puedes contactarnos a través de la página de contacto.</p>
     </div>
   </div>
 
-  <div class="titulo ps-5 pt-4">
-    <span class="h1 text-white">M&aacute;s sobre el coro {{ nombre }}</span>
-  </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3 bg-white borde">
-      <p class="m-4" v-text="descripcion"></p>
-    </div>
-  </div>
-
-  <div class="titulo ps-5 pt-4">
-    <span class="h1 text-white">Partituras del coro {{ nombre }}</span>
+  <div class="titulo">
+    <span class="h1">Partituras</span>
   </div>
   <div class="row g-0 my-5">
-    <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive bg-white borde">
-        <table class="table table-hover">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="table-responsive bloque borde p-3">
+        <table class="table ">
           <thead>
             <tr>
-              <th scope="col">Nº</th>
               <th scope="col">Nombre</th>
               <th scope="col">A&ntilde;o</th>
               <th scope="col">Voces</th>
-              <th scope="col">Ver</th>
-              <th v-if="this.$store.state.rol != '3'" scope="col">Editar</th>
-              <th v-if="this.$store.state.rol != '3'" scope="col">Borrar</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -69,24 +33,27 @@
               </td>
             </tr>
             <tr v-else v-for="(partitura, i) in paginatedItemsPartituras" :key="partitura.id">
-              <td v-text="(i + 1)"></td>
               <td v-text="partitura.nombre"></td>
               <td v-text="partitura.anio"></td>
               <td v-text="partitura.voces"></td>
               <td>
-                <router-link :to="{ path: '/verPartitura/' + partitura.id }" class="btn btn-info">
-                  <i class="fa-solid fa-eye"></i>
-                </router-link>
-              </td>
-              <td v-if="this.$store.state.rol != '3'">
-                <router-link :to="{ path: '/editarPartitura/' + partitura.id }" class="btn btn-warning">
-                  <i class="fa-solid fa-edit"></i>
-                </router-link>
-              </td>
-              <td v-if="this.$store.state.rol != '3'">
-                <button v-on:click="eliminar(partitura.id, partitura.nombre)" class="btn btn-danger">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
+                <div class="d-flex justify-content-end">
+                  <div class="px-3">
+                    <router-link :to="{ path: '/verPartitura/' + partitura.id }" class="btn btn-info">
+                      <i class="fa-solid fa-eye"></i>
+                    </router-link>
+                  </div>
+                  <div class="px-3" v-if="this.$store.state.rol != '3'">
+                    <router-link :to="{ path: '/editarPartitura/' + partitura.id }" class="btn btn-warning">
+                      <i class="fa-solid fa-edit"></i>
+                    </router-link>
+                  </div>
+                  <div class="px-3" v-if="this.$store.state.rol != '3'">
+                    <button v-on:click="eliminar(partitura.id, partitura.nombre)" class="btn btn-danger">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -100,7 +67,7 @@
           </ul>
         </div>
         <div v-if="this.$store.state.rol != '3'" class="d-flex justify-content-center">
-          <router-link :to="{ path: '/crearPartitura/' + this.id }" class='btn btn-primary'>
+          <router-link :to="{ path: '/crearPartitura/' + this.id }" class='btn btn-secondary'>
             <i class="fa-solid fa-archive"></i> Nueva partitura
           </router-link>
         </div>
@@ -108,23 +75,19 @@
     </div>
   </div>
 
-  <div class="titulo ps-5 pt-4">
-    <span class="h1 text-white">Cantores del coro {{ nombre }}</span>
+  <div class="titulo">
+    <span class="h1">Cantores</span>
   </div>
   <div class="row g-0 my-5">
-    <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive bg-white borde">
-        <table class="table table-hover">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="table-responsive borde bloque">
+        <table class="table">
           <thead>
             <tr>
-              <th scope="col">Nº</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Apellidos</th>
-              <th scope="col">Direcci&oacute;n</th>
-              <th scope="col">Tel&eacute;fono</th>
-              <th scope="col">Fecha nacimiento</th>
+              <th scope="col">Correo</th>
               <th scope="col">Voz</th>
-              <th scope="col">Fecha incorporaci&oacute;n</th>
+              <th v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" scope="col" class="text-center">Fecha incorporaci&oacute;n</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -134,14 +97,10 @@
               </td>
             </tr>
             <tr v-else v-for="(cantor, i) in paginatedItemsCantores" :key="cantor.id">
-              <td v-text="(i + 1)"></td>
-              <td v-text="cantor.nombre"></td>
-              <td v-text="cantor.apellidos"></td>
-              <td v-text="cantor.direccion"></td>
-              <td v-text="cantor.telefono"></td>
-              <td v-text="cantor.fechaNacimiento"></td>
+              <td>{{cantor.nombre}} {{cantor.apellidos}}</td>
+              <td v-text="cantor.correo"></td>
               <td v-text="cantor.cantor.voz"></td>
-              <td v-text="new Date(cantor.created_at).toLocaleDateString()"></td>
+              <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" v-text="new Date(cantor.created_at).toLocaleDateString()" class="text-center"></td>
             </tr>
           </tbody>
         </table>
@@ -156,23 +115,19 @@
       </div>
     </div>
   </div>
-  <div class="titulo ps-5 pt-4">
-    <span class="h1 text-white">Directores del coro {{ nombre }}</span>
+  <div class="titulo">
+    <span class="h1">Directores</span>
   </div>
   <div class="row g-0 my-5">
-    <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive bg-white borde">
-        <table class="table table-hover">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="table-responsive borde bloque">
+        <table class="table">
           <thead>
             <tr>
-              <th scope="col">Nº</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Apellidos</th>
-              <th scope="col">Direcci&oacute;n</th>
-              <th scope="col">Tel&eacute;fono</th>
-              <th scope="col">Fecha nacimiento</th>
+              <th scope="col">Correo</th>
               <th scope="col">Escuela</th>
-              <th scope="col">Fecha incorporaci&oacute;n</th>
+              <th v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" scope="col" class="text-center">Fecha incorporación</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -182,14 +137,10 @@
               </td>
             </tr>
             <tr v-else v-for="(director, i) in paginatedItemsDirectores" :key="director.id">
-              <td v-text="(i + 1)"></td>
-              <td v-text="director.nombre"></td>
-              <td v-text="director.apellidos"></td>
-              <td v-text="director.direccion"></td>
-              <td v-text="director.telefono"></td>
-              <td v-text="director.fechaNacimiento"></td>
-              <td v-text="director.escuela"></td>
-              <td v-text="new Date(director.created_at).toLocaleDateString()"></td>
+              <td>{{director.nombre}} {{director.apellidos}}</td>
+              <td v-text="director.correo"></td>
+              <td v-text="director.director.escuela"></td>
+              <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" v-text="new Date(director.created_at).toLocaleDateString()" class="text-center"></td>
             </tr>
           </tbody>
         </table>
@@ -317,7 +268,7 @@ export default {
       });
     },
     eliminar(idPartitura, nombre) {
-      confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'partituras');
+      confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'verCoro/'+this.id);
       this.cargando = false;
     },
     changePagePartituras(page) {

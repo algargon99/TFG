@@ -9,7 +9,7 @@
           <span v-text="coro.nombre"></span>
         </div>
       </div>
-      <div v-if="this.$store.state.rol == '1'" class="table-responsive bg-white borde">
+      <div v-if="this.$store.state.rol != '0'" class="table-responsive bg-white borde">
         <table class="table table-hover">
           <thead>
             <tr>

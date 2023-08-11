@@ -3,7 +3,7 @@
     <router-link class="navbar-brand " to="/">
       <img src='../public/logoBlanco.png' alt="Logo" width="200">
     </router-link>
-    <div class="navbar-nav">
+    <div class="nav navbar-nav me-4">
       <div class="nav-item d-flex justify-content-end">
         <div class="nav-item ">
           <button class="navbar-toggler d-md-none collapsed m-3" type="button" data-bs-toggle="collapse"
@@ -29,14 +29,14 @@
     <nav v-if="this.$store.state.rol != '0'" id="sidebarMenu"
       class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
       <div class="position-sticky pt-3">
-        <ul class="nav flex-column">
+        <ul class="nav flex-column p-2">
           <li class="nav-item dropdown">
             <button class="btn nav-link btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
               data-bs-target="#coros-collapse" aria-expanded="false">
               Coros
             </button>
             <div class="collapse" id="coros-collapse">
-              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ">
+              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ps-3">
                 <li class="nav-item">
                   <router-link class="nav-link" to="/coros">Lista de coros</router-link>
                 </li>
@@ -52,7 +52,7 @@
               Cantores
             </button>
             <div class="collapse" id="cantores-collapse">
-              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ">
+              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ps-3">
                 <li class="nav-item">
                   <router-link class="nav-link" to="/cantores">Lista de cantores</router-link>
                 </li>
@@ -68,12 +68,12 @@
               Directores
             </button>
             <div class="collapse" id="directores-collapse">
-              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ">
+              <ul class="navbar btn-toggle-nav list-unstyled fw-normal pb-1 small ps-3">
                 <li class="nav-item">
                   <router-link class="nav-link" to="/directores">Lista de directores</router-link>
                 </li>
                 <li class="nav-item" v-if="this.$store.state.rol === '1'">
-                  <router-link to="/crearDirector" class="nav-link">Crear directores</router-link>
+                  <router-link to="/crearDirector" class="nav-link">Crear director</router-link>
                 </li>
               </ul>
             </div>
@@ -86,12 +86,12 @@
     </nav>
   </div>
 
-  <div id="contenedor" :style="{ marginLeft: margenContenedor }" class="min-vh-100">
+  <div id="contenedor" :style="{ marginLeft: margenContenedor }">
     <router-view />
   </div>
 
   <div>
-    <footer class="fixed-sticked bottom-0 navbar-dark bg-dark">
+    <footer class="fixed-bottom navbar-dark bg-dark">
       <div class="d-flex justify-content-center p-4" style="color: rgba(255, 255, 255, 0.55);">
         © Chorus - Alberto García González 2023. Todos los derechos reservados.
       </div>

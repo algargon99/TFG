@@ -1,5 +1,12 @@
+
+
 body {
     font-size: .875rem;
+    background-color: rgba(32,33,36,255) !important;
+}
+
+body * {
+    font-family: Georgia, 'Times New Roman', Times, serif
 }
 
 .feather {
@@ -8,18 +15,13 @@ body {
     vertical-align: text-bottom;
 }
 
-/*
-   * Sidebar
-   */
-
 .sidebar {
     position: fixed;
     top: 4rem;
     width: 200px !important;
     bottom: 0;
     z-index: 100;
-    /* Height of navbar */
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    box-shadow: inset -1px 0 0 
 }
 
 @media (max-width: 767.98px) {
@@ -66,6 +68,9 @@ body {
 /*
    * Navbar
    */
+.nav{
+    font-size: 17px;
+}
 
 .navbar-brand {
     padding-top: .75rem;
@@ -97,17 +102,49 @@ body {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 
-#contenedor{
-    background-color: rgb(32, 33, 36);
-}
 
 @media (max-width: 767.98px) {
     #contenedor {
-        margin-left: 0px;
+        margin-left: 0px !important;
     }
 }
 
 .borde{
     border-radius: 10px;
     padding: 0px 20px;
+}
+
+.inputCard {
+    background-color: rgb(128, 128, 128) !important;
+    color: white !important;
+}
+
+.titulo {
+    margin-top: 50px;
+    padding-left: 80px;;
+}
+
+.titulo span {
+    color: rgb(255, 255, 255);
+    font-size: 50px;
+    font-weight: 450;
+    font-family:  monospace, monospace;    
+}
+
+.tabla{
+    background-color: rgb(128, 128, 128, 0.9);
+    border-radius: 10px;
+}
+
+.bloque * {
+    color: white;
+    font-size: 20px;
+}
+
+.primero{
+    margin-left: 100px;
+}
+
+.table tbody tr:hover td{
+    color: #727272;
 }
