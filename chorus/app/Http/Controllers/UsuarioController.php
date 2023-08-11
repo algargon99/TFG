@@ -77,6 +77,7 @@ class UsuarioController extends Controller
                 } else {
                     array_push($res, 'Usuario mal configurado');
                 }
+                array_push($res, $usuario->archivo);
                 return $res;
             }
             return "pass";

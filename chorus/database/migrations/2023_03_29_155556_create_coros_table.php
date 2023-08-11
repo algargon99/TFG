@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string("tipo");
             $table->string("estilo");
             $table->text("descripcion");
+            $table->string("archivo");
         });
     }
 

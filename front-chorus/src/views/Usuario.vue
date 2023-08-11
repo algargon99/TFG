@@ -3,7 +3,15 @@
     <span class="h1 text-white">Mi perfil</span>
   </div>
   <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-2 offset-md-2 align-items-center icono">
+      <div class="d-flex justify-content-center mb-3">
+        <img :src=foto alt="Icono" class="img-fluid">
+      </div>
+      <div class="d-flex justify-content-center">
+        <button @click="openFilePicker" class="btn btn-warning mt-2">Cambiar Imagen</button>
+      </div>
+    </div>
+    <div class="col-md-5 offset-md-1">
       <div class="card m-3">
         <div class="card-header bg-dark text-white text-center">
           Mi perfil de usuario
@@ -78,6 +86,7 @@ export default {
       telefono: '',
       correo: '',
       fechaNacimiento: '',
+      foto: '',
       escuela: null,
       voz: null,
       url: '/api/usuario',
@@ -100,6 +109,7 @@ export default {
           this.telefono = res.data.usuario.telefono;
           this.correo = res.data.usuario.correo;
           this.fechaNacimiento = res.data.usuario.fechaNacimiento;
+          this.foto = 'http://localhost:8000/' + res.data.usuario.archivo;
           if (res.data.cantor) {
             this.voz = res.data.cantor.voz;
           } else if (res.data.director) {
@@ -107,6 +117,19 @@ export default {
           }
         }
       );
+    },
+    openFilePicker() {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = 'image/*';
+      fileInput.addEventListener('change', this.handleFileChange);
+      fileInput.click();
+    },
+    handleFileChange(event) {
+      const selectedFile = event.target.files[0];
+      if (selectedFile) {
+        this.foto = URL.createObjectURL(selectedFile);
+      }
     },
     logout() {
       logout(this);

@@ -4,7 +4,7 @@
   </div>
   <div class="row my-4 g-0">
     <div class="primero col-10 col-xl-5 d-flex align-items-center justify-content-center">
-      <img class="img-fluid mx-auto w-8" src='../../public/ejemplo.jpeg' alt="Coro">
+      <img class="img-fluid mx-auto w-8" :src='archivo' alt="Coro">
     </div>
     <div class="col-xl-5 ms-4 bloque d-flex align-items-center">
       <p class="p-4"> Somos el coro {{ tipo }} de {{ estilo }} {{nombre}} de la ciudad de {{ciudad}}.
@@ -121,7 +121,8 @@
   <div class="row g-0 my-5">
     <div class="col-lg-10 offset-lg-1">
       <div class="table-responsive borde bloque">
-        <table class="table">
+        <table class="table
+        ">
           <thead>
             <tr>
               <th scope="col">Nombre</th>
@@ -180,6 +181,7 @@ export default {
       tipo: '',
       estilo: '',
       descripcion: '',
+      archivo: '',
       url: '/api/coros',
       cargando: false,
       partituras: null,
@@ -253,6 +255,7 @@ export default {
           this.tipo = res.data.tipo;
           this.estilo = res.data.estilo;
           this.descripcion = res.data.descripcion;
+          this.archivo = 'http://localhost:8000/' + res.data.archivo;
         }
       );
     },

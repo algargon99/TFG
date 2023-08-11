@@ -8,6 +8,7 @@ const store = createStore({
     user: null,
     rol: '0', // 0 invitado/no logueado, 1 administrador, 2 director, 3 cantor
     isAuthenticated: false,
+    icono: 'icono.png',
   },
   mutations: {
     SET_USER(state, user) {
@@ -21,6 +22,9 @@ const store = createStore({
     },
     SET_AUTHENTICATED(state, value) {
       state.isAuthenticated = value;
+    },
+    SET_IMAGE(state, value) {
+      state.icono = value;
     },
   },
   plugins: [createPersistedState()],

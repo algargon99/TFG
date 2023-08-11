@@ -1,30 +1,36 @@
 <template>
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <router-link class="navbar-brand " to="/">
-      <img src='../public/logoBlanco.png' alt="Logo" width="200">
-    </router-link>
-    <div class="nav navbar-nav me-4">
-      <div class="nav-item d-flex justify-content-end">
-        <div class="nav-item ">
-          <button class="navbar-toggler d-md-none collapsed m-3" type="button" data-bs-toggle="collapse"
-            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+    <div class="nav-item">
+      <router-link to="/">
+        <img class="navbar-brand" src='../public/logoBlanco.png' alt="Logo" width="200">
+      </router-link>
+    </div>
+    <div class="nav-item d-flex">
+      <div>
+        <button class="navbar-toggler d-md-none collapsed m-3" type="button" data-bs-toggle="collapse"
+          data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="me-4 d-flex">
+        <div v-if="this.$store.state.isAuthenticated === false" class="m-2">
+          <router-link class="nav-link" to="/login">Iniciar sesi&oacute;n</router-link>
         </div>
-        <div class="nav-item m-2">
-          <router-link v-if="this.$store.state.isAuthenticated === false" class="nav-link" to="/login">Iniciar
-            sesi&oacute;n</router-link>
-          <router-link v-if="this.$store.state.isAuthenticated === true" class="nav-link" to='/datosUsuario'>{{
-            this.$store.state.user }}</router-link>
-        </div>
-        <div class="nav-item m-2">
-          <router-link to="/contacto" class="nav-link">Contacto</router-link>
+        <div v-if="this.$store.state.isAuthenticated === true" class="m-2 dropdown d-flex align-items-center">
+          <a class="nav-link d-flex" href="#" id="sesion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="d-flex">
+              <div><img :src=imagen width="30"></div>
+              <div class="d-flex align-items-center mx-2">{{ this.$store.state.user }}</div>
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="sesion">
+            <li><router-link class="dropdown-item" to='/datosUsuario'>Mi perfil</router-link></li>
+            <li><router-link class="dropdown-item" to='/datosUsuario'>Cerrar sesi&oacute;n</router-link></li>
+          </ul>
         </div>
       </div>
     </div>
   </header>
-
   <div>
     <nav v-if="this.$store.state.rol != '0'" id="sidebarMenu"
       class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
@@ -81,6 +87,9 @@
           <li v-if="this.$store.state.rol === '1'" class="nav-item">
             <router-link to="/asignar" class="nav-link">Asignar</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/contacto" class="nav-link">Contacto</router-link>
+          </li>
         </ul>
       </div>
     </nav>
@@ -103,7 +112,8 @@
 export default {
   data() {
     return {
-      margenContenedor: "0px"
+      margenContenedor: "0px",
+      imagen: 'http://localhost:8000/' + this.$store.state.icono
     };
   },
   methods: {

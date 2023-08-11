@@ -63,6 +63,7 @@ export default {
               this.$store.commit('SET_USER', email);
               this.$store.commit('SET_AUTHENTICATED', true);
               this.$store.commit('SET_ROL', data[1]);
+              this.$store.commit('SET_IMAGE', data[2]);
               window.setTimeout(function () {
                 window.location.href = "/";
               }, 1000);

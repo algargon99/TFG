@@ -22,6 +22,7 @@ class UsuarioFactory extends Factory
             'telefono' => $this->faker->numerify('6########'),
             'correo' => $this->uniqueSafeEmail($firstName, $lastName),
             'fechaNacimiento' => $this->faker->dateTimeBetween('-100 years', '-18 years')->format('Y-m-d'),
+            'archivo' => 'img/usuario/icono.png',
             'password' => bcrypt('password'),
             'admin' => '0',
         ];

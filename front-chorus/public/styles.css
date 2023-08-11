@@ -148,3 +148,7 @@ body * {
 .table tbody tr:hover td{
     color: #727272;
 }
+
+.icono {
+    margin-top: 100px !important;
+}
