@@ -54,8 +54,8 @@ class VideoController extends Controller
             $video->year = $request->year;
             if ($request->hasFile('archivo')) {
                 $archivo = $request->file('archivo');
-                $archivo->move(public_path('video'), $archivo->getClientOriginalName());
-                $video->video = 'video/' . $archivo->getClientOriginalName();
+                $archivo->move(public_path('video'), 'video' . time() . '.mp4');
+                $video->video = 'video/' . 'video' . time() . '.mp4';
             }
             $video->idPartitura = $id;
 
@@ -109,8 +109,8 @@ class VideoController extends Controller
             $video->year = $request->year;
             if ($request->hasFile('archivo')) {
                 $archivo = $request->file('archivo');
-                $archivo->move(public_path('video'), $archivo->getClientOriginalName());
-                $video->video = 'video/' . $archivo->getClientOriginalName();
+                $archivo->move(public_path('video'), 'video' . time() . '.mp4');
+                $video->video = 'video/' . 'video' . time() . '.mp4';
             }
             $res = $video->save();
             DB::commit();

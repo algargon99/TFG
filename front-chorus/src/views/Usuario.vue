@@ -8,59 +8,47 @@
         <img :src=foto alt="Icono" class="img-fluid">
       </div>
       <div class="d-flex justify-content-center">
-        <button @click="openFilePicker" class="btn btn-warning mt-2">Cambiar Imagen</button>
+        <button @click="openFilePicker" class="btn btn-warning mt-2">Editar imagen</button>
       </div>
     </div>
     <div class="col-md-5 offset-md-1">
-      <div class="card m-3">
-        <div class="card-header bg-dark text-white text-center">
-          Mi perfil de usuario
-        </div>
-        <div class="card-body">
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Nombre</span>
-            <label v-text="nombre" class="form-control"></label>
+      <div class="bloque">
+        <form class="form" v-on:submit="editar()">
+          <div class="mb-3">
+            <span>Nombre:</span>
+            <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre" class="form-control">
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Apellidos</span>
-            <label v-text="apellidos" class="form-control"></label>
+          <div class="mb-3">
+            <span>Apellidos:</span>
+            <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos" class="form-control">
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
-            <label v-text="direccion" class="form-control"></label>
+          <div class="mb-3">
+            <span>Direcci&oacute;n:</span>
+            <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección" class="form-control">
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-phone"></i>&nbsp; Tel&eacute;fono</span>
-            <label v-text="telefono" class="form-control"></label>
+          <div class="mb-3">
+            <span>Tel&eacute;fono:</span>
+            <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono" class="form-control">
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-envelope"></i>&nbsp; Correo electr&oacute;nico</span>
-            <label v-text="correo" class="form-control"></label>
+          <div class="mb-3">
+            <span>Correo electr&oacute;nico:</span>
+            <input type="email" required v-model="correo" id="correo" placeholder="Correo" class="form-control">
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&nbsp; Fecha de nacimiento</span>
-            <label v-text="fechaNacimiento" class="form-control"></label>
+          <div class="mb-3">
+            <span>Fecha de nacimiento:</span>
+            <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento" placeholder="Fecha Nacimiento"
+              class="form-control">
           </div>
-          <div v-if="this.$store.state.rol != '1'" class="input-group mb-3">
-            <span v-if="this.voz" class="input-group-text"><i class="fa-solid fa-music"></i>&nbsp; Voz</span>
-            <label v-if="this.voz" v-text="voz" class="form-control"></label>
-            <span v-if="this.escuela" class="input-group-text"><i class="fa-solid fa-city"></i>&nbsp; Escuela</span>
-            <label v-if="this.escuela" v-text="escuela" class="form-control"></label>
+          <div class="d-flex justify-content-center">
+            <div class="m-3"><button class="btn btn-warning">Guardar cambios</button></div>
+            <div class="m-3">
+              <router-link :to="{ path: '/pass' }" class='btn btn-warning'>Cambiar contrase&ntilde;a</router-link>
+            </div>
           </div>
-        </div>
-        <div class="d-flex justify-content-center">
-          <router-link :to="{ path: '/editarUsuario' }" class='btn btn-warning m-3'>Editar perfil</router-link>
-
-          <router-link :to="{ path: '/pass' }" class='btn btn-warning m-3'>Cambiar contrase&ntilde;a</router-link>
-        </div>
+        </form>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 d-flex justify-content-center">
-        <router-link :to="{ path: '/' }" class='btn btn-danger'>
-          <i class="fa-solid fa-arrow-left"></i> Volver
-        </router-link>
-      </div>
       <div class="col-md-6 d-flex justify-content-center">
         <form @submit.prevent="logout">
           <button class='btn btn-danger'>Cerrar sesi&oacute;n</button>
@@ -74,7 +62,7 @@
 
 
 import axios from "../../axiosConfig";
-import { logout } from "../funciones.js"
+import { logout, enviarSolicitud, mostrarAlerta, cambiarImagen } from "../funciones.js"
 
 export default {
   data() {
@@ -87,8 +75,6 @@ export default {
       correo: '',
       fechaNacimiento: '',
       foto: '',
-      escuela: null,
-      voz: null,
       url: '/api/usuario',
       cargando: false,
     };
@@ -97,7 +83,7 @@ export default {
     this.id = this.$store.state.id;
     this.url += '/' + this.id;
     this.getUsuario();
-    document.title = 'Chorus - Datos del Usuario';
+    document.title = 'Chorus - Perfil';
   },
   methods: {
     getUsuario() {
@@ -110,11 +96,6 @@ export default {
           this.correo = res.data.usuario.correo;
           this.fechaNacimiento = res.data.usuario.fechaNacimiento;
           this.foto = 'http://localhost:8000/' + res.data.usuario.archivo;
-          if (res.data.cantor) {
-            this.voz = res.data.cantor.voz;
-          } else if (res.data.director) {
-            this.escuela = res.data.director.escuela;
-          }
         }
       );
     },
@@ -128,7 +109,37 @@ export default {
     handleFileChange(event) {
       const selectedFile = event.target.files[0];
       if (selectedFile) {
-        this.foto = URL.createObjectURL(selectedFile);
+        this.foto = this.foto = URL.createObjectURL(selectedFile);
+        cambiarImagen(this.id, selectedFile);
+
+        this.$store.commit('SET_IMAGE', 'img/usuario/usuario' + this.id + '.png');
+      }
+    },
+    editar() {
+      event.preventDefault();
+      this.cargando = true;
+      if (this.nombre.trim() === '') {
+        mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
+      } else if (this.apellidos.trim() === '') {
+        mostrarAlerta('Ingrese apellidos', 'warning', 'apellidos')
+      } else if (this.direccion.trim() === '') {
+        mostrarAlerta('Ingrese una dirección', 'warning', 'direccion')
+      } else if (this.telefono.trim() === '') {
+        mostrarAlerta('Ingrese un teléfono', 'warning', 'telefono')
+      } else if (this.correo.trim() === '') {
+        mostrarAlerta('Ingrese un correo', 'warning', 'correo')
+      } else if (this.fechaNacimiento.trim() === '') {
+        mostrarAlerta('Ingrese una fecha', 'warning', 'fechaNacimiento')
+      } else {
+        var parametros = {
+          nombre: this.nombre.trim(),
+          apellidos: this.apellidos.trim(),
+          direccion: this.direccion.trim(),
+          telefono: this.telefono.trim(),
+          correo: this.correo.trim(),
+          fechaNacimiento: this.fechaNacimiento.trim(),
+        };
+        enviarSolicitud('PUT', parametros, this.url, 'Perfil actualizado', 'datosUsuario');
       }
     },
     logout() {

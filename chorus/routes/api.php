@@ -27,7 +27,10 @@ Route::get('usuario/{id}', [UsuarioController::class, 'datosUsuario']);
 Route::get('usuarios', [UsuarioController::class, 'usuarios']);
 Route::put('usuario/{id}', [UsuarioController::class, 'editarPerfil']);
 Route::post('usuario', [UsuarioController::class, 'contacto']);
+Route::post('cuenta', [UsuarioController::class, 'cuenta']);
 Route::put('cambiarPass/{id}', [UsuarioController::class, 'cambiarPass']);
+Route::put('cambiarImagen/{id}', [UsuarioController::class, 'cambiarImagen']);
+
 
 //CORO-USUARIO
 Route::post('asignarCoro', [RelUsuarioCoroController::class, 'asignarCoro']);

@@ -1,30 +1,35 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
-    <span class="h1 text-white">Inicio de sesi&oacute;n</span>
-  </div>
-  <div class="container d-flex justify-content-center align-content-center">
-    <div class="card" style="width: 400px;">
+  <div class="container d-flex justify-content-center align-content-center mt-5">
+    <div class="card login bg-dark">
       <div class="d-flex justify-content-center m-3">
-        <img :src="logoUrl" alt="Chorus" class="w-50 rounded">
+        <img :src="logoUrl" alt="Chorus" class="w-75">
+      </div>
+      <div id="login" class="d-flex justify-content-center">
+        <span>Iniciar sesi&oacute;n</span>
       </div>
       <div class="card-body">
         <form @submit.prevent="login">
           <div class="form-group m-3">
-            <label for="email">Correo electrónico</label>
+            <label for="email" class="text-white my-1">Correo electrónico:</label>
             <input type="email" v-model="email" class="form-control" id="email" placeholder="Correo electrónico" required>
           </div>
           <div class="form-group m-3">
-            <label for="password">Contraseña</label>
+            <label for="password" class="text-white my-1">Contrase&ntilde;a: </label>
             <input type="password" v-model="password" class="form-control" id="password" placeholder="Contraseña"
               required>
           </div>
-          <div class="d-flex justify-content-center m-3">
+          <div class="d-flex justify-content-center my-4">
             <button type="submit" class="btn btn-primary ">Iniciar sesión</button>
           </div>
-          <div class="d-flex justify-content-center m-3">
-            <span>¿Quieres unirte a un coro? <a href="/contacto">Cont&aacute;ctanos</a></span>
-          </div>
         </form>
+        <div class="my-5">
+          <div class="d-flex justify-content-center m-2">
+            <span class="text-white">¿A&uacute;n no te has registrado? &nbsp;</span>
+            <router-link :to="{ path: 'registro' }" class="text-secondary">
+              Reg&iacute;strate
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -37,7 +42,7 @@ import { mostrarAlerta, loginBack } from '../funciones';
 export default {
   data() {
     return {
-      logoUrl: process.env.BASE_URL + 'logo.png',
+      logoUrl: process.env.BASE_URL + 'logoBlanco.png',
       email: '',
       password: '',
     };
@@ -65,7 +70,7 @@ export default {
               this.$store.commit('SET_ROL', data[1]);
               this.$store.commit('SET_IMAGE', data[2]);
               window.setTimeout(function () {
-                window.location.href = "/";
+                window.location.href = "/coros";
               }, 1000);
             } else if (data == "pass") {
               mostrarAlerta("Contraseña incorrecta", 'error');

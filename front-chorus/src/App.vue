@@ -1,7 +1,10 @@
 <template>
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <div class="nav-item">
-      <router-link to="/">
+      <router-link v-if="this.$store.state.isAuthenticated === false" to="/">
+        <img class="navbar-brand" src='../public/logoBlanco.png' alt="Logo" width="200">
+      </router-link>
+      <router-link v-else to="/coros">
         <img class="navbar-brand" src='../public/logoBlanco.png' alt="Logo" width="200">
       </router-link>
     </div>
@@ -13,19 +16,19 @@
         </button>
       </div>
       <div class="me-4 d-flex">
-        <div v-if="this.$store.state.isAuthenticated === false" class="m-2">
+        <div v-if="this.$store.state.isAuthenticated === false" class="m-2 d-flex align-items-center">
           <router-link class="nav-link" to="/login">Iniciar sesi&oacute;n</router-link>
         </div>
         <div v-if="this.$store.state.isAuthenticated === true" class="m-2 dropdown d-flex align-items-center">
           <a class="nav-link d-flex" href="#" id="sesion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="d-flex">
-              <div><img :src=imagen width="30"></div>
               <div class="d-flex align-items-center mx-2">{{ this.$store.state.user }}</div>
+              <div><img :src=imagen width="30"></div>
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="sesion">
             <li><router-link class="dropdown-item" to='/datosUsuario'>Mi perfil</router-link></li>
-            <li><router-link class="dropdown-item" to='/datosUsuario'>Cerrar sesi&oacute;n</router-link></li>
+            <li><a href="#" class="dropdown-item" @click.prevent="logout">Cerrar sesi&oacute;n</a></li>
           </ul>
         </div>
       </div>
@@ -95,7 +98,7 @@
     </nav>
   </div>
 
-  <div id="contenedor" :style="{ marginLeft: margenContenedor }">
+  <div id="contenedor" :style="{ marginLeft: margenContenedor, marginBottom: '150px' }">
     <router-view />
   </div>
 
@@ -109,6 +112,9 @@
 </template>
 
 <script>
+
+import { logout } from "./funciones.js"
+
 export default {
   data() {
     return {
@@ -121,8 +127,12 @@ export default {
       if (this.$store.state.isAuthenticated) {
         this.margenContenedor = "200px";
       }
-    }
+    },
+    logout() {
+      logout(this);
+    },
   },
+
   mounted() {
     this.rolMargen();
   },

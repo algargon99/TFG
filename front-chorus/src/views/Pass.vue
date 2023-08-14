@@ -12,7 +12,8 @@
           <form class="form" v-on:submit="cambiarPass()">
             <div class="input-group mb-3">
               <span class="input-group-text">Contrase&ntilde;a actual</span>
-              <input type="password" required v-model="pass" id="pass" placeholder="Contraseña actual" class="form-control">
+              <input type="password" required v-model="pass" id="pass" placeholder="Contraseña actual"
+                class="form-control">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">Contrase&ntilde;a nueva</span>
@@ -72,7 +73,7 @@ export default {
         mostrarAlerta('Ingrese la contraseña nueva repetida', 'warning', 'renewpass')
       } else if (this.renewpass.trim() != this.newpass.trim()) {
         mostrarAlerta('Las contraseñas indicadas no son iguales', 'warning', 'newpass')
-      }else {
+      } else {
         var parametros = {
           pass: this.pass.trim(),
           newpass: this.newpass.trim(),

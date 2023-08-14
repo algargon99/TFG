@@ -52,8 +52,8 @@ class AudioController extends Controller
 
             if ($request->hasFile('archivo')) {
                 $archivo = $request->file('archivo');
-                $archivo->move(public_path('audio'), $archivo->getClientOriginalName());
-                $audio->audio = 'audio/' . $archivo->getClientOriginalName();
+                $archivo->move(public_path('audio'), 'audio' . time() . '.mp3');
+                $audio->audio = 'audio/' . 'audio' . time() . '.mp3';
             }
             $audio->idPartitura = $id;
 
@@ -104,8 +104,8 @@ class AudioController extends Controller
             $audio->interprete = $request->interprete;
             if ($request->hasFile('archivo')) {
                 $archivo = $request->file('archivo');
-                $archivo->move(public_path('audio'), $archivo->getClientOriginalName());
-                $audio->audio = 'audio/' . $archivo->getClientOriginalName();
+                $archivo->move(public_path('audio'), 'audio' . time() . '.mp3');
+                $audio->audio = 'audio/' . 'audio' . time() . '.mp3';
             }
 
             $res = $audio->save();

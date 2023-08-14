@@ -58,8 +58,8 @@ class PartituraController extends Controller
 
             if ($request->hasFile('archivo')) {
                 $archivo = $request->file('archivo');
-                $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
-                $partitura->archivo = 'pdf/' . $archivo->getClientOriginalName();
+                $archivo->move(public_path('pdf'), 'partitura' . time() . '.pdf');
+                $partitura->archivo = 'pdf/' . 'partitura' . time() . '.pdf';
             }
 
             $partitura->idCoro = $id;
@@ -120,8 +120,8 @@ class PartituraController extends Controller
 
             if ($request->hasFile('archivo')) {
                 $archivo = $request->file('archivo');
-                $archivo->move(public_path('pdf'), $archivo->getClientOriginalName());
-                $partitura->archivo = 'pdf/' . $archivo->getClientOriginalName();
+                $archivo->move(public_path('pdf'), 'partitura' . time() . '.pdf');
+                $partitura->archivo = 'pdf/' . 'partitura' . time() . '.pdf';
             }
             $res = $partitura->save();
 

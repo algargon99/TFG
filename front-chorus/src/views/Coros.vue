@@ -1,10 +1,10 @@
 <template>
   <div class="ps-5 pt-5">
-    <span class="h1 text-white">Lista de coros</span>
+    <span class="h1 text-white">Coros</span>
   </div>
   <div class="row g-0 my-5">
     <div class="col-lg-8 offset-lg-2">
-      <div v-if="this.$store.state.rol == '0'" v-for="(coro, i) in this.coros" :key="coro.id">
+      <div v-if="this.$store.state.rol == '0'" v-for="(coro, i) in paginatedItems" :key="coro.id">
         <div>
           <span v-text="coro.nombre"></span>
         </div>
@@ -108,9 +108,10 @@ export default {
     listaCoros() {
       this.cargando = true;
       var ruta = '/api/coros';
-      if(this.$store.state.isAuthenticated != 0){
+      if (this.$store.state.rol != 0) {
         ruta = '/api/corosUsuario/' + this.$store.state.id
       }
+      console.log(this.$store.state.rol);
       axios.get(ruta).then(
         res => {
           this.coros = res.data;

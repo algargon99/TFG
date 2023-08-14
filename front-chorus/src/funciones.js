@@ -77,10 +77,9 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
             if (res.data != 1) {
                 mostrarAlerta(res.data.join('\n'), 'error');
             } else {
-                mostrarAlerta(mensaje, 'success');
                 window.setTimeout(function () {
                     window.location.href = "/" + clase
-                }, 3000);
+                }, 500);
             }
         } else {
             mostrarAlerta('Sin respuesta', 'error')
@@ -116,7 +115,7 @@ export function logout(session) {
     session.$store.commit('SET_ROL', '0');
     window.setTimeout(function () {
         window.location.href = "/";
-    }.bind(this), 1000);
+    }.bind(this), 0);
 }
 
 function hayArchivo(parametros) {
@@ -130,4 +129,67 @@ function hayArchivo(parametros) {
         }
     }
     return false;
+}
+
+export function cambiarImagen(id, imagen) {
+    const formData = new FormData();
+    formData.append('imagen', imagen);
+    const url = '/api/cambiarImagen/' + id;
+    formData.append('_method', 'PUT');
+    axios({
+        method: 'POST',
+        url: url,
+        data: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(function (res) {
+        var estado = res.status;
+        console.log(res);
+        if (estado == 200 || estado == 201) {
+            if (res.data != 1) {
+                mostrarAlerta('Error al cambiar la foto de perfil', 'error');
+            } else {
+                window.setTimeout(function () {
+                    window.location.href = "/datosUsuario"
+                }, 0);
+            }
+        } else {
+            mostrarAlerta('Sin respuesta', 'error')
+        }
+    }).catch(function (error) {
+        mostrarAlerta('Error de conexión', 'error');
+        console.log(error);
+    });
+}
+
+export function registro(parametros, session) {
+
+    axios({
+        method: 'POST',
+        url: '/api/cuenta',
+        data: parametros,
+
+    }).then(function (res) {
+        var estado = res.status;
+        console.log(res);
+        if (estado == 200 || estado == 201) {
+            if (Array.isArray(res.data)) {
+                mostrarAlerta(res.data.join('\n'), 'error');
+            } else {
+                session.$store.commit('SET_ID', res.data);
+                session.$store.commit('SET_USER', parametros.correo);
+                session.$store.commit('SET_AUTHENTICATED', true);
+                session.$store.commit('SET_ROL', '0');
+                window.setTimeout(function () {
+                    window.location.href = "/coros"
+                }, 500);
+            }
+        } else {
+            mostrarAlerta('Sin respuesta', 'error')
+        }
+    }).catch(function (error) {
+        mostrarAlerta('Error de conexión', 'error');
+        console.log(error);
+    });
 }

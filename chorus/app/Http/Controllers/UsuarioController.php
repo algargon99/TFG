@@ -75,7 +75,7 @@ class UsuarioController extends Controller
                 } elseif ($usuario->director) {
                     array_push($res, '2');
                 } else {
-                    array_push($res, 'Usuario mal configurado');
+                    array_push($res, '0');
                 }
                 array_push($res, $usuario->archivo);
                 return $res;
@@ -175,6 +175,91 @@ class UsuarioController extends Controller
         $usuarios = Usuario::all();
         if ($usuarios) {
             return $usuarios;
+        }
+    }
+
+    public function cambiarImagen(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $usuario = Usuario::find($id);
+            if ($request->hasFile('imagen')) {
+                $archivo = $request->file('imagen');
+                $archivo->move(public_path('img/usuario'), 'usuario' . $id . '.png');
+                $usuario->archivo = 'img/usuario/' . 'usuario' . $id . '.png';
+            }
+            $res = $usuario->save();
+
+            DB::commit();
+            return $res;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
+        }
+
+        return 1;
+    }
+
+    public function cuenta(Request $request)
+    {
+        $reglas = [
+            'nombre' => 'required|string',
+            'apellidos' => 'required|string',
+            'direccion' => 'required|string',
+            'telefono' => 'required|string|regex:/^\d{9}/',
+            'correo' => 'required|email',
+            'fechaNacimiento' => 'required|date',
+            'pass' => 'required|string|min:8',
+            'repass' => 'required|string|min:8',
+
+        ];
+
+        $mensajes = [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellidos.required' => 'Los apellidos son obligatorios.',
+            'direccion.required' => 'La dirección es obligatoria.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono tiene que ser un número que empiece por 6 o 7.',
+            'correo.required' => 'El correo es obligatorio.',
+            'correo.email' => 'El correo es tiene que ser formato x@x.x.',
+            'fechaNacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+            'fechaNacimiento.date' => 'La fecha de naciemiento ha de tener dicho formato fecha',
+            'pass.required' => 'La contraseña es obligatoria.',
+            'pass.min' => 'La contraseña tiene que tener al menos 8 caracteres.',
+            'repass.required' => 'La contraseña repetida es obligatoria.',
+            'repass.min' => 'La contraseña repetida tiene que tener al menos 8 caracteres.',
+        ];
+
+
+        $validaciones = Validator::make($request->all(), $reglas, $mensajes);
+
+        if ($validaciones->fails()) {
+            return $validaciones->errors()->all();
+        }
+
+        $usuario = new Usuario();
+        if ($request->pass == $request->repass) {
+            DB::beginTransaction();
+            try {
+                $usuario->nombre = $request->nombre;
+                $usuario->apellidos = $request->apellidos;
+                $usuario->direccion = $request->direccion;
+                $usuario->correo = $request->correo;
+                $usuario->telefono = $request->telefono;
+                $usuario->fechaNacimiento = $request->fechaNacimiento;
+                $usuario->password = bcrypt($request->pass);
+                $usuario->archivo = 'img/usuario/icono.png';
+                $usuario->admin = 0;
+                $usuario->save(); 
+                DB::commit();
+                return $usuario->id;
+            } catch (\Exception $e) {
+                DB::rollback();
+                return $e->getMessage();
+            }
+        } elseif ($request->newpass != $request->renewpass) {
+            return ["Las contraseñas nuevas no coinciden.", ""];
         }
     }
 }

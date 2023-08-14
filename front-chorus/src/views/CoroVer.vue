@@ -7,11 +7,78 @@
       <img class="img-fluid mx-auto w-8" :src='archivo' alt="Coro">
     </div>
     <div class="col-xl-5 ms-4 bloque d-flex align-items-center">
-      <p class="p-4"> Somos el coro {{ tipo }} de {{ estilo }} {{nombre}} de la ciudad de {{ciudad}}.
-        {{ descripcion }} <br><br> Nos situamos en {{ direccion }}. Puedes contactarnos a través de la página de contacto.</p>
+      <p class="p-4"> Somos el coro {{ tipo }} de {{ estilo }} {{ nombre }} de la ciudad de {{ ciudad }}.
+        {{ descripcion }} <br><br> Nos situamos en {{ direccion }}. Puedes contactarnos a través de la página de contacto.
+      </p>
     </div>
   </div>
 
+
+  <div class="titulo">
+    <span class="h1">Directores</span>
+  </div>
+  <div class="row g-0 my-5">
+    <div class="col-lg-10 offset-lg-1 bloque d-flex">
+      <div v-if="cargando">
+        <h4>Cargando...</h4>
+      </div>
+      <div class="mx-4" v-else v-for="(director, i) in directores" :key="director.id">
+        <div>
+          <div class="d-flex justify-content-center mb-3">
+            <img :src="'http://localhost:8000/' + director.archivo" class="img-fluid" width="150">
+          </div>
+          <div class="d-flex justify-content-center">
+            <span><b>{{ director.nombre }} {{ director.apellidos }}</b></span>
+          </div>
+          <div class="d-flex justify-content-center">
+            <span>{{ director.correo }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="titulo">
+    <span class="h1">Cantores</span>
+  </div>
+  <div class="row g-0 my-5">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="table-responsive borde bloque">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Voz</th>
+              <th v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" scope="col" class="text-center">
+                Fecha incorporaci&oacute;n</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr v-if="cargando">
+              <td colspan="8">
+                <h4>Cargando...</h4>
+              </td>
+            </tr>
+            <tr v-else v-for="(cantor, i) in paginatedItemsCantores" :key="cantor.id">
+              <td>{{ cantor.nombre }} {{ cantor.apellidos }}</td>
+              <td v-text="cantor.correo"></td>
+              <td v-text="cantor.cantor.voz"></td>
+              <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'"
+                v-text="new Date(cantor.created_at).toLocaleDateString()" class="text-center"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item" v-for="page in totalPagesCantores" :key="page"
+              :class="{ active: page === currentPageCantor }">
+              <a @click="changePageCantores(page)" class="page-link">{{ page }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="titulo">
     <span class="h1">Partituras</span>
   </div>
@@ -60,9 +127,8 @@
         </table>
         <div class="d-flex justify-content-center">
           <ul class="pagination">
-            <li class="page-item" v-for="page in totalPagesPartituras" :key="page"
-              :class="{ active: page === currentPagePartitura }">
-              <a @click="changePagePartituras(page)" class="page-link" href="#">{{ page }}</a>
+            <li class="page-item" v-for="page in totalPagesPartituras" :key="page" :class="{ active: page === currentPagePartitura }">
+              <a @click="changePagePartituras(page)" class="page-link">{{ page }}</a>
             </li>
           </ul>
         </div>
@@ -73,94 +139,7 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="titulo">
-    <span class="h1">Cantores</span>
-  </div>
-  <div class="row g-0 my-5">
-    <div class="col-lg-10 offset-lg-1">
-      <div class="table-responsive borde bloque">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Correo</th>
-              <th scope="col">Voz</th>
-              <th v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" scope="col" class="text-center">Fecha incorporaci&oacute;n</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <tr v-if="cargando">
-              <td colspan="8">
-                <h4>Cargando...</h4>
-              </td>
-            </tr>
-            <tr v-else v-for="(cantor, i) in paginatedItemsCantores" :key="cantor.id">
-              <td>{{cantor.nombre}} {{cantor.apellidos}}</td>
-              <td v-text="cantor.correo"></td>
-              <td v-text="cantor.cantor.voz"></td>
-              <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" v-text="new Date(cantor.created_at).toLocaleDateString()" class="text-center"></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="d-flex justify-content-center">
-          <ul class="pagination">
-            <li class="page-item" v-for="page in totalPagesCantores" :key="page"
-              :class="{ active: page === currentPageCantor }">
-              <a @click="changePageCantores(page)" class="page-link" href="#">{{ page }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="titulo">
-    <span class="h1">Directores</span>
-  </div>
-  <div class="row g-0 my-5">
-    <div class="col-lg-10 offset-lg-1">
-      <div class="table-responsive borde bloque">
-        <table class="table
-        ">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Correo</th>
-              <th scope="col">Escuela</th>
-              <th v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" scope="col" class="text-center">Fecha incorporación</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <tr v-if="cargando">
-              <td colspan="8">
-                <h4>Cargando...</h4>
-              </td>
-            </tr>
-            <tr v-else v-for="(director, i) in paginatedItemsDirectores" :key="director.id">
-              <td>{{director.nombre}} {{director.apellidos}}</td>
-              <td v-text="director.correo"></td>
-              <td v-text="director.director.escuela"></td>
-              <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" v-text="new Date(director.created_at).toLocaleDateString()" class="text-center"></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="d-flex justify-content-center">
-          <ul class="pagination">
-            <li class="page-item" v-for="page in totalPagesDirectores" :key="page"
-              :class="{ active: page === currentPageDirector }">
-              <a @click="changePageDirectores(page)" class="page-link" href="#">{{ page }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-6 mx-auto my-3">
-    <router-link :to="{ path: '/coros' }" class='btn btn-danger'>
-      <i class="fa-solid fa-arrow-left"></i> Volver
-    </router-link>
-  </div>
+  </div>s
 </template>
 
 <script>
@@ -189,7 +168,6 @@ export default {
       directores: null,
       currentPagePartitura: 1,
       currentPageCantor: 1,
-      currentPageDirector: 1,
       perPage: 5,
 
     };
@@ -227,22 +205,6 @@ export default {
         return [];
       }
     },
-    totalPagesDirectores() {
-      if (Array.isArray(this.directores)) {
-        return Math.ceil(this.directores.length / this.perPage);
-      } else {
-        return 0;
-      }
-    },
-    paginatedItemsDirectores() {
-      if (Array.isArray(this.directores)) {
-        const start = (this.currentPageDirector - 1) * this.perPage;
-        const end = start + this.perPage;
-        return this.directores.slice(start, end);
-      } else {
-        return [];
-      }
-    },
   },
 
   methods: {
@@ -271,7 +233,7 @@ export default {
       });
     },
     eliminar(idPartitura, nombre) {
-      confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'verCoro/'+this.id);
+      confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'verCoro/' + this.id);
       this.cargando = false;
     },
     changePagePartituras(page) {
@@ -288,7 +250,6 @@ export default {
       axios.get('/api/cantoresCoro/' + this.id).then(
         res => {
           this.cantores = res.data;
-          console.log(this.cantores);
           this.cargando = false;
         }
       ).catch(error => {
@@ -301,7 +262,6 @@ export default {
       axios.get('/api/directoresCoro/' + this.id).then(
         res => {
           this.directores = res.data;
-          console.log(this.directores);
           this.cargando = false;
         }
       ).catch(error => {
