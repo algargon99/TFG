@@ -1,5 +1,5 @@
 <template>
-  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <header class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <div class="nav-item">
       <router-link v-if="this.$store.state.isAuthenticated === false" to="/">
         <img class="navbar-brand" src='../public/logoBlanco.png' alt="Logo" width="200">
@@ -35,7 +35,7 @@
     </div>
   </header>
   <div>
-    <nav v-if="this.$store.state.rol != '0'" id="sidebarMenu"
+    <nav v-if="this.$store.state.isAuthenticated == true" id="sidebarMenu"
       class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
       <div class="position-sticky pt-3">
         <ul class="nav flex-column p-2">
@@ -98,12 +98,12 @@
     </nav>
   </div>
 
-  <div id="contenedor" :style="{ marginLeft: margenContenedor, marginBottom: '150px' }">
+  <div id="contenedor" :style="{ marginLeft: margenContenedor, marginBottom: '150px', marginTop: '100px' }">
     <router-view />
   </div>
 
   <div>
-    <footer class="fixed-bottom navbar-dark bg-dark">
+    <footer class="fixed-bottom navbar-dark bg-dark shadow">
       <div class="d-flex justify-content-center p-4" style="color: rgba(255, 255, 255, 0.55);">
         © Chorus - Alberto García González 2023. Todos los derechos reservados.
       </div>

@@ -3,66 +3,66 @@
     <span class="h1 text-white">Coros</span>
   </div>
   <div class="row g-0 my-5">
-    <div class="col-lg-8 offset-lg-2">
-      <div v-if="this.$store.state.rol == '0'" v-for="(coro, i) in paginatedItems" :key="coro.id">
-        <div>
-          <span v-text="coro.nombre"></span>
+    <div class="col-12">
+      <div class="m-4 d-flex flex-wrap justify-content-center" v-if="this.$store.state.rol != '1'">
+        <div class="etiqueta m-3" v-for="(coro, i) in this.coros" :key="coro.id">
+          <router-link :to="{ path: 'verCoro/' + coro.id }" class="links text-decoration-none">
+            <div class="bg-dark text-white cabecera">
+              <span class="text-truncate" style="display: block; max-width: 100%;" v-text="coro.nombre" />
+            </div>
+            <div class="bg-secondary d-flex justify-content-center cuerpo">
+              <img class="img-fluid" width="300" :src="'http://localhost:8000/' + coro.archivo">
+            </div>
+          </router-link>
         </div>
       </div>
-      <div v-if="this.$store.state.rol != '0'" class="table-responsive bg-white borde">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Nº</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Ciudad</th>
-              <th scope="col">Direcci&oacute;n</th>
-              <th scope="col">Tipo</th>
-              <th scope="col">Estilo</th>
-              <th scope="col">Fecha creaci&oacute;n</th>
-              <th scope="col">Ver</th>
-              <th v-if="this.$store.state.rol != '3'" scope="col">Editar</th>
-              <th v-if="this.$store.state.rol === '1'" scope="col">Borrar</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <tr v-if="cargando">
-              <td colspan="8">
-                <h4>Cargando...</h4>
-              </td>
-            </tr>
-            <tr v-else v-for="(coro, i) in paginatedItems" :key="coro.id">
-              <td v-text="(i + 1)"></td>
-              <td v-text="coro.nombre"></td>
-              <td v-text="coro.ciudad"></td>
-              <td v-text="coro.direccion"></td>
-              <td v-text="coro.tipo"></td>
-              <td v-text="coro.estilo"></td>
-              <td v-text="new Date(coro.created_at).toLocaleDateString()"></td>
-              <td>
-                <router-link :to="{ path: 'verCoro/' + coro.id }" class="btn btn-info">
-                  <i class="fa-solid fa-eye"></i>
-                </router-link>
-              </td>
-              <td v-if="this.$store.state.rol != '3'">
-                <router-link :to="{ path: 'editarCoro/' + coro.id }" class="btn btn-warning">
-                  <i class="fa-solid fa-edit"></i>
-                </router-link>
-              </td>
-              <td v-if="this.$store.state.rol === '1'">
-                <button v-on:click="eliminar(coro.id, coro.nombre)" class="btn btn-danger">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="d-flex justify-content-center">
-          <ul class="pagination">
-            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-              <a @click="changePage(page)" class="page-link" href="#">{{ page }}</a>
-            </li>
-          </ul>
+      <div class="row g-0">
+        <div v-if="this.$store.state.rol == '1'" class="table-responsive borde bloque col-10 offset-1">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Estilo</th>
+                <th scope="col">Fecha creaci&oacute;n</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr v-if="cargando">
+                <td colspan="8">
+                  <h4>Cargando...</h4>
+                </td>
+              </tr>
+              <tr v-else v-for="(coro, i) in paginatedItems" :key="coro.id">
+                <td v-text="coro.nombre"></td>
+                <td v-text="coro.tipo"></td>
+                <td v-text="coro.estilo"></td>
+                <td v-text="new Date(coro.created_at).toLocaleDateString()"></td>
+                <td>
+                  <div class="d-flex justify-content-center">
+                    <router-link :to="{ path: 'verCoro/' + coro.id }" class="btn btn-info mx-3">
+                      <i class="fa-solid fa-eye"></i>
+                    </router-link>
+                    <router-link v-if="this.$store.state.rol === '1'" :to="{ path: 'editarCoro/' + coro.id }"
+                      class="btn btn-warning mx-3">
+                      <i class="fa-solid fa-edit"></i>
+                    </router-link>
+                    <button v-if="this.$store.state.rol === '1'" v-on:click="eliminar(coro.id, coro.nombre)"
+                      class="btn btn-danger mx-3">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center">
+            <ul class="pagination">
+              <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+                <a @click="changePage(page)" class="page-link" href="#">{{ page }}</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

@@ -63,7 +63,6 @@ export default {
         loginBack(email, password)
           .then(data => {
             if (Number.isInteger(data[0])) {
-              mostrarAlerta("Usuario " + email + " ha accedido correctamente", 'success');
               this.$store.commit('SET_ID', data[0]);
               this.$store.commit('SET_USER', email);
               this.$store.commit('SET_AUTHENTICATED', true);
@@ -71,7 +70,7 @@ export default {
               this.$store.commit('SET_IMAGE', data[2]);
               window.setTimeout(function () {
                 window.location.href = "/coros";
-              }, 1000);
+              }, 500);
             } else if (data == "pass") {
               mostrarAlerta("Contraseña incorrecta", 'error');
             } else if (data == "user") {

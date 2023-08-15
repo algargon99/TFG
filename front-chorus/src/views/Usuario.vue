@@ -140,6 +140,7 @@ export default {
           fechaNacimiento: this.fechaNacimiento.trim(),
         };
         enviarSolicitud('PUT', parametros, this.url, 'Perfil actualizado', 'datosUsuario');
+        this.$store.commit('SET_USER', this.correo);
       }
     },
     logout() {
