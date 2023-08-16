@@ -19,10 +19,10 @@
   </div>
   <div class="row g-0 my-5">
     <div class="col-lg-10 offset-lg-1 bloque d-flex">
-      <div v-if="cargando">
+      <div v-if="cargandoDirectores">
         <h4>Cargando...</h4>
       </div>
-      <div v-if="this.directores != null" class="mx-4" v-for="(director, i) in directores" :key="director.id">
+      <div class="mx-4" v-for="(director, i) in directores" :key="director.id">
         <div>
           <div class="d-flex justify-content-center mb-3">
             <img :src="'http://localhost:8000/' + director.archivo" class="img-fluid" width="150">
@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div v-else>
+      <div v-if="directores === null && !cargandoPartituras">
         <h4>No hay directores</h4>
       </div>
     </div>
@@ -58,21 +58,21 @@
               </tr>
             </thead>
             <tbody class="table-group-divider">
-              <tr v-if="cargando">
+              <tr v-if="cargandoCantores">
                 <td colspan="8">
                   <h4>Cargando...</h4>
                 </td>
               </tr>
-              <tr v-if="this.cantores != null" v-for="(cantor, i) in cantoresPaginados" :key="cantor.id">
+              <tr v-for="(cantor, i) in cantoresPaginados" :key="cantor.id">
                 <td>{{ cantor.nombre }} {{ cantor.apellidos }}</td>
                 <td v-text="cantor.correo"></td>
                 <td v-text="cantor.cantor.voz"></td>
                 <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'"
                   v-text="new Date(cantor.created_at).toLocaleDateString()" class="text-center"></td>
               </tr>
-              <tr v-else>
-                <td colspan="3">
-                  <h4>No hay cantores en este coro</h4>
+              <tr v-if="cantoresPaginados.length === 0 && !cargandoCantores ">
+                <td colspan="4">
+                  <h4>No hay cantores asociados a este coro</h4>
                 </td>
               </tr>
             </tbody>
@@ -105,12 +105,12 @@
               </tr>
             </thead>
             <tbody class="table-group-divider">
-              <tr v-if="cargando">
-                <td colspan="3">
+              <tr v-if="cargandoPartituras">
+                <td colspan="4">
                   <h4>Cargando...</h4>
                 </td>
               </tr>
-              <tr v-if="this.partituras != null" v-for="(partitura, i) in partiturasPaginadas" :key="partitura.id">
+              <tr v-for="(partitura, i) in partiturasPaginadas" :key="partitura.id">
                 <td>Entra</td>
                 <td v-text="partitura.nombre"></td>
                 <td v-text="partitura.anio"></td>
@@ -135,7 +135,7 @@
                   </div>
                 </td>
               </tr>
-              <tr v-else>
+              <tr v-if="partiturasPaginadas.length === 0 && !cargandoPartituras ">
                 <td colspan="3">
                   <h4>No hay partituras asociadas a este coro</h4>
                 </td>
@@ -181,12 +181,14 @@ export default {
       descripcion: '',
       archivo: '',
       url: '/api/coros',
-      cargando: false,
+      cargandoPartituras: false,
+      cargandoCantores: false,
+      cargandoDirectores: false,
       partituras: null,
-      partiturasPaginadas: null,
+      partiturasPaginadas: [],
       paginasPartituras: 0,
       cantores: null,
-      cantoresPaginados: null,
+      cantoresPaginados: [],
       paginasCantores: 0,
       directores: null,
       currentPagePartitura: 1,
@@ -211,17 +213,7 @@ export default {
         }
       );
     },
-    listaPartituras() {
-      this.cargando = true;
-      axios.get('/api/coros/' + this.id + '/partituras').then(
-        res => {
-          this.partituras = res.data;
-          this.cargando = false;
-        }
-      ).catch(error => {
-        console.error(error);
-      });
-    },
+
     eliminar(idPartitura, nombre) {
       confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'verCoro/' + this.id);
       this.cargando = false;
@@ -235,28 +227,51 @@ export default {
     changePageDirectores(page) {
       this.currentPageDirector = page;
     },
-    listaCantores() {
-      this.cargando = true;
-      axios.get('/api/cantoresCoro/' + this.id).then(
-        res => {
-          this.cantores = res.data;
-          this.cargando = false;
-        }
-      ).catch(error => {
-        console.error(error);
-      });
+    listarPartituras() {
+      this.cargandoPartituras = true;
+      axios.get('/api/coros/' + this.id + '/partituras')
+        .then(res => {
+          this.partituras = res.data;
+          this.totalPagesPartituras();
+          this.paginatedItemsPartituras();
+        })
+        .catch(error => {
+          console.error(error);
+        })
+        .finally(() => {
+          this.cargandoPartituras = false;
+        });
     },
 
-    listaDirectores() {
-      this.cargando = true;
-      axios.get('/api/directoresCoro/' + this.id).then(
-        res => {
+    listarCantores() {
+      this.cargandoCantores = true;
+      axios.get('/api/cantoresCoro/' + this.id)
+        .then(res => {
+          this.cantores = res.data;
+          this.totalPagesCantores();
+          this.paginatedItemsCantores();
+        })
+        .catch(error => {
+          console.error(error);
+        })
+        .finally(() => {
+          this.cargandoCantores = false;
+        });
+    },
+
+    listarDirectores() {
+      this.cargandoDirectores = true;
+      axios.get('/api/directoresCoro/' + this.id)
+        .then(res => {
           this.directores = res.data;
-          this.cargando = false;
-        }
-      ).catch(error => {
-        console.error(error);
-      });
+          console.log(this.directores);
+        })
+        .catch(error => {
+          console.error(error);
+        })
+        .finally(() => {
+          this.cargandoDirectores = false;
+        });
     },
     totalPagesPartituras() {
       if (Array.isArray(this.partituras)) {
@@ -298,21 +313,17 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getCoro();
-    this.listaPartituras();
-    if (this.partituras != null) {
-      console.log("Dentro1");
-      this.totalPagesPartituras();
-      this.paginatedItemsPartituras();
-    }
-
-    this.listaCantores();
-    if (this.cantores != null) {
-      console.log("Dentro1");
-      this.totalPagesPartituras();
-      this.paginatedItemsPartituras();
-    }
-    this.listaDirectores();
+    this.listarPartituras();
+    this.listarCantores();
+    this.listarDirectores();
     document.title = 'Chorus - Ver Coro';
+  },
+
+  computed: {
+    // Computed property para verificar si no hay partituras
+    noHayPartituras() {
+      return !this.cargandoPartituras && this.partituras !== null && this.partituras.length === 0;
+    }
   },
 };
 </script>

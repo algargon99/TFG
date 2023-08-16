@@ -2,40 +2,29 @@
   <div class="titulo">
     <span>Contacta con los coros</span>
   </div>
-  <div class="row g-0">
-    <div class="col-10 offset-1 bloque d-flex align-items-center">
-      <p class="m-4">
-        Bienvenido a Chorus, la plataforma perfecta para todos los amantes de la m&uacute;sica coral. &iquest;Te
-        apasiona
-        el canto en coros y buscas una manera de conectarte con otros entusiastas como t&uacute;? &iexcl;No busques
-        m&aacute;s! Chorus te ofrece una experiencia &uacute;nica para descubrir y unirte a diversos coros en tu
-        &aacute;rea y m&aacute;s all&aacute;. Con nuestra intuitiva aplicaci&oacute;n, podr&aacute;s explorar una amplia
-        gama de coros, desde aquellos que se centran en cl&aacute;sicos atemporales hasta los que celebran la
-        m&uacute;sica contempor&aacute;nea. &iexcl;La comunidad coral te espera con los brazos abiertos y estamos
-        emocionados de que te unas a nosotros en este emocionante viaje musical!
-      </p>
+  <div class="row g-0 mt-6">
+    <div class="col-10 col-sm-5 offset-1 bloque d-flex align-items-center">
       <p class="m-4">
         &iquest;Listo para dar el siguiente paso en tu viaje vocal? Elige el coro que
         m&aacute;s te atraiga y d&eacute;janos un mensaje personal si deseas compartir tus expectativas o preguntas con
-        el director del coro. Una vez que env&iacute;es el formulario, te aseguramos que tus datos ser&aacute;n enviados con
+        el director del coro. Una vez que env&iacute;es el formulario, te aseguramos que tus datos ser&aacute;n enviados
+        con
         seguridad al director correspondiente. Prep&aacute;rate para sumergirte en emocionantes ensayos, presentaciones
         inolvidables y nuevas amistades en el fascinante mundo coral. &iexcl;&Uacute;nete a Chorus hoy y d&eacute;jate
         llevar por la m&uacute;sica!
       </p>
     </div>
-  </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-4 offset-md-4 bloque">
-      <form @submit.prevent="submitForm">
+    <div class="col-10 col-sm-4 offset-1 bloque d-flex align-items-center">
+      <form @submit.prevent="submitForm" class="w-100 p-5">
         <div class="mb-3">
-          <label for="coro" class="form-label">Coro</label>
+          <label for="coro" class="form-label">Coro:</label>
           <select class="form-control" id="coro" v-model="coro" required>
             <option class="text-black" v-for="ncoro in coros" :key="ncoro.id" :value="ncoro.id">{{ ncoro.nombre }}
             </option>
           </select>
         </div>
         <div class="mb-3">
-          <label for="message" class="form-label">Comentario</label>
+          <label for="message" class="form-label">Comentario:</label>
           <textarea class="form-control" id="message" rows="5" v-model="comentario" required></textarea>
         </div>
         <div class="mb-3 d-flex justify-content-center">

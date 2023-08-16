@@ -22,7 +22,7 @@
         <div v-if="this.$store.state.isAuthenticated === true" class="m-2 dropdown d-flex align-items-center">
           <a class="nav-link d-flex" href="#" id="sesion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="d-flex">
-              <div class="d-flex align-items-center mx-2">{{ this.$store.state.user }}</div>
+              <div class="d-flex d-none d-sm-block align-items-center mx-2 pt-1">{{ this.$store.state.user }}</div>
               <div><img :src=imagen width="30"></div>
             </div>
           </a>
