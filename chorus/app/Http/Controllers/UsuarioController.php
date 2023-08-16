@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactoMail;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
@@ -147,16 +149,17 @@ class UsuarioController extends Controller
     public function contacto(Request $request)
     {
         $reglas = [
-            'nombre' => 'required|string',
-            'apellidos' => 'required|string',
-            'email' => 'required|email',
+            'id' => 'required',
+            'coro' => 'required',
+            'comentario' => 'required|string',
+
         ];
 
         $mensajes = [
-            'nombre.required' => 'El nombre es obligatorio.',
-            'apellidos.required' => 'Los apellidos son obligatorios.',
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'El correo electrónico no cumple el formato correcto.',
+            'id.required' => 'No está registrado.',
+            'coro.required' => 'El nombre es obligatorio.',
+            'comentario.required' => 'Los apellidos son obligatorios.',
+
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -165,7 +168,23 @@ class UsuarioController extends Controller
             return $validaciones->errors()->all();
         }
 
-        //Crear funcionalidad correo electrónico
+        //Directores del coro
+        $controladorCoro = new CoroController();
+        $directores = $controladorCoro->directoresCoro($request->coro);
+
+        $usuario = Usuario::find($request->id);
+        $correo = $usuario->correo;
+        $nombre = $usuario->nombre . ' ' . $usuario->apellidos;
+        $comentario = $request->comentario;
+
+        //Enviar correos
+        foreach ($directores as $director) {
+            // Aquí envías el correo a cada director
+            $nombreD = $director->nombre;
+            $correoD = $director->correo;
+            $mail = new ContactoMail($comentario, $correoD, $nombreD, $correo, $nombre);
+            Mail::send($mail);
+        }
 
         return 1;
     }
@@ -251,7 +270,7 @@ class UsuarioController extends Controller
                 $usuario->password = bcrypt($request->pass);
                 $usuario->archivo = 'img/usuario/icono.png';
                 $usuario->admin = 0;
-                $usuario->save(); 
+                $usuario->save();
                 DB::commit();
                 return $usuario->id;
             } catch (\Exception $e) {

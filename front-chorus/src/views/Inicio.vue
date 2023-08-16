@@ -6,7 +6,7 @@
                 <span id="eslogan" class="text-white"><b>Gaudeamus igitur, <br>Chorus advenit</b></span>
             </div>
             <div class="d-flex justify-content-center">
-                <div class="mx-4">
+                <div v-if="this.$store.state.isAuthenticated == false" class="mx-4">
                     <router-link :to="{ path: '/login' }" class='btn bg-white p-3'>
                         Inicia sesi&oacute;n
                     </router-link>

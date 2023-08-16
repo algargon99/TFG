@@ -57,6 +57,8 @@ class DirectorController extends Controller
         $usuario->telefono = $inputs["telefono"];
         $usuario->correo = $inputs["correo"];
         $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
+        $usuario->archivo = 'img/usuario/icono.png';
+        $usuario->admin = 0;
         $pass  = substr($inputs["nombre"], 0, 3) . substr($inputs["apellidos"], 0, 3);
         $usuario->password = bcrypt($pass);
 
