@@ -1,5 +1,5 @@
 <template>
-  <div class="ps-5 pt-5">
+  <div class="titulo ps-5 pt-4">
     <span class="h1 text-white">Coros</span>
   </div>
   <div class="row g-0 my-5">
@@ -33,7 +33,12 @@
                   <h4>Cargando...</h4>
                 </td>
               </tr>
-              <tr v-else v-for="(coro, i) in paginatedItems" :key="coro.id">
+              <tr v-if="!cargando && this.filtroCoro.length == 0">
+                <td colspan="8">
+                  <h4>No hay coros disponibles</h4>
+                </td>
+              </tr>
+              <tr v-if="this.filtroCoro.length != 0" v-for="(coro, i) in paginatedItems" :key="coro.id">
                 <td v-text="coro.nombre"></td>
                 <td v-text="coro.tipo"></td>
                 <td v-text="coro.estilo"></td>
@@ -63,6 +68,11 @@
               </li>
             </ul>
           </div>
+          <div class="m-2 d-flex justify-content-center align-items-center">
+            <span>Filtrar por nombre: </span>
+            <input type="text" class="form-control mx-2 w-25" v-model="buscador" @input="filtroCoros"
+              placeholder="Buscar por nombre del coro">
+          </div>
         </div>
       </div>
     </div>
@@ -70,8 +80,6 @@
 </template>
 
 <script>
-
-
 
 import axios from "../../axiosConfig";
 import { confirmar } from '../funciones';
@@ -81,23 +89,25 @@ export default {
     return {
       coros: null,
       cargando: false,
+      buscador: '',
+      filtroCoro: [],
       currentPage: 1,
       perPage: 5,
     };
   },
   computed: {
     totalPages() {
-      if (Array.isArray(this.coros)) {
-        return Math.ceil(this.coros.length / this.perPage);
+      if (Array.isArray(this.filtroCoro)) {
+        return Math.ceil(this.filtroCoro.length / this.perPage);
       } else {
         return 0;
       }
     },
     paginatedItems() {
-      if (Array.isArray(this.coros)) {
+      if (Array.isArray(this.filtroCoro)) {
         const start = (this.currentPage - 1) * this.perPage;
         const end = start + this.perPage;
-        return this.coros.slice(start, end);
+        return this.filtroCoro.slice(start, end);
       } else {
         return [];
       }
@@ -115,11 +125,21 @@ export default {
       axios.get(ruta).then(
         res => {
           this.coros = res.data;
+          this.filtroCoro = this.coros
           this.cargando = false;
         }
       ).catch(error => {
         console.error(error);
       });
+    },
+    filtroCoros() {
+      if (this.buscador === '') {
+        this.filtroCoro = this.coros;
+      } else {
+        this.filtroCoro = this.coros.filter(coro => coro.nombre.includes(this.buscador));
+      }
+      this.currentPage = 1;
+      
     },
     eliminar(id, nombre) {
       confirmar('/api/coros/', id, 'Eliminar coro', 'Confirmar eliminación del coro ' + nombre, 'coros');

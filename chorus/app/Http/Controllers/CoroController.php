@@ -103,7 +103,7 @@ class CoroController extends Controller
             'direccion' => 'required|string',
             'tipo' => 'required|string',
             'estilo' => 'required|string',
-            'descripcion' => 'required|string'
+            'descripcion' => 'required|string',
         ];
 
         $mensajes = [
@@ -131,6 +131,11 @@ class CoroController extends Controller
             $coro->tipo = $request->tipo;
             $coro->estilo = $request->estilo;
             $coro->descripcion = $request->descripcion;
+            if ($request->hasFile('archivo')) {
+                $archivo = $request->file('archivo');
+                $archivo->move(public_path('img/coro'), 'coro' . time() . '.png');
+                $coro->archivo = 'img/coro/' . 'coro' . time() . '.png';
+            }
             $res = $coro->save();
 
             DB::commit();

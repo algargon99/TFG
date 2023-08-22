@@ -120,16 +120,22 @@ body * {
 }
 
 .titulo {
-    margin-top: 50px;
-    padding-left: 80px;
+    margin-top: 100px;
     margin-bottom: 50px;
+    margin-left: 100px;
+    padding-top: 50px;
 }
 
-.titulo span {
+.titulo span, .titulito {
     color: rgb(255, 255, 255);
     font-size: 50px;
     font-weight: 450;
     font-family: monospace, monospace;
+}
+
+.titulito{
+    margin-left: 90px;
+    font-size: 35px !important;
 }
 
 .tabla {
@@ -158,64 +164,64 @@ body * {
     position: absolute;
     top: 0;
     left: 0;
-    margin-left: 11%;
-    margin-top: 200px;
+    margin-left: 15%;
+    margin-top: 180px;
     padding: 10px;
-
 }
 
-.button-container *{
+.button-container * {
     font-size: 30px !important;
-    font-family: 'Archivo', sans-serif ;
+    font-family: 'Archivo', sans-serif;
 }
 
-.button-container div{
-    margin: 40px 0px;
+.button-container div {
+    margin-bottom: 40px;
 }
 
-.button-container .btn{
+.button-container .btn {
     border-radius: 50px !important;
 }
 
-#eslogan *{
+#eslogan * {
     font-size: 50px !important;
 }
 
-#login{
+#login {
     font-size: 30px !important;
-    font-family: 'Archivo', sans-serif ;
+    font-family: 'Archivo', sans-serif;
     color: white;
 }
 
-.login{
+.login {
     margin-top: 100px;
     width: 400px;
 }
 
-.etiqueta span{
+.etiqueta span {
     color: white;
     font-size: 30px;
     word-wrap: break-word;
 }
 
-.etiqueta{
+.etiqueta {
     overflow-wrap: break-word;
     max-width: 300px;
 }
 
-.etiqueta div{
+.etiqueta div {
     padding: 5%;
 }
 
-.cabecera{
+.cabecera {
     border-radius: 20px 20px 0px 0px;
-   
+
 }
 
-.cuerpo{
+.cuerpo {
     border-radius: 0px 0px 20px 20px;
 }
 
-.links:hover span{
+.links:hover span {
     color: grey !important;
 }
+

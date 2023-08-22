@@ -77,9 +77,9 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
             if (res.data != 1) {
                 mostrarAlerta(res.data.join('\n'), 'error');
             } else {
-                // window.setTimeout(function () {
-                //     window.location.href = "/" + clase
-                // }, 500);
+                window.setTimeout(function () {
+                    window.location.href = "/" + clase
+                }, 500);
             }
         } else {
             mostrarAlerta('Sin respuesta', 'error')

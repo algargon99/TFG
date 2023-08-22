@@ -1,5 +1,5 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Audio {{ obra }}</span>
   </div>
   <div class="row g-0">
@@ -29,11 +29,6 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="my-3 mx-4" >
-    <router-link :to="{ path: '/verPartitura/' + idPartitura }" class='btn btn-danger'>
-      <i class="fa-solid fa-arrow-left"></i> Volver
-    </router-link>
   </div>
 </template>
 

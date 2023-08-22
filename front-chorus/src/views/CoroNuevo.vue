@@ -39,8 +39,8 @@
             <span class="w-100">Incluye una peque&ntilde;a descripci&oacute;n:</span>
             <textarea required v-model="descripcion" placeholder="Descripción" id="descripcion" class="form-control" />
           </div>
-          <div class="d-grid col-6 mx-auto mb-3">
-            <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Crear coro</button>
+          <div class="d-grid col-3 mx-auto py-3">
+            <button class="btn btn-primary">Crear coro</button>
           </div>
         </div>
       </div>

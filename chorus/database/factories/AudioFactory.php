@@ -12,7 +12,7 @@ class AudioFactory extends Factory
     public function definition()
     {
         return [
-            'obra' => $this->faker->sentence,
+            'obra' => $this->faker->sentence(3),
             'duracion' => $this->faker->numberBetween(60, 600),
             'interprete' => $this->faker->name,
             'audio' => 'audio/ejemplo.mp3',

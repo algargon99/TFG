@@ -1,19 +1,17 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
+  <div class="titulo ps-5 pt-4">
     <span class="h1">Lista de usuarios</span>
   </div>
   <div class="row my-5 g-0">
     <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive bg-white borde">
+      <div class="table-responsive borde bloque p-3">
         <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">Nº</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Apellidos</th>
               <th scope="col">Correo</th>
               <th scope="col">Fecha incorporaci&oacute;n</th>
-              <th scope="col">Asignar coro</th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -22,15 +20,13 @@
                 <h4>Cargando...</h4>
               </td>
             </tr>
-            <tr v-if="!this.cargando && this.filtroUsuarios == null">
+            <tr v-if="this.cargando == false && this.filtroUsuarios.length == 0">
               <td colspan="9">
                 <h4>No se han encontrado usuarios</h4>
               </td>
             </tr>
-            <tr v-else v-for="(usuario, i) in paginatedItems" :key="usuario.id">
-              <td v-text="(i + 1)"></td>
-              <td v-text="usuario.nombre"></td>
-              <td v-text="usuario.apellidos"></td>
+            <tr v-if="this.filtroUsuarios.length != 0" v-for="(usuario, i) in paginatedItems" :key="usuario.id">
+              <td>{{ usuario.nombre }} {{ usuario.apellidos }}</td>
               <td v-text="usuario.correo"></td>
               <td v-text="new Date(usuario.created_at).toLocaleDateString()"></td>
               <td>
@@ -48,9 +44,17 @@
             </li>
           </ul>
         </div>
-        <div class="input-group">
-          <span class="input-group-text"><i class="fa-solid fa-envelope"></i> &nbsp; Filtrar por correo: </span>
-          <input type="text" class="form-control" v-model="buscador" @input="filtroUsers" placeholder="Buscar por correo electrónico">
+        <div class="d-flex justify-content-center">
+          <div class="m-2">
+            <span>Filtrar por nombre: </span>
+            <input type="text" class="form-control m-1" v-model="buscadorNombre" @input="filtroNombreUsers"
+              placeholder="Buscar por nombre">
+          </div>
+          <div class="m-2">
+            <span>Filtrar por correo: </span>
+            <input type="text" class="form-control m-1" v-model="buscador" @input="filtroUsers"
+              placeholder="Buscar por correo electrónico">
+          </div>
         </div>
       </div>
     </div>
@@ -68,7 +72,8 @@ export default {
     return {
       usuarios: null,
       buscador: '',
-      filtroUsuarios: null,
+      buscadorNombre: '',
+      filtroUsuarios: [],
       cargando: false,
       currentPage: 1,
       perPage: 5,
@@ -113,6 +118,14 @@ export default {
         this.filtroUsuarios = this.usuarios;
       } else {
         this.filtroUsuarios = this.usuarios.filter(usuario => usuario.correo.includes(this.buscador));
+      }
+      this.currentPage = 1;
+    },
+    filtroNombreUsers() {
+      if (this.buscadorNombre === '') {
+        this.filtroUsuarios = this.usuarios;
+      } else {
+        this.filtroUsuarios = this.usuarios.filter(usuario => usuario.nombre.includes(this.buscadorNombre) || usuario.apellidos.includes(this.buscadorNombre));
       }
       this.currentPage = 1;
     },

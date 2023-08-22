@@ -2,52 +2,51 @@
   <div class="gradiente titulo ps-5 pt-4">
     <span class="h1 text-white">Editar coro {{ nombre }}</span>
   </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header bg-dark text-white text-center">
-          Editar coro
+  <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
+    <div class="row mt-3 g-0">
+      <div class="col-md-2 offset-md-2 align-items-center icono">
+        <div class="d-flex justify-content-center mb-3" v-if="this.archivo != ''">
+          <img :src=archivo alt="Foto" class="img-fluid" id="archivo">
         </div>
-        <div class="card-body">
-          <form class="form" v-on:submit="editar()">
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i> &nbsp; Nombre</span>
-              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del coro" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-city"></i>&nbsp; Ciudad</span>
-              <input type="text" required v-model="ciudad" id="ciudad" placeholder="Ciudad del coro" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
-              <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del coro"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-users"></i>&nbsp; Tipo</span>
-              <input type="text" required v-model="tipo" id="tipo" placeholder="Tipo del coro" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-guitar"></i>&nbsp; Estilo</span>
-              <input type="text" required v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="w-100">Incluye una peque&ntilde;a descripci&oacute;n:</span>
-              <textarea required v-model="descripcion" placeholder="Descripción" id="descripcion" class="form-control" />
-            </div>
-            <div class="d-grid col-6 mx-auto mb-3">
-              <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Actualizar</button>
-            </div>
-          </form>
+        <div class="d-flex justify-content-center">
+          <input v-on:change="previsualizarImagen" ref="archivoInput" type="file" id="foto" accept="image/*"
+            class="form-control">
+        </div>
+      </div>
+      <div class="col-md-5 offset-md-1">
+        <div class="bloque">
+          <div class="mb-3">
+            <span>Nombre:</span>
+            <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del coro" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Ciudad:</span>
+            <input type="text" required v-model="ciudad" id="ciudad" placeholder="Ciudad del coro" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Direcci&oacute;n:</span>
+            <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del coro"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Tipo:</span>
+            <input type="text" required v-model="tipo" id="tipo" placeholder="Tipo de coro" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Estilo:</span>
+            <input type="text" required v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span class="w-100">Incluye una peque&ntilde;a descripci&oacute;n:</span>
+            <textarea required v-model="descripcion" placeholder="Descripción" id="descripcion" class="form-control" />
+          </div>
+          <div class="d-grid col-6 mx-auto mb-3">
+            <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Editar coro</button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/coros' }" class='btn btn-danger'>
-        <i class="fa-solid fa-arrow-left"></i> Volver
-      </router-link>
-    </div>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -68,6 +67,7 @@ export default {
       tipo: '',
       estilo: '',
       descripcion: '',
+      archivo: '',
       url: '/api/coros',
       cargando: false,
     };
@@ -89,11 +89,14 @@ export default {
           this.tipo = res.data.tipo;
           this.estilo = res.data.estilo;
           this.descripcion = res.data.descripcion;
+          this.archivo = 'http://localhost:8000/' + res.data.archivo;
+          this.archivoBase = this.archivo;
         }
       );
     },
     editar() {
       event.preventDefault();
+      var imagen = this.$refs.archivoInput.files[0];
       this.cargando = true;
       if (this.nombre.trim() === '') {
         mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
@@ -115,10 +118,25 @@ export default {
           tipo: this.tipo.trim(),
           estilo: this.estilo.trim(),
           descripcion: this.descripcion.trim(),
+          archivo: imagen,
         };
+        
         enviarSolicitud('PUT', parametros, this.url, 'Coro actualizado', 'coros');
       }
     },
+    previsualizarImagen(event) {
+      var file = event.target.files[0];
+      if (typeof file != 'undefined') {
+        var reader = new FileReader();
+        reader.onload = function () {
+          var url = URL.createObjectURL(file);
+          this.archivo = url;
+        }.bind(this);
+        reader.readAsArrayBuffer(file);
+      } else {
+        this.archivo = this.archivoBase;
+      }
+    }
   },
 };
 </script>
