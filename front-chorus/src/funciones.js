@@ -44,6 +44,32 @@ export function confirmar(url, id, titulo, mensaje, clase) {
     });
 }
 
+export function desasignarCoro(url, idCantor, idCoro, titulo, mensaje, clase) {
+
+
+    const botonAlerta = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success me-3',
+            cancelButton: 'btn btn-danger'
+        }
+    });
+
+    botonAlerta.fire({
+        title: titulo,
+        text: mensaje,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa-solid fa-check"></i> Confirmar',
+        cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar'
+    }).then((res) => {
+        if (res.isConfirmed) {
+            enviarSolicitud('DELETE', { cantor: idCantor, coro: idCoro }, url, 'Expulsión con éxito', clase);
+        } else {
+            mostrarAlerta('Operación cancelada', 'info');
+        }
+    });
+}
+
 export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
 
     var tipo = '';
@@ -63,6 +89,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
         tipo = 'application/json';
     }
 
+    console.log(metodo);
     axios({
         method: metodo,
         url: urlid,

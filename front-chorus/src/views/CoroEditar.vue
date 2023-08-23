@@ -1,5 +1,5 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Editar coro {{ nombre }}</span>
   </div>
   <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">

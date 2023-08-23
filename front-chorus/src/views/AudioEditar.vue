@@ -1,48 +1,37 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Editar audio {{ obra }}</span>
   </div>
   <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header bg-dark text-white text-center">
-          Editar audio
+    <div class="col-md-6 offset-md-3 bloque">
+
+      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
+        <div class=" mb-3">
+          <span>Obra:</span>
+          <input type="text" required v-model="obra" id="obra" placeholder="Obra del audio" class="form-control">
         </div>
-        <div class="card-body">
-          <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-music"></i>&sbquo; Obra</span>
-              <input type="text" required v-model="obra" id="obra" placeholder="Obra del audio" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-clock"></i>&sbquo; Duraci&oacute;n (segs)</span>
-              <input type="text" required v-model="duracion" id="duracion" placeholder="Duración del audio"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-user"></i>&sbquo; Int&eacute;rprete</span>
-              <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del audio"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-music"></i>&sbquo; Archivo</span>
-              <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio" accept="audio/mp3"
-                class="form-control">
-            </div>
-            <div class="d-grid col-6 mx-auto mb-3">
-              <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Editar audio</button>
-            </div>
-          </form>
+        <div class=" mb-3">
+          <span>Duraci&oacute;n (segs):</span>
+          <input type="text" required v-model="duracion" id="duracion" placeholder="Duración del audio"
+            class="form-control">
         </div>
-      </div>
+        <div class=" mb-3">
+          <span>Int&eacute;rprete:</span>
+          <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del audio"
+            class="form-control">
+        </div>
+        <div class=" mb-3">
+          <span>Archivo:</span>
+          <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio" accept="audio/mp3"
+            class="form-control">
+        </div>
+        <div class="d-grid col-3 mx-auto mb-3">
+          <button class="btn btn-warning">Editar audio</button>
+        </div>
+      </form>
       <div class="d-flex justify-content-center my-4">
         <audio :src="this.archivo" controls id="archivo" />
       </div>
-    </div>
-    <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/verPartitura/' + this.partitura }" class='btn btn-danger'>
-        <i class="fa-solid fa-arrow-left"></i> Volver
-      </router-link>
     </div>
   </div>
 </template>

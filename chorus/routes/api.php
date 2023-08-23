@@ -34,6 +34,7 @@ Route::put('cambiarImagen/{id}', [UsuarioController::class, 'cambiarImagen']);
 
 //CORO-USUARIO
 Route::post('asignarCoro', [RelUsuarioCoroController::class, 'asignarCoro']);
+Route::delete('relsdesasignar', [RelUsuarioCoroController::class, 'desasignarCoro']);
 
 //COROS
 Route::apiResource('coros', CoroController::class);

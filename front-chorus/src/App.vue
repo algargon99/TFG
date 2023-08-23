@@ -87,7 +87,7 @@
               </ul>
             </div>
           </li>
-          <li v-if="this.$store.state.rol === '1'" class="nav-item">
+          <li v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'" class="nav-item">
             <router-link to="/asignar" class="nav-link">Asignar</router-link>
           </li>
           <li class="nav-item">

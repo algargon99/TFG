@@ -1,5 +1,5 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Lista de directores</span>
   </div>
   <div class="row g-0 my-5">

@@ -1,5 +1,5 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Editar partitura {{ nombre }}</span>
   </div>
   <div class="row mt-3 g-0">

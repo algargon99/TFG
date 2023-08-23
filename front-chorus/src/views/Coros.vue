@@ -1,10 +1,11 @@
 <template>
-  <div class="titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Coros</span>
   </div>
   <div class="row g-0 my-5">
     <div class="col-12">
-      <div class="m-4 d-flex flex-wrap justify-content-center" v-if="this.$store.state.rol != '1'">
+      <span class="titulito">Mis coros</span>
+      <div style="margin-left: 150px" class="d-flex flex-wrap" v-if="this.$store.state.rol != '1'">
         <div class="etiqueta m-3" v-for="(coro, i) in this.coros" :key="coro.id">
           <router-link :to="{ path: 'verCoro/' + coro.id }" class="links text-decoration-none">
             <div class="bg-dark text-white cabecera">
@@ -18,6 +19,7 @@
       </div>
       <div class="row g-0">
         <div v-if="this.$store.state.rol == '1'" class="table-responsive borde bloque col-10 offset-1">
+          <span class="titulito">Lista de coros</span>
           <table class="table table-hover">
             <thead>
               <tr>
@@ -121,7 +123,6 @@ export default {
       if (this.$store.state.rol != 0) {
         ruta = '/api/corosUsuario/' + this.$store.state.id
       }
-      console.log(this.$store.state.rol);
       axios.get(ruta).then(
         res => {
           this.coros = res.data;
@@ -139,7 +140,7 @@ export default {
         this.filtroCoro = this.coros.filter(coro => coro.nombre.includes(this.buscador));
       }
       this.currentPage = 1;
-      
+
     },
     eliminar(id, nombre) {
       confirmar('/api/coros/', id, 'Eliminar coro', 'Confirmar eliminación del coro ' + nombre, 'coros');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cantor;
+use App\Models\Director;
 use App\Models\RelUsuarioCoro;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -14,22 +16,55 @@ class RelUsuarioCoroController extends Controller
     {
 
         try {
-
             DB::beginTransaction();
 
-            $rels = RelUsuarioCoro::where('usuario_id', $request->usuario)->where('coro_id', $request->coro)->get();
+            $rels = RelUsuarioCoro::where('usuario_id', $request->usuario)
+                ->where('coro_id', $request->coro)
+                ->get();
+
             if (count($rels) > 0) {
                 return ['El usuario ya tiene asignado este coro', ''];
             } else {
-                $relacion = new RelUsuarioCoro;
+                $esCantor = Cantor::where('idUsuario', $request->usuario)->exists();
+                $esDirector = Director::where('idUsuario', $request->usuario)->exists();
+
+                $relacion = new RelUsuarioCoro();
                 $relacion->usuario_id = $request->usuario;
                 $relacion->coro_id = $request->coro;
                 $res = $relacion->save();
 
-                DB::commit();
+                if ($request->rol == 'cantor' && !$esCantor && !$esDirector) {
+                    $cantor = new Cantor();
+                    $cantor->voz = $request->voz;
+                    $cantor->idUsuario = $request->usuario;
+                    $res = $cantor->save();
+                } elseif ($request->rol == 'director' && !$esDirector && !$esCantor) {
+                    $director = new Director();
+                    $director->escuela = $request->escuela;
+                    $director->idUsuario = $request->usuario;
+                    $res = $director->save();
+                } 
 
+                DB::commit();
                 return $res;
             }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
+        }
+    }
+
+    public function desasignarCoro(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $relacion = RelUsuarioCoro::where('usuario_id', $request->cantor)->where('coro_id', $request->coro)->first();
+            $res = $relacion;
+            if (isset($relacion)) {
+                $res = RelUsuarioCoro::destroy($relacion->id);
+            }
+            DB::commit();
+            return $res;
         } catch (\Exception $e) {
 
             DB::rollBack();

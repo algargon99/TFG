@@ -1,5 +1,5 @@
 <template>
-  <div class="titulo ps-5 py-4">
+  <div class="titulo">
     <span class="h1 text-white">Partitura {{ nombre }}, de {{ autor }}</span>
   </div>
   <div class="row g-0">

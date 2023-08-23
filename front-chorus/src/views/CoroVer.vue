@@ -17,7 +17,7 @@
   <div>
     <span class="titulito">Directores</span>
   </div>
-  <div class="row g-0 my-5">
+  <div class="row g-0 my-3">
     <div class="col-lg-10 offset-lg-1 bloque d-flex flex-wrap">
       <div v-if="cargandoDirectores">
         <h4>Cargando...</h4>
@@ -44,7 +44,7 @@
     <div>
       <span class="titulito">Cantores</span>
     </div>
-    <div class="row g-0 my-5">
+    <div class="row g-0 my-3">
       <div class="col-lg-10 offset-lg-1">
         <div class="table-responsive borde bloque">
           <table class="table">
@@ -68,7 +68,13 @@
                 <td v-text="cantor.correo"></td>
                 <td v-text="cantor.cantor.voz"></td>
                 <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'"
-                  v-text="new Date(cantor.created_at).toLocaleDateString()" class="text-center"></td>
+                  v-text="new Date(cantor.created_at).toLocaleDateString()" class="text-center">
+                </td>
+                <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'">
+                  <div >
+                    <button v-on:click="desasignar(cantor.id, id, cantor.nombre)" class="btn btn-danger">Expulsar</button>
+                  </div>
+                </td>
               </tr>
               <tr v-if="cantoresPaginados.length === 0 && !cargandoCantores">
                 <td colspan="4">
@@ -93,7 +99,7 @@
     <div>
       <span class="titulito">Partituras</span>
     </div>
-    <div class="row g-0 my-5">
+    <div class="row g-0 my-3">
       <div class="col-lg-10 offset-lg-1">
         <div class="table-responsive bloque borde p-3">
           <table class="table ">
@@ -172,7 +178,7 @@
 
 
 import { useRoute } from "vue-router";
-import { confirmar } from '../funciones';
+import { confirmar, desasignarCoro } from '../funciones';
 import axios from "../../axiosConfig";
 
 export default {
@@ -232,6 +238,10 @@ export default {
     },
     eliminar(idPartitura, nombre) {
       confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'verCoro/' + this.id);
+      this.cargando = false;
+    },
+    desasignar(idCantor, idCoro, nombre) {
+      desasignarCoro('/api/relsdesasignar/', idCantor, idCoro, 'Expulsar del coro', 'Expulsar a ' + nombre, 'verCoro/' + this.id);
       this.cargando = false;
     },
     changePagePartituras(page) {

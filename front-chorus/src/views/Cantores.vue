@@ -1,5 +1,5 @@
 <template>
-  <div class="titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Lista de cantores</span>
   </div>
   <div class="row my-5 g-0">

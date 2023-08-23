@@ -1,5 +1,5 @@
 <template>
-  <div class="titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Crear cuenta</span>
   </div>
   <div class="my-3 d-flex justify-content-center w-100">
