@@ -1,50 +1,37 @@
 <template>
   <div class="titulo">
-    <span class="h1 text-white">{{ nombre }} {{ apellidos }}</span>
+    <span class="h1 text-white">Cantor {{ nombre }} {{ apellidos }}</span>
   </div>
   <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header bg-dark text-white text-center">
-          Detalle del cantor
+    <div class="col-10 row offset-1 bloque">
+      <div class="col-12 col-lg-6">
+        <div class="mb-3">
+          <span>Nombre:</span>
+          <label class="form-control bg-dark text-white"> {{ nombre }} {{ apellidos }}</label>
         </div>
-        <div class="card-body">
-
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Nombre</span>
-            <label v-text="nombre" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Apellidos</span>
-            <label v-text="apellidos" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
-            <label v-text="direccion" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-phone"></i>&nbsp; Tel&eacute;fono</span>
-            <label v-text="telefono" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-envelope"></i>&nbsp; Correo electr&oacute;nico</span>
-            <label v-text="correo" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&nbsp; Fecha de nacimiento</span>
-            <label v-text="fechaNacimiento" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-music"></i>&nbsp; Voz</span>
-            <label v-text="voz" class="form-control"></label>
-          </div>
+        <div class="mb-3">
+          <span>Direcci&oacute;n:</span>
+          <label v-text="direccion" class="form-control bg-dark text-white"></label>
+        </div>
+        <div class="mb-3">
+          <span>Tel&eacute;fono:</span>
+          <label v-text="telefono" class="form-control bg-dark text-white"></label>
         </div>
       </div>
-    </div>
-    <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/cantores' }" class='btn btn-danger'>
-        <i class="fa-solid fa-arrow-left"></i> Volver
-      </router-link>
+      <div class="col-12 col-lg-6">
+        <div class="mb-3">
+          <span>Correo electr&oacute;nico:</span>
+          <label v-text="correo" class="form-control bg-dark text-white"></label>
+        </div>
+        <div class="mb-3">
+          <span>Fecha de nacimiento:</span>
+          <label v-text="fechaNacimiento" class="form-control bg-dark text-white"></label>
+        </div>
+        <div class="mb-3">
+          <span>Voz:</span>
+          <label v-text="voz" class="form-control bg-dark text-white"></label>
+        </div>
+      </div>
     </div>
   </div>
 </template>

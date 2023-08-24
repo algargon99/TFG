@@ -1,48 +1,35 @@
 <template>
-  <div class="gradiente titulo ps-5 pt-4">
+  <div class="titulo">
     <span class="h1 text-white">Editar v&iacute;deo {{ nombre }}</span>
   </div>
   <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header bg-dark text-white text-center">
-          Editar v&iacute;deo
+    <div class="col-md-4 offset-md-4 bloque">
+      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
+        <div class="mb-3">
+          <span>Nombre:</span>
+          <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del vídeo" class="form-control">
         </div>
-        <div class="card-body">
-          <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-music"></i>&sbquo; Nombre</span>
-              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del vídeo"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-user"></i>&sbquo; Int&eacute;rprete</span>
-              <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del vídeo"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&sbquo; A&ntilde;o</span>
-              <input type="text" required v-model="year" id="year" placeholder="Año del vídeo" class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-video-camera"></i>&sbquo; Archivo</span>
-              <input v-on:change="previsualizarVideo" ref="archivoInput" type="file" id="vídeo" accept="video/mp4"
-                class="form-control">
-            </div>
-            <div class="d-grid col-6 mx-auto mb-3">
-              <button class="btn btn-warning"><i class="fa-solid fa-refresh"></i> Editar v&iacute;deo</button>
-            </div>
-          </form>
+        <div class="mb-3">
+          <span>Int&eacute;rprete:</span>
+          <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del vídeo"
+            class="form-control">
         </div>
-      </div>
-      <div class="d-flex justify-content-center my-4">
-        <video width="600" type="video/mp4" :src="this.archivo" controls id="archivo" />
-      </div>
+        <div class="mb-3">
+          <span>A&ntilde;o:</span>
+          <input type="text" required v-model="year" id="year" placeholder="Año del vídeo" class="form-control">
+        </div>
+        <div class="mb-3">
+          <span>Archivo:</span>
+          <input v-on:change="previsualizarVideo" ref="archivoInput" type="file" id="vídeo" accept="video/mp4"
+            class="form-control">
+        </div>
+        <div class="d-grid col-3 mx-auto py-3">
+          <button class="btn btn-warning">Editar v&iacute;deo</button>
+        </div>
+      </form>
     </div>
-    <div class="col-6 mx-auto my-3">
-      <router-link :to="{ path: '/verPartitura/' + this.partitura }" class='btn btn-danger'>
-        <i class="fa-solid fa-arrow-left"></i> Volver
-      </router-link>
+    <div class="d-flex justify-content-center my-4">
+      <video width="600" type="video/mp4" :src="this.archivo" controls id="archivo" />
     </div>
   </div>
 </template>

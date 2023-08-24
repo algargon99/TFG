@@ -3,37 +3,25 @@
     <span class="h1 text-white">V&iacute;deo {{ nombre }}</span>
   </div>
   <div class="row g-0">
-    <div class="col-md-1"></div>
-    <div class="m-4 col-md-4 d-flex align-items-center">
-      <video :src="archivo" width="600" controls />
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-5 d-flex align-items-center justify-content-center">
-      <div class="card">
-        <div class="card-header bg-dark text-white text-center">
-          Detalle del v&iacute;deo
+    <div class="row g-0 col-10 offset-1">
+      <div class="m-4 col-md-5 offset-1 d-flex align-items-center">
+        <video :src="archivo" width="600" controls />
+      </div>
+      <div class="col-md-5 offset-1 bloque">
+        <div class="mb-3">
+          <span>Nombre:</span>
+          <label v-text="nombre" class="form-control bg-dark text-white"></label>
         </div>
-        <div class="card-body">
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-video"></i>&sbquo; Nombre</span>
-            <label v-text="nombre" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-user"></i>&sbquo; Int&eacute;rprete</span>
-            <label v-text="interprete" class="form-control"></label>
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&sbquo; A&ntilde;o</span>
-            <label v-text="year" class="form-control"></label>
-          </div>
+        <div class="mb-3">
+          <span>Int&eacute;rprete:</span>
+          <label v-text="interprete" class="form-control bg-dark text-white"></label>
+        </div>
+        <div class="mb-3">
+          <span>A&ntilde;o:</span>
+          <label v-text="year" class="form-control bg-dark text-white"></label>
         </div>
       </div>
     </div>
-  </div>
-  <div class="my-3 mx-4">
-    <router-link :to="{ path: '/verPartitura/' + idPartitura }" class='btn btn-danger'>
-      <i class="fa-solid fa-arrow-left"></i> Volver
-    </router-link>
   </div>
 </template>
 

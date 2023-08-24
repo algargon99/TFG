@@ -28,11 +28,16 @@ class CoroController extends Controller
             return Coro::all();
         }
 
-        $corosDelUsuario = $usuarioConCoros->relUsuarioCoro->map(function ($relUsuarioCoro) {
-            return $relUsuarioCoro->coro;
-        });
+        $corosID = $usuarioConCoros->relUsuarioCoro->pluck('coro.id')->toArray();
+        $corosUsuario = Coro::whereIn('id', $corosID)->get();
+        $corosNoUsuario = Coro::whereNotIn('id', $corosID)->get();
 
-        return $corosDelUsuario;
+        return response()->json([
+            'corosUsuario' => $corosUsuario,
+            'corosNoUsuario' => $corosNoUsuario
+        ]);
+
+        
     }
 
     // Almacenar un nuevo coro en la base de datos

@@ -15,6 +15,10 @@
             class="form-control">
         </div>
         <div class=" mb-3">
+          <span>Voz: </span>
+          <input type="text" required v-model="voz" id="voz" placeholder="Voz del audio" class="form-control">
+        </div>
+        <div class=" mb-3">
           <span>Int&eacute;rprete:</span>
           <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del audio"
             class="form-control">
@@ -46,6 +50,7 @@ export default {
   data() {
     return {
       obra: '',
+      voz: '',
       duracion: '',
       interprete: '',
       archivo: '',
@@ -67,6 +72,8 @@ export default {
       this.cargando = true;
       if (this.obra.trim() === '') {
         mostrarAlerta('Ingrese una obra', 'warning', 'obra')
+      } else if (this.voz.trim() === '') {
+        mostrarAlerta('Ingrese una voz', 'warning', 'voz')
       } else if (this.duracion.trim() === '') {
         mostrarAlerta('Ingrese una duración en segundos', 'warning', 'duracion')
       } else if (this.interprete.trim() === '') {
@@ -74,6 +81,7 @@ export default {
       } else {
         var parametros = {
           obra: this.obra.trim(),
+          voz: this.voz.trim(),
           duracion: this.duracion.trim(),
           interprete: this.interprete.trim(),
           archivo: audio,

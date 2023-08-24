@@ -14,6 +14,7 @@ class AudioFactory extends Factory
         return [
             'obra' => $this->faker->sentence(3),
             'duracion' => $this->faker->numberBetween(60, 600),
+            'voz' => $this->faker->randomElement(['Soprano', 'Contralto', 'Tenor', 'Bajo']),
             'interprete' => $this->faker->name,
             'audio' => 'audio/ejemplo.mp3',
             'idPartitura' => $this

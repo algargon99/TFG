@@ -3,23 +3,15 @@
     <span class="h1 text-white">Lista de cantores</span>
   </div>
   <div class="row my-5 g-0">
-    <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive bg-white borde">
+    <div class="col-lg-10 offset-lg-1">
+      <div class="table-responsive bloque borde">
         <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">Nº</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Apellidos</th>
-              <th scope="col">Direcci&oacute;n</th>
-              <th scope="col">Tel&eacute;fono</th>
               <th scope="col">Correo</th>
-              <th scope="col">Fecha nacimiento</th>
               <th scope="col">Voz</th>
               <th scope="col">Fecha incorporaci&oacute;n</th>
-              <th scope="col">Ver</th>
-              <th scope="col">Editar</th>
-              <th scope="col">Borrar</th>
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -29,30 +21,29 @@
               </td>
             </tr>
             <tr v-else v-for="(cantor, i) in paginatedItems" :key="cantor.id">
-              <td v-text="(i + 1)"></td>
-              <td v-text="cantor.usuario.nombre"></td>
-              <td v-text="cantor.usuario.apellidos"></td>
-              <td v-text="cantor.usuario.direccion"></td>
-              <td v-text="cantor.usuario.telefono"></td>
+              <td>{{cantor.usuario.nombre}} {{cantor.usuario.apellidos}}</td>
               <td v-text="cantor.usuario.correo"></td>
-              <td v-text="cantor.usuario.fechaNacimiento"></td>
               <td v-text="cantor.voz"></td>
               <td v-text="new Date(cantor.created_at).toLocaleDateString()"></td>
               <td>
-                <router-link :to="{ path: 'verCantor/' + cantor.id }" class="btn btn-info">
-                  <i class="fa-solid fa-eye"></i>
-                </router-link>
-              </td>
-              <td>
-                <router-link :to="{ path: 'editarCantor/' + cantor.id }" class="btn btn-warning">
-                  <i class="fa-solid fa-edit"></i>
-                </router-link>
-              </td>
-              <td>
-                <button v-on:click="eliminar(cantor.id, cantor.usuario.nombre, cantor.usuario.apellidos)"
-                  class="btn btn-danger">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
+                <div class="d-flex justify-content-center">
+                  <div class="mx-2">
+                    <router-link :to="{ path: 'verCantor/' + cantor.id }" class="btn btn-info">
+                      <i class="fa-solid fa-eye"></i>
+                    </router-link>
+                  </div>
+                  <div class="mx-2">
+                    <router-link :to="{ path: 'editarCantor/' + cantor.id }" class="btn btn-warning">
+                      <i class="fa-solid fa-edit"></i>
+                    </router-link>
+                  </div>
+                  <div class="mx-2">
+                    <button v-on:click="eliminar(cantor.id, cantor.usuario.nombre, cantor.usuario.apellidos)"
+                      class="btn btn-danger">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody>

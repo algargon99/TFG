@@ -16,10 +16,15 @@
             class="form-control">
         </div>
         <div class=" mb-3">
+          <span>Voz:</span>
+          <input type="text" required v-model="voz" id="voz" placeholder="Voz del audio" class="form-control">
+        </div>
+        <div class=" mb-3">
           <span>Int&eacute;rprete:</span>
           <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del audio"
             class="form-control">
         </div>
+
         <div class=" mb-3">
           <span>Archivo:</span>
           <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio" accept="audio/mp3"
@@ -50,6 +55,7 @@ export default {
       id: 0,
       obra: '',
       duracion: '',
+      voz: '',
       interprete: '',
       archivo: '',
       archivoBase: '',
@@ -71,6 +77,7 @@ export default {
         res => {
           this.obra = res.data.obra;
           this.duracion = res.data.duracion;
+          this.voz = res.data.voz;
           this.interprete = res.data.interprete;
           this.archivo = 'http://localhost:8000/' + res.data.audio;
           this.partitura = res.data.idPartitura;
@@ -89,12 +96,15 @@ export default {
         mostrarAlerta('Ingrese una obra', 'warning', 'obra')
       } else if (this.duracion === '') {
         mostrarAlerta('Ingrese una duración', 'warning', 'duracion')
+      } else if (this.voz === '') {
+        mostrarAlerta('Ingrese una voz', 'warning', 'voz')
       } else if (this.interprete === '') {
         mostrarAlerta('Ingrese un interprete', 'warning', 'interprete')
       } else {
 
         var parametros = {
           obra: this.obra.trim(),
+          voz: this.voz.trim(),
           duracion: this.duracion,
           interprete: this.interprete.trim(),
           archivo: audio

@@ -28,7 +28,7 @@
           <textarea class="form-control" id="message" rows="5" v-model="comentario" required></textarea>
         </div>
         <div class="mb-3 d-flex justify-content-center">
-          <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+          <button type="submit" class="btn btn-primary">Enviar comentario</button>
         </div>
       </form>
     </div>
@@ -64,6 +64,7 @@ export default {
       axios.get('/api/coros').then(
         res => {
           this.coros = res.data;
+          this.coros.sort((a, b) => a.nombre.localeCompare(b.nombre));
           this.coro = this.coros[0].id;
           this.cargando = false;
         }

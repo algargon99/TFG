@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string("obra");
             $table->integer("duracion");
+            $table->string("voz");
             $table->string("interprete");
             $table->string("audio");
             $table->unsignedBigInteger("idPartitura");

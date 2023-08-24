@@ -25,12 +25,14 @@ class AudioController extends Controller
 
         $reglas = [
             'obra' => 'required|string|max:255',
+            'voz' => 'required|string|max:255',
             'duracion' => 'required|integer|min:1',
             'interprete' => 'required|string|max:255'
         ];
 
         $mensajes = [
             'obra.required' => 'El nombre de la obra es obligatorio.',
+            'voz.required' => 'La voz de la obra es obligatoria.',
             'duracion.required' => 'La duración es obligatoria.',
             'duracion.integer' => 'La duración ha de ser un número entero.',
             'duracion.min' => 'La duración tiene que ser mínimo de 1 minuto.',
@@ -47,6 +49,7 @@ class AudioController extends Controller
             DB::beginTransaction();
             $audio = new Audio();
             $audio->obra = $request->obra;
+            $audio->voz = $request->voz;
             $audio->duracion = $request->duracion;
             $audio->interprete = $request->interprete;
 
@@ -77,12 +80,14 @@ class AudioController extends Controller
     {
         $reglas = [
             'obra' => 'required|string|max:255',
+            'voz' => 'required|string|max:255',
             'duracion' => 'required|integer|min:1',
             'interprete' => 'required|string|max:255',
         ];
 
         $mensajes = [
             'obra.required' => 'El nombre de la obra es obligatorio.',
+            'voz.required' => 'La voz de la obra es obligatoria.',
             'duracion.required' => 'La duración es obligatoria.',
             'duracion.integer' => 'La duración ha de ser un número entero.',
             'duracion.min' => 'La duración tiene que ser mínimo de 1 minuto.',
@@ -100,6 +105,7 @@ class AudioController extends Controller
         try {
             DB::beginTransaction();
             $audio->obra = $request->obra;
+            $audio->voz = $request->voz;
             $audio->duracion = $request->duracion;
             $audio->interprete = $request->interprete;
             if ($request->hasFile('archivo')) {

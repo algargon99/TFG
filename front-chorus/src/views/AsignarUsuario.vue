@@ -99,6 +99,7 @@ export default {
       axios.get('/api/coros').then(
         res => {
           this.coros = res.data;
+          this.coros.sort((a, b) => a.nombre.localeCompare(b.nombre));
           this.coro = this.coros[0].id;
         }
       );

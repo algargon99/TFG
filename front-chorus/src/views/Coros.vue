@@ -3,66 +3,85 @@
     <span class="h1 text-white">Coros</span>
   </div>
   <div class="row g-0 my-5">
-    <div class="col-12">
-      <span class="titulito">Mis coros</span>
-      <div style="margin-left: 150px" class="d-flex flex-wrap" v-if="this.$store.state.rol != '1'">
-        <div class="etiqueta m-3" v-for="(coro, i) in this.coros" :key="coro.id">
-          <router-link :to="{ path: 'verCoro/' + coro.id }" class="links text-decoration-none">
-            <div class="bg-dark text-white cabecera">
-              <span class="text-truncate" style="display: block; max-width: 100%;" v-text="coro.nombre" />
-            </div>
-            <div class="bg-secondary d-flex justify-content-center cuerpo">
-              <img class="img-fluid" width="300" :src="'http://localhost:8000/' + coro.archivo">
-            </div>
-          </router-link>
+    <div class="col-10 offset-1">
+      <div v-if="this.$store.state.rol != '1'">
+        <span class="titulito">Mis coros</span>
+        <div class="d-flex flex-wrap">
+          <div class="etiqueta m-4" v-for="(coro, i) in this.coros" :key="coro.id">
+            <router-link :to="{ path: 'verCoro/' + coro.id }" class="links text-decoration-none">
+              <div class="bg-dark text-white cabecera">
+                <span class="text-truncate" style="display: block; max-width: 100%;" v-text="coro.nombre" />
+              </div>
+              <div class="bg-secondary d-flex justify-content-center cuerpo">
+                <img class="img-fluid" width="300" :src="'http://localhost:8000/' + coro.archivo">
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </div>
+      <div v-if="this.$store.state.rol != '1'">
+        <span class="titulito">Conoce al resto</span>
+        <div class="d-flex flex-wrap">
+          <div class="etiqueta m-4" v-for="(coro, i) in this.restoCoros" :key="coro.id">
+            <router-link :to="{ path: 'verCoro/' + coro.id }" class="links text-decoration-none">
+              <div class="bg-dark text-white cabecera">
+                <span class="text-truncate" style="display: block; max-width: 100%;" v-text="coro.nombre" />
+              </div>
+              <div class="bg-secondary d-flex justify-content-center cuerpo">
+                <img class="img-fluid" width="300" :src="'http://localhost:8000/' + coro.archivo">
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
       <div class="row g-0">
-        <div v-if="this.$store.state.rol == '1'" class="table-responsive borde bloque col-10 offset-1">
+        <div v-if="this.$store.state.rol == '1'">
           <span class="titulito">Lista de coros</span>
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Estilo</th>
-                <th scope="col">Fecha creaci&oacute;n</th>
-              </tr>
-            </thead>
-            <tbody class="table-group-divider">
-              <tr v-if="cargando">
-                <td colspan="8">
-                  <h4>Cargando...</h4>
-                </td>
-              </tr>
-              <tr v-if="!cargando && this.filtroCoro.length == 0">
-                <td colspan="8">
-                  <h4>No hay coros disponibles</h4>
-                </td>
-              </tr>
-              <tr v-if="this.filtroCoro.length != 0" v-for="(coro, i) in paginatedItems" :key="coro.id">
-                <td v-text="coro.nombre"></td>
-                <td v-text="coro.tipo"></td>
-                <td v-text="coro.estilo"></td>
-                <td v-text="new Date(coro.created_at).toLocaleDateString()"></td>
-                <td>
-                  <div class="d-flex justify-content-center">
-                    <router-link :to="{ path: 'verCoro/' + coro.id }" class="btn btn-info mx-3">
-                      <i class="fa-solid fa-eye"></i>
-                    </router-link>
-                    <router-link v-if="this.$store.state.rol === '1'" :to="{ path: 'editarCoro/' + coro.id }"
-                      class="btn btn-warning mx-3">
-                      <i class="fa-solid fa-edit"></i>
-                    </router-link>
-                    <button v-if="this.$store.state.rol === '1'" v-on:click="eliminar(coro.id, coro.nombre)"
-                      class="btn btn-danger mx-3">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-responsive borde bloque col-10 offset-1 p-4">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Estilo</th>
+                  <th scope="col">Fecha creaci&oacute;n</th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+                <tr v-if="cargando">
+                  <td colspan="8">
+                    <h4>Cargando...</h4>
+                  </td>
+                </tr>
+                <tr v-if="!cargando && this.filtroCoro.length == 0">
+                  <td colspan="8">
+                    <h4>No hay coros disponibles</h4>
+                  </td>
+                </tr>
+                <tr v-if="this.filtroCoro.length != 0" v-for="(coro, i) in paginatedItems" :key="coro.id">
+                  <td v-text="coro.nombre"></td>
+                  <td v-text="coro.tipo"></td>
+                  <td v-text="coro.estilo"></td>
+                  <td v-text="new Date(coro.created_at).toLocaleDateString()"></td>
+                  <td>
+                    <div class="d-flex justify-content-center">
+                      <router-link :to="{ path: 'verCoro/' + coro.id }" class="btn btn-info mx-3">
+                        <i class="fa-solid fa-eye"></i>
+                      </router-link>
+                      <router-link v-if="this.$store.state.rol === '1'" :to="{ path: 'editarCoro/' + coro.id }"
+                        class="btn btn-warning mx-3">
+                        <i class="fa-solid fa-edit"></i>
+                      </router-link>
+                      <button v-if="this.$store.state.rol === '1'" v-on:click="eliminar(coro.id, coro.nombre)"
+                        class="btn btn-danger mx-3">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div class="d-flex justify-content-center">
             <ul class="pagination">
               <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
@@ -71,7 +90,7 @@
             </ul>
           </div>
           <div class="m-2 d-flex justify-content-center align-items-center">
-            <span>Filtrar por nombre: </span>
+            <span class="text-white">Filtrar por nombre: </span>
             <input type="text" class="form-control mx-2 w-25" v-model="buscador" @input="filtroCoros"
               placeholder="Buscar por nombre del coro">
           </div>
@@ -90,6 +109,7 @@ export default {
   data() {
     return {
       coros: null,
+      restoCoros: null,
       cargando: false,
       buscador: '',
       filtroCoro: [],
@@ -125,8 +145,15 @@ export default {
       }
       axios.get(ruta).then(
         res => {
-          this.coros = res.data;
-          this.filtroCoro = this.coros
+          if (this.$store.state.rol == 1) {
+            this.coros = res.data;
+            this.filtroCoro = this.coros;
+          } else {
+            this.coros = res.data.corosUsuario;
+            this.restoCoros = res.data.corosNoUsuario;
+          }
+          console.log(this.coros);
+          console.log(this.restoCoros);
           this.cargando = false;
         }
       ).catch(error => {
