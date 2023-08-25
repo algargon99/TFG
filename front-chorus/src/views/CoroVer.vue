@@ -100,7 +100,7 @@
           </div>
         </div>
       </div>
-      <div v-if="this.$store.state.rol != '0'">
+      <div v-if="this.$store.state.rol == '1' || (this.$store.state.rol != '1' && this.esta == 1)">
         <div>
           <span class="titulito">Partituras</span>
         </div>
@@ -151,7 +151,6 @@
                       </div>
                     </td>
                   </tr>
-
                 </tbody>
               </table>
               <div class="d-flex justify-content-center">
@@ -172,6 +171,23 @@
                   <i class="fa-solid fa-archive"></i> Nueva partitura
                 </router-link>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="video && this.$store.state.isAuthenticated && ((this.$store.state.rol != '0' && this.esta == 0) || this.$store.state.rol == '0')">
+        <div>
+          <span class="titulito">V&iacute;deo</span>
+        </div>
+        <div class="row g-0 my-3">
+          <div class="bloque col-10 offset-1">
+            <div  class="mx-4">
+              <div class="d-flex justify-content-center mb-3">
+                <video :src="'http://localhost:8000/' + video.video" controls class="w-75" />
+              </div>
+            </div>
+            <div v-if="!video">
+              <h4>No hay v&iacute;deos</h4>
             </div>
           </div>
         </div>
@@ -199,6 +215,7 @@ export default {
       estilo: '',
       descripcion: '',
       archivo: '',
+      esta: 0,
       url: '/api/coros',
       cargandoPartituras: false,
       cargandoCantores: false,
@@ -215,7 +232,7 @@ export default {
       currentPagePartitura: 1,
       currentPageCantor: 1,
       perPage: 5,
-
+      video: null,
     };
   },
 
@@ -339,6 +356,21 @@ export default {
         this.cantoresPaginados = [];
       }
     },
+    estaEnCoro() {
+      axios.get("/api/estaCoro/" + this.id + "/" + this.$store.state.id).then(
+        res => {
+          this.esta = res.data;
+        }
+      )
+    },
+    getVideo() {
+      axios.get("/api/videosAleatorios/" + this.id).then(
+        res => {
+          this.video = res.data;
+        }
+      )
+    },
+
   },
 
 
@@ -347,6 +379,8 @@ export default {
     this.id = route.params.id;
     this.url += '/' + this.id;
     this.getCoro();
+    this.estaEnCoro();
+    this.getVideo();
     this.listarPartituras();
     this.listarCantores();
     this.listarDirectores();

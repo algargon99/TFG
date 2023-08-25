@@ -30,9 +30,11 @@ Route::post('usuario', [UsuarioController::class, 'contacto']);
 Route::post('cuenta', [UsuarioController::class, 'cuenta']);
 Route::put('cambiarPass/{id}', [UsuarioController::class, 'cambiarPass']);
 Route::put('cambiarImagen/{id}', [UsuarioController::class, 'cambiarImagen']);
+Route::delete('eliminarCuenta', [UsuarioController::class, 'eliminarCuenta']);
 
 
 //CORO-USUARIO
+Route::get('estaCoro/{idCoro}/{idUsuario}', [RelUsuarioCoroController::class, 'estaCoro']);
 Route::post('asignarCoro', [RelUsuarioCoroController::class, 'asignarCoro']);
 Route::delete('relsdesasignar', [RelUsuarioCoroController::class, 'desasignarCoro']);
 
@@ -41,6 +43,7 @@ Route::apiResource('coros', CoroController::class);
 Route::get('corosUsuario/{id}', [CoroController::class, 'corosUsuario']);
 Route::get('cantoresCoro/{id}', [CoroController::class, 'cantoresCoro']);
 Route::get('directoresCoro/{id}', [CoroController::class, 'directoresCoro']);
+Route::get('videosAleatorios/{id}', [CoroController::class, 'getVideos']);
 
 //CANTORES
 Route::apiResource('cantores', CantorController::class);

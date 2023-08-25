@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactoMail;
+use App\Models\RelUsuarioCoro;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -279,6 +280,40 @@ class UsuarioController extends Controller
             }
         } elseif ($request->newpass != $request->renewpass) {
             return ["Las contraseñas nuevas no coinciden.", ""];
+        }
+    }
+
+    public function eliminarCuenta(Request $request)
+    {
+
+        try {
+            DB::beginTransaction();
+            $rels = RelUsuarioCoro::where('usuario_id', $request->id)->get();
+
+            foreach ($rels as $rel) {
+                $rel->delete();
+            }
+
+            $usuario = Usuario::find($request->id);
+            $cantor = $usuario->cantor;
+
+            if ($cantor) {
+                $cantor->delete();
+            }
+
+            $director = $usuario->director;
+
+            if ($director) {
+                $director->delete();
+            }
+
+            $res = $usuario->delete();
+            DB::commit();
+            return $res;
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return $e->getMessage();
         }
     }
 }

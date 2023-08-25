@@ -54,6 +54,11 @@
           <button class='btn btn-danger'>Cerrar sesi&oacute;n</button>
         </form>
       </div>
+      <div class="col-md-6 d-flex justify-content-center">
+        <form @submit.prevent="eliminarCuenta">
+          <button class='btn btn-danger'>Eliminar cuenta</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -62,7 +67,7 @@
 
 
 import axios from "../../axiosConfig";
-import { logout, enviarSolicitud, mostrarAlerta, cambiarImagen } from "../funciones.js"
+import { logout, enviarSolicitud, mostrarAlerta, cambiarImagen, eliminarUsuario } from "../funciones.js"
 
 export default {
   data() {
@@ -145,6 +150,9 @@ export default {
     },
     logout() {
       logout(this);
+    },
+    eliminarCuenta(){
+      eliminarUsuario(this, this.$store.state.id);
     }
   },
 };

@@ -3,55 +3,50 @@
     <span class="h1 text-white">Crear director</span>
   </div>
   <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header bg-dark text-white text-center">
-          A&ntilde;adir nuevo cantor
+    <div class="col-4 offset-4 bloque">
+      <form class="form" v-on:submit="guardar()">
+        <div class="mb-3">
+          <span>Nombre:</span>
+          <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del director" class="form-control">
         </div>
-        <div class="card-body">
-          <form class="form" v-on:submit="guardar()">
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Nombre</span>
-              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del director"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-user"></i>&nbsp; Apellidos</span>
-              <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del director"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-location-dot"></i>&nbsp; Direcci&oacute;n</span>
-              <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del director"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-phone"></i>&nbsp; Tel&eacute;fono</span>
-              <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del director"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-envelope"></i>&nbsp; Correo electr&oacute;nico</span>
-              <input type="email" required v-model="correo" id="correo" placeholder="Correo del director"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-calendar"></i>&nbsp; Fecha de nacimiento</span>
-              <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
-                class="form-control">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="fa-solid fa-city"></i>&nbsp; Escuela</span>
-              <input type="text" required v-model="escuela" id="escuela"
-                placeholder="Escuela del director" class="form-control">
-            </div>
-            <div class="d-grid col-6 mx-auto mb-3">
-              <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Crear director</button>
-            </div>
-          </form>
+        <div class="mb-3">
+          <span>Apellidos:</span>
+          <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del director"
+            class="form-control">
         </div>
-      </div>
+        <div class="mb-3">
+          <span>Direcci&oacute;n:</span>
+          <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del director"
+            class="form-control">
+        </div>
+        <div class="mb-3">
+          <span>Tel&eacute;fono:</span>
+          <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del director"
+            class="form-control">
+        </div>
+        <div class="mb-3">
+          <span>Correo electr&oacute;nico:</span>
+          <input type="email" required v-model="correo" id="correo" placeholder="Correo del director"
+            class="form-control">
+        </div>
+        <div class="mb-3">
+          <span>Fecha de nacimiento:</span>
+          <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento" class="form-control">
+        </div>
+        <div class="mb-3">
+          <span>Escuela:</span>
+          <input type="text" required v-model="escuela" id="escuela" placeholder="Escuela del director"
+            class="form-control">
+        </div>
+        <div class="alert alert-success my-5">
+          La foto ser&aacute; asignada por defecto
+        </div>
+        <div class="d-grid col-4 mx-auto py-3">
+          <button class="btn btn-primary">Crear director</button>
+        </div>
+      </form>
     </div>
+
   </div>
 </template>
 
@@ -93,7 +88,7 @@ export default {
         mostrarAlerta('Ingrese un correo', 'warning', 'correo')
       } else if (this.fechaNacimiento.trim() === '') {
         mostrarAlerta('Ingrese una fecha de nacimiento', 'warning', 'fechaNacimiento')
-      }else if (this.escuela.trim() === '') {
+      } else if (this.escuela.trim() === '') {
         mostrarAlerta('Ingrese una escuela', 'warning', 'escuela')
       } else {
         var parametros = {
@@ -105,7 +100,7 @@ export default {
           fechaNacimiento: this.fechaNacimiento.trim(),
           escuela: this.escuela.trim(),
         };
-        enviarSolicitud('POST', parametros, this.url, 'Director creado','directores');
+        enviarSolicitud('POST', parametros, this.url, 'Director creado', 'directores');
       }
     },
   },

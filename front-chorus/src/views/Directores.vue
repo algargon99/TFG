@@ -3,23 +3,16 @@
     <span class="h1 text-white">Lista de directores</span>
   </div>
   <div class="row g-0 my-5">
-    <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive bg-white borde">
+    <div class="col-10 offset-1">
+      <div class="table-responsive bloque borde">
         <table class="table table-hover">
           <thead>
             <tr>
-              <th scope="col">Nº</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Apellidos</th>
-              <th scope="col">Direcci&oacute;n</th>
-              <th scope="col">Tel&eacute;fono</th>
               <th scope="col">Correo</th>
-              <th scope="col">Fecha nacimiento</th>
               <th scope="col">Escuela</th>
               <th scope="col">Fecha incorporaci&oacute;n</th>
-              <th scope="col">Ver</th>
-              <th scope="col">Editar</th>
-              <th scope="col">Borrar</th>
+
             </tr>
           </thead>
           <tbody class="table-group-divider">
@@ -29,30 +22,30 @@
               </td>
             </tr>
             <tr v-else v-for="(director, i) in paginatedItems" :key="director.id">
-              <td v-text="(i + 1)"></td>
-              <td v-text="director.usuario.nombre"></td>
-              <td v-text="director.usuario.apellidos"></td>
-              <td v-text="director.usuario.direccion"></td>
-              <td v-text="director.usuario.telefono"></td>
+
+              <td>{{ director.usuario.nombre }} {{ director.usuario.apellidos }}</td>
               <td v-text="director.usuario.correo"></td>
-              <td v-text="director.usuario.fechaNacimiento"></td>
               <td v-text="director.escuela"></td>
               <td v-text="new Date(director.created_at).toLocaleDateString()"></td>
               <td>
-                <router-link :to="{ path: 'verDirector/' + director.id }" class="btn btn-info">
-                  <i class="fa-solid fa-eye"></i>
-                </router-link>
-              </td>
-              <td>
-                <router-link :to="{ path: 'editarDirector/' + director.id }" class="btn btn-warning">
-                  <i class="fa-solid fa-edit"></i>
-                </router-link>
-              </td>
-              <td>
-                <button v-on:click="eliminar(director.id, director.usuario.nombre, director.usuario.apellidos)"
-                  class="btn btn-danger">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
+                <div class="d-flex justify-content-center">
+                  <div class="mx-3">
+                    <router-link :to="{ path: 'verDirector/' + director.id }" class="btn btn-info">
+                      <i class="fa-solid fa-eye"></i>
+                    </router-link>
+                  </div>
+                  <div class="mx-3">
+                    <router-link :to="{ path: 'editarDirector/' + director.id }" class="btn btn-warning">
+                      <i class="fa-solid fa-edit"></i>
+                    </router-link>
+                  </div>
+                  <div class="mx-3">
+                    <button v-on:click="eliminar(director.id, director.usuario.nombre, director.usuario.apellidos)"
+                      class="btn btn-danger">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody>

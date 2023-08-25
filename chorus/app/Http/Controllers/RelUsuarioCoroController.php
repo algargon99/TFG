@@ -43,7 +43,7 @@ class RelUsuarioCoroController extends Controller
                     $director->escuela = $request->escuela;
                     $director->idUsuario = $request->usuario;
                     $res = $director->save();
-                } 
+                }
 
                 DB::commit();
                 return $res;
@@ -69,6 +69,16 @@ class RelUsuarioCoroController extends Controller
 
             DB::rollBack();
             return $e->getMessage();
+        }
+    }
+
+    public function estaCoro($idCoro, $idUsuario)
+    {
+        $relacion = RelUsuarioCoro::where('usuario_id', $idUsuario)->where('coro_id', $idCoro)->first();
+        if ($relacion != '') {
+            return 1;
+        } else {
+            return 0;
         }
     }
 }

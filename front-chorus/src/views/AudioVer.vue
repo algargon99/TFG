@@ -4,7 +4,7 @@
   </div>
   <div class="row g-0">
     <div class="row g-0 col-10 offset-1 bloque">
-      <div class="m-4 col-md-5 d-flex justify-content-center align-items-center">
+      <div class="m-4 col-md-5 d-flex justify-content-center align-items-center" v-if="this.$store.state.isAuthenticated">
         <audio :src="archivo" controls></audio>
       </div>
       <div class="col-md-5 offset-1 ">

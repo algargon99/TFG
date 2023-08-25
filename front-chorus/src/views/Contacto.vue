@@ -39,7 +39,7 @@
 
 
 import axios from "../../axiosConfig";
-import { mostrarAlerta, enviarSolicitud } from '../funciones';
+import { enviarSolicitud } from '../funciones';
 
 export default {
   data() {

@@ -28,7 +28,7 @@
         </div>
       </form>
     </div>
-    <div class="d-flex justify-content-center my-4">
+    <div class="d-flex justify-content-center my-4" v-if="this.$store.state.isAuthenticated">
       <video width="600" type="video/mp4" :src="this.archivo" controls id="archivo" />
     </div>
   </div>

@@ -16,7 +16,14 @@
                 <img class="img-fluid" width="300" :src="'http://localhost:8000/' + coro.archivo">
               </div>
             </router-link>
+            <div v-if="this.$store.state.rol == '2'" class="d-flex justify-content-center">
+              <router-link  :to="{ path: 'editarCoro/' + coro.id }" class="btn btn-warning mx-3">
+                Editar
+              </router-link>
+            </div>
           </div>
+
+
         </div>
       </div>
       <div v-if="this.$store.state.rol != '1'">

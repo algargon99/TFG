@@ -36,8 +36,6 @@ class CoroController extends Controller
             'corosUsuario' => $corosUsuario,
             'corosNoUsuario' => $corosNoUsuario
         ]);
-
-        
     }
 
     // Almacenar un nuevo coro en la base de datos
@@ -207,5 +205,21 @@ class CoroController extends Controller
         })->values();
 
         return $directoresDelCoro;
+    }
+
+    public function getVideos($id)
+    {
+        $coro = Coro::find($id);
+        if ($coro) {
+            $partitura = $coro->partituras->random(1)->first();
+            if ($partitura) {
+                $primerVideo = $partitura->videos->first();
+                if ($primerVideo) {
+                    $video = $primerVideo;
+                }
+            }
+        }
+
+        return $video;
     }
 }

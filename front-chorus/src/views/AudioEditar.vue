@@ -34,7 +34,7 @@
           <button class="btn btn-warning">Editar audio</button>
         </div>
       </form>
-      <div class="d-flex justify-content-center my-4">
+      <div class="d-flex justify-content-center my-4" v-if="this.$store.state.isAuthenticated">
         <audio :src="this.archivo" controls id="archivo" />
       </div>
     </div>

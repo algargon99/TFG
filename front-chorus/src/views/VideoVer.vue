@@ -4,10 +4,10 @@
   </div>
   <div class="row g-0">
     <div class="row g-0 col-10 offset-1">
-      <div class="m-4 col-md-5 offset-1 d-flex align-items-center">
-        <video :src="archivo" width="600" controls />
+      <div class="m-4 col-xl-5 col-10 offset-1 d-flex align-items-center" v-if="this.$store.state.isAuthenticated">
+        <video :src="archivo" controls class="w-100" />
       </div>
-      <div class="col-md-5 offset-1 bloque">
+      <div class="col-xl-5 col-10 offset-1 bloque">
         <div class="mb-3">
           <span>Nombre:</span>
           <label v-text="nombre" class="form-control bg-dark text-white"></label>

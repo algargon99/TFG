@@ -134,6 +134,35 @@ export function loginBack(email, password) {
     });
 }
 
+export function eliminarUsuario(session, usuario) {
+    const botonAlerta = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success me-3',
+            cancelButton: 'btn btn-danger'
+        }
+    });
+
+    botonAlerta.fire({
+        title: 'Borrar cuenta',
+        text: '¿Quieres eliminar tu cuenta?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa-solid fa-check"></i> Confirmar',
+        cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar'
+    }).then((res) => {
+        if (res.isConfirmed) {
+            session.$store.commit('SET_ID', -1);
+            session.$store.commit('SET_USER', null);
+            session.$store.commit('SET_AUTHENTICATED', false);
+            session.$store.commit('SET_ROL', '0');
+            enviarSolicitud('DELETE', { id: usuario }, 'api/eliminarCuenta', 'Cuenta eliminada', '');
+
+        } else {
+            mostrarAlerta('Operación cancelada', 'info');
+        }
+    });
+}
+
 export function logout(session) {
     session.$store.commit('SET_ID', -1);
     session.$store.commit('SET_USER', null);
