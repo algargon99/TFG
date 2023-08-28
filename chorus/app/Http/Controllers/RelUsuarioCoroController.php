@@ -58,7 +58,7 @@ class RelUsuarioCoroController extends Controller
     {
         try {
             DB::beginTransaction();
-            $relacion = RelUsuarioCoro::where('usuario_id', $request->cantor)->where('coro_id', $request->coro)->first();
+            $relacion = RelUsuarioCoro::where('usuario_id', $request->usuario)->where('coro_id', $request->coro)->first();
             $res = $relacion;
             if (isset($relacion)) {
                 $res = RelUsuarioCoro::destroy($relacion->id);

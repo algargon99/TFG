@@ -36,6 +36,9 @@
               <div class="d-flex justify-content-center">
                 <span>{{ director.correo }}</span>
               </div>
+              <div v-if="this.$store.state.rol === '1'" class="d-flex justify-content-center py-2">
+                <button v-on:click="desasignar(director.id, id, director.nombre)" class="btn btn-danger">Expulsar</button>
+              </div>
             </div>
           </div>
           <div v-if="directores === null && !cargandoPartituras">
@@ -175,13 +178,14 @@
           </div>
         </div>
       </div>
-      <div v-if="video && this.$store.state.isAuthenticated && ((this.$store.state.rol != '0' && this.esta == 0) || this.$store.state.rol == '0')">
+      <div
+        v-if="video && this.$store.state.isAuthenticated && ((this.$store.state.rol != '0' && this.esta == 0) || this.$store.state.rol == '0')">
         <div>
           <span class="titulito">V&iacute;deo</span>
         </div>
         <div class="row g-0 my-3">
           <div class="bloque col-10 offset-1">
-            <div  class="mx-4">
+            <div class="mx-4">
               <div class="d-flex justify-content-center mb-3">
                 <video :src="'http://localhost:8000/' + video.video" controls class="w-75" />
               </div>
@@ -264,8 +268,8 @@ export default {
       confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'verCoro/' + this.id);
       this.cargando = false;
     },
-    desasignar(idCantor, idCoro, nombre) {
-      desasignarCoro('/api/relsdesasignar/', idCantor, idCoro, 'Expulsar del coro', 'Expulsar a ' + nombre, 'verCoro/' + this.id);
+    desasignar(idUsuario, idCoro, nombre) {
+      desasignarCoro('/api/relsdesasignar/', idUsuario, idCoro, 'Expulsar del coro', 'Expulsar a ' + nombre, 'verCoro/' + this.id);
       this.cargando = false;
     },
     changePagePartituras(page) {

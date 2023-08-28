@@ -44,7 +44,7 @@ export function confirmar(url, id, titulo, mensaje, clase) {
     });
 }
 
-export function desasignarCoro(url, idCantor, idCoro, titulo, mensaje, clase) {
+export function desasignarCoro(url, idUsuario, idCoro, titulo, mensaje, clase) {
 
 
     const botonAlerta = Swal.mixin({
@@ -63,7 +63,7 @@ export function desasignarCoro(url, idCantor, idCoro, titulo, mensaje, clase) {
         cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar'
     }).then((res) => {
         if (res.isConfirmed) {
-            enviarSolicitud('DELETE', { cantor: idCantor, coro: idCoro }, url, 'Expulsión con éxito', clase);
+            enviarSolicitud('DELETE', { usuario: idUsuario, coro: idCoro }, url, 'Expulsión con éxito', clase);
         } else {
             mostrarAlerta('Operación cancelada', 'info');
         }
