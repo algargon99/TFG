@@ -3,7 +3,7 @@
     <span class="h1 text-white">Editar director {{ nombre }} {{ apellidos }}</span>
   </div>
   <div class="row mt-3 g-0">
-    <div class="col-4 offset-4">
+    <div class="col-4 offset-4 bloque">
       <form class="form" v-on:submit="editarDirector()">
         <div class="mb-3">
           <span>Nombre:</span>

@@ -3,7 +3,7 @@
     <span class="h1 text-white">Crear cantor</span>
   </div>
   <div class="row mt-3 g-0">
-    <div class="col-4 offset-4">
+    <div class="col-4 offset-4 bloque">
       <form class="form" v-on:submit="crearCantor()">
         <div class="mb-3">
           <span>Nombre:</span>

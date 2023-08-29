@@ -3,7 +3,7 @@
     <span class="h1 text-white">Editar cantor {{ nombre }} {{ apellidos }}</span>
   </div>
   <div class="row mt-3 g-0">
-    <div class="col-md-4 offset-md-4">
+    <div class="col-md-4 offset-md-4 bloque">
       <form class="form" v-on:submit="editarCantor()">
         <div class="mb-3">
           <span>Nombre:</span>
