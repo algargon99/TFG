@@ -4,7 +4,7 @@
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-4 offset-md-4 bloque">
-      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="guardar()">
+      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="crearPartitura()">
         <div class="mb-3">
           <span>Nombre:</span>
           <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre de la partitura"

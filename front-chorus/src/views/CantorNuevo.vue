@@ -4,7 +4,7 @@
   </div>
   <div class="row mt-3 g-0">
     <div class="col-4 offset-4">
-      <form class="form" v-on:submit="guardar()">
+      <form class="form" v-on:submit="crearCantor()">
         <div class="mb-3">
           <span>Nombre:</span>
           <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del cantor" class="form-control">
@@ -70,7 +70,7 @@ export default {
     };
   },
   methods: {
-    guardar() {
+    crearCantor() {
       event.preventDefault();
       this.cargando = true;
       if (this.nombre.trim() === '') {

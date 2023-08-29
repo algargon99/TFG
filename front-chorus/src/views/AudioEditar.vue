@@ -5,7 +5,7 @@
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3 bloque">
 
-      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
+      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editarAudio()">
         <div class=" mb-3">
           <span>Obra:</span>
           <input type="text" required v-model="obra" id="obra" placeholder="Obra del audio" class="form-control">
@@ -85,7 +85,7 @@ export default {
 
       );
     },
-    editar() {
+    editarAudio() {
       event.preventDefault();
       var audio = this.$refs.archivoInput.files[0];
       if (typeof audio === 'undefined') {

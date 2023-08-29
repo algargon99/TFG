@@ -4,7 +4,7 @@
   </div>
   <div class="my-3 d-flex justify-content-center w-100">
     <div class="bloque w-100">
-      <form class="form" v-on:submit="guardar()">
+      <form class="form" v-on:submit="crearCuenta()">
         <div class="w-100 d-flex justify-content-center">
           <div id="izquierda" class="me-5 w-25">
             <div class="mb-3">
@@ -73,7 +73,7 @@ export default {
     };
   },
   methods: {
-    guardar() {
+    crearCuenta() {
       event.preventDefault();
       this.cargando = true;
       if (this.nombre.trim() === '') {

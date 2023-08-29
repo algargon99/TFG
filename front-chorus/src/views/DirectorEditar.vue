@@ -4,7 +4,7 @@
   </div>
   <div class="row mt-3 g-0">
     <div class="col-4 offset-4">
-      <form class="form" v-on:submit="editar()">
+      <form class="form" v-on:submit="editarDirector()">
         <div class="mb-3">
           <span>Nombre:</span>
           <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del director" class="form-control">
@@ -92,7 +92,7 @@ export default {
         }
       );
     },
-    editar() {
+    editarDirector() {
       event.preventDefault();
       this.cargando = true;
       if (this.nombre.trim() === '') {

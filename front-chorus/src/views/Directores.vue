@@ -40,7 +40,7 @@
                     </router-link>
                   </div>
                   <div class="mx-3">
-                    <button v-on:click="eliminar(director.id, director.usuario.nombre, director.usuario.apellidos)"
+                    <button v-on:click="eliminarDirector(director.id, director.usuario.nombre, director.usuario.apellidos)"
                       class="btn btn-danger">
                       <i class="fa-solid fa-trash"></i>
                     </button>
@@ -108,7 +108,7 @@ export default {
         console.error(error);
       });
     },
-    eliminar(id, nombre, apellidos) {
+    eliminarDirector(id, nombre, apellidos) {
       confirmar('/api/directores/', id, 'Eliminar director', 'Confirmar eliminación del director ' + nombre + ' ' + apellidos, "directores");
       this.cargando = false;
     },

@@ -79,7 +79,7 @@
                         class="btn btn-warning mx-3">
                         <i class="fa-solid fa-edit"></i>
                       </router-link>
-                      <button v-if="this.$store.state.rol === '1'" v-on:click="eliminar(coro.id, coro.nombre)"
+                      <button v-if="this.$store.state.rol === '1'" v-on:click="eliminarCoro(coro.id, coro.nombre)"
                         class="btn btn-danger mx-3">
                         <i class="fa-solid fa-trash"></i>
                       </button>
@@ -176,7 +176,7 @@ export default {
       this.currentPage = 1;
 
     },
-    eliminar(id, nombre) {
+    eliminarCoro(id, nombre) {
       confirmar('/api/coros/', id, 'Eliminar coro', 'Confirmar eliminación del coro ' + nombre, 'coros');
       this.cargando = false;
     },

@@ -15,7 +15,7 @@
       </p>
     </div>
     <div class="col-10 col-sm-4 offset-1 bloque d-flex align-items-center">
-      <form @submit.prevent="submitForm" class="w-100 p-5">
+      <form @submit.prevent="contactar" class="w-100 p-5">
         <div class="mb-3">
           <label for="coro" class="form-label">Coro:</label>
           <select class="form-control" id="coro" v-model="coro" required>
@@ -50,7 +50,7 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    contactar() {
       var parametros = {
         id: this.$store.state.id,
         coro: this.coro,

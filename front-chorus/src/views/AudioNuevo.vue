@@ -4,7 +4,7 @@
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3 bloque">
-      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="guardar()">
+      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="crearAudio()">
         <div class=" mb-3">
           <span>Obra: </span>
           <input type="text" required v-model="obra" id="obra" placeholder="Nombre de la obra" class="form-control">
@@ -66,7 +66,7 @@ export default {
     document.title = 'Chorus - Crear Audio';
   },
   methods: {
-    guardar() {
+    crearAudio() {
       event.preventDefault();
       var audio = this.$refs.archivoInput.files[0];
       this.cargando = true;

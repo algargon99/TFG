@@ -160,6 +160,11 @@ class CoroController extends Controller
             if ($partituras > 0) {
                 return ['Hay ' . $partituras . ' partituras asociadas', ''];
             }
+
+            $rels = $coro->relUsuarioCoros->count();
+            if ($rels > 0) {
+                return ['Hay ' . $rels . ' usuarios asociados', ''];
+            }
             $res = Coro::destroy($id);
             if ($res) {
                 return 1;

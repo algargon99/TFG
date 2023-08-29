@@ -38,7 +38,7 @@
                     </router-link>
                   </div>
                   <div class="mx-2">
-                    <button v-on:click="eliminar(cantor.id, cantor.usuario.nombre, cantor.usuario.apellidos)"
+                    <button v-on:click="eliminarCantor(cantor.id, cantor.usuario.nombre, cantor.usuario.apellidos)"
                       class="btn btn-danger">
                       <i class="fa-solid fa-trash"></i>
                     </button>
@@ -106,7 +106,7 @@ export default {
         console.error(error);
       });
     },
-    eliminar(id, nombre, apellidos) {
+    eliminarCantor(id, nombre, apellidos) {
       confirmar('/api/cantores/', id, 'Eliminar cantor', 'Confirmar eliminación del cantor ' + nombre + ' ' + apellidos, "cantores");
       this.cargando = false;
     },

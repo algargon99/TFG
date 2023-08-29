@@ -4,7 +4,7 @@
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-6 offset-md-3 bloque">
-      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="guardar()">
+      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="crearVideo()">
         <div class="mb-3">
           <span>Nombre:</span>
           <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del vídeo" class="form-control">
@@ -60,7 +60,7 @@ export default {
     document.title = 'Chorus - Crear Vídeo';
   },
   methods: {
-    guardar() {
+    crearVideo() {
       event.preventDefault();
       var video = this.$refs.archivoInput.files[0];
       this.cargando = true;

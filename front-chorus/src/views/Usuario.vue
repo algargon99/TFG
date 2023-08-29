@@ -8,12 +8,12 @@
         <img :src=foto alt="Icono" class="img-fluid">
       </div>
       <div class="d-flex justify-content-center">
-        <button @click="openFilePicker" class="btn btn-warning mt-2">Editar imagen</button>
+        <button @click="editarFoto" class="btn btn-warning mt-2">Editar imagen</button>
       </div>
     </div>
     <div class="col-md-5 offset-md-1">
       <div class="bloque">
-        <form class="form" v-on:submit="editar()">
+        <form class="form" v-on:submit="editarPerfil()">
           <div class="mb-3">
             <span>Nombre:</span>
             <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre" class="form-control">
@@ -87,11 +87,11 @@ export default {
   mounted() {
     this.id = this.$store.state.id;
     this.url += '/' + this.id;
-    this.getUsuario();
+    this.verPerfil();
     document.title = 'Chorus - Perfil';
   },
   methods: {
-    getUsuario() {
+    verPerfil() {
       axios.get(this.url).then(
         res => {
           this.nombre = res.data.usuario.nombre;
@@ -104,7 +104,7 @@ export default {
         }
       );
     },
-    openFilePicker() {
+    editarFoto() {
       const fileInput = document.createElement('input');
       fileInput.type = 'file';
       fileInput.accept = 'image/*';
@@ -120,7 +120,7 @@ export default {
         this.$store.commit('SET_IMAGE', 'img/usuario/usuario' + this.id + '.png');
       }
     },
-    editar() {
+    editarPerfil() {
       event.preventDefault();
       this.cargando = true;
       if (this.nombre.trim() === '') {

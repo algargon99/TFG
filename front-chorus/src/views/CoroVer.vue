@@ -147,7 +147,7 @@
                           </router-link>
                         </div>
                         <div class="px-3" v-if="this.$store.state.rol != '3'">
-                          <button v-on:click="eliminar(partitura.id, partitura.nombre)" class="btn btn-danger">
+                          <button v-on:click="eliminarPartitura(partitura.id, partitura.nombre)" class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i>
                           </button>
                         </div>
@@ -264,7 +264,7 @@ export default {
       this.currentPage = 1;
       console.log(this.filtroPartituras);
     },
-    eliminar(idPartitura, nombre) {
+    eliminarPartitura(idPartitura, nombre) {
       confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'verCoro/' + this.id);
       this.cargando = false;
     },

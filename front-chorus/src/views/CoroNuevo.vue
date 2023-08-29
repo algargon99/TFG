@@ -2,7 +2,7 @@
   <div class="titulo">
     <span class="h1 text-white">Crear coro</span>
   </div>
-  <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="guardar()">
+  <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="crearCoro()">
     <div class="row mt-3 g-0">
       <div class="col-md-2 offset-md-2 align-items-center icono">
         <div class="d-flex justify-content-center mb-3" v-if="this.archivo != ''">
@@ -69,7 +69,7 @@ export default {
     };
   },
   methods: {
-    guardar() {
+    crearCoro() {
       event.preventDefault();
       this.cargando = true;
       var imagen = this.$refs.archivoInput.files[0];

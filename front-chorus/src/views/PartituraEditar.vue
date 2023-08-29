@@ -4,7 +4,7 @@
   </div>
   <div class="row mt-3 g-0">
     <div class="col-md-4 offset-md-4 bloque">
-      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editar()">
+      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="editarPartitura()">
         <div class="mb-3">
           <span>Nombre:</span>
           <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre de la partitura"
@@ -86,7 +86,7 @@ export default {
         }
       );
     },
-    editar() {
+    editarPartitura() {
       event.preventDefault();
 
       var partitura = this.$refs.archivoInput.files[0];
