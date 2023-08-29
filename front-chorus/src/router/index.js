@@ -4,7 +4,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue';
 import Usuario from '../views/Usuario.vue';
 import Registro from '../views/Registro.vue';
-import UsuarioEditar from '../views/UsuarioEditar.vue';
 import Contacto from '../views/Contacto.vue';
 import Pass from '../views/Pass.vue';
 
@@ -74,11 +73,6 @@ const routes = [
     path: '/datosUsuario',
     name: 'datosUsuario',
     component: Usuario
-  },
-  {
-    path: '/editarUsuario',
-    name: 'editarUsuario',
-    component: UsuarioEditar
   },
   {
     path: '/registro',
