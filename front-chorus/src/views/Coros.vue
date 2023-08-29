@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div v-if="this.$store.state.rol != '1'">
+      <div v-if="this.$store.state.rol == '2' || this.$store.state.rol == '3'">
         <span class="titulito">Conoce al resto</span>
         <div class="d-flex flex-wrap">
           <div class="etiqueta m-4" v-for="(coro, i) in this.restoCoros" :key="coro.id">
