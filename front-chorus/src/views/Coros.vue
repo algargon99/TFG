@@ -4,7 +4,22 @@
   </div>
   <div class="row g-0 my-5">
     <div class="col-10 offset-1">
-      <div v-if="this.$store.state.rol != '1'">
+      <div v-if="this.$store.state.rol == '0'">
+        <span class="titulito">Conoce a los coros</span>
+        <div class="d-flex flex-wrap">
+          <div class="etiqueta m-4" v-for="(coro, i) in this.coros" :key="coro.id">
+            <router-link :to="{ path: 'verCoro/' + coro.id }" class="links text-decoration-none">
+              <div class="bg-dark text-white cabecera">
+                <span class="text-truncate" style="display: block; max-width: 100%;" v-text="coro.nombre" />
+              </div>
+              <div class="bg-secondary d-flex justify-content-center cuerpo">
+                <img class="img-fluid" width="300" :src="'http://localhost:8000/' + coro.archivo">
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </div>
+      <div v-if="this.$store.state.rol == '2' || this.$store.state.rol == '3'">
         <span class="titulito">Mis coros</span>
         <div class="d-flex flex-wrap">
           <div class="etiqueta m-4" v-for="(coro, i) in this.coros" :key="coro.id">
@@ -22,8 +37,6 @@
               </router-link>
             </div>
           </div>
-
-
         </div>
       </div>
       <div v-if="this.$store.state.rol != '1'">
@@ -152,7 +165,7 @@ export default {
       }
       axios.get(ruta).then(
         res => {
-          if (this.$store.state.rol == 1) {
+          if (this.$store.state.rol == 1 || this.$store.state.rol == 0) {
             this.coros = res.data;
             this.filtroCoro = this.coros;
           } else {
