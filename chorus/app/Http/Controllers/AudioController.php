@@ -27,7 +27,8 @@ class AudioController extends Controller
             'obra' => 'required|string|max:255',
             'voz' => 'required|string|max:255',
             'duracion' => 'required|integer|min:1',
-            'interprete' => 'required|string|max:255'
+            'interprete' => 'required|string|max:255',
+            'archivo' => 'required|mimetypes:audio/mpeg,audio/wav,audio/ogg',
         ];
 
         $mensajes = [
@@ -37,6 +38,8 @@ class AudioController extends Controller
             'duracion.integer' => 'La duración ha de ser un número entero.',
             'duracion.min' => 'La duración tiene que ser mínimo de 1 minuto.',
             'interprete.required' => 'El interprete es obligatorio.',
+            'archivo.required' => 'El archivo es obligatorio.',
+            'archivo.mimetypes' => 'El archivo tiene que ser un audio'
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -83,6 +86,7 @@ class AudioController extends Controller
             'voz' => 'required|string|max:255',
             'duracion' => 'required|integer|min:1',
             'interprete' => 'required|string|max:255',
+            'archivo' => 'mimetypes:audio/mpeg,audio/wav,audio/ogg',
         ];
 
         $mensajes = [
@@ -92,6 +96,7 @@ class AudioController extends Controller
             'duracion.integer' => 'La duración ha de ser un número entero.',
             'duracion.min' => 'La duración tiene que ser mínimo de 1 minuto.',
             'interprete.required' => 'El interprete es obligatorio.',
+            'archivo.mimetypes' => 'El archivo tiene que ser un audio'
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);

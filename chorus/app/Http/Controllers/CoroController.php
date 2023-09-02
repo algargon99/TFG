@@ -53,7 +53,7 @@ class CoroController extends Controller
 
         $mensajes = [
             'nombre.required' => 'El nombre es obligatorio',
-            'ciudad.required' => 'La ciudad son obligatoria',
+            'ciudad.required' => 'La ciudad es obligatoria',
             'direccion.required' => 'La dirección es obligatoria',
             'tipo.required' => 'El tipo es obligatorio',
             'estilo.required' => 'El estilo es obligatorio.',
@@ -114,7 +114,7 @@ class CoroController extends Controller
 
         $mensajes = [
             'nombre.required' => 'El nombre es obligatorio',
-            'ciudad.required' => 'La ciudad son obligatoria',
+            'ciudad.required' => 'La ciudad es obligatoria',
             'direccion.required' => 'La dirección es obligatoria',
             'tipo.required' => 'El tipo es obligatorio',
             'estilo.required' => 'El estilo es obligatorio',

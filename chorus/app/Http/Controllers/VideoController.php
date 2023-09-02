@@ -26,7 +26,8 @@ class VideoController extends Controller
         $reglas = [
             'nombre' => 'required|string',
             'interprete' => 'required|string',
-            'year' => 'required|integer|min:0|max:2023'
+            'year' => 'required|integer|min:0|max:2023',
+            'archivo' => 'required|mimes:mp4,avi,mov',
         ];
 
         $mensajes = [
@@ -35,7 +36,9 @@ class VideoController extends Controller
             'year.required' => 'El año es obligatorio.',
             'year.integer' => 'El año del vídeo tiene que ser numérico.',
             'year.min' => 'El año del vídeo tiene que ser al menos el año 0.',
-            'year.max' => 'El año del vídeo tiene que ser como mucho el año 2023.'
+            'year.max' => 'El año del vídeo tiene que ser como mucho el año 2023.',
+            'archivo.required' => 'El archivo es obligatorio.',
+            'archivo.mimes' => 'El archivo tiene que ser un vídeo'
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -83,6 +86,7 @@ class VideoController extends Controller
             'nombre' => 'required|string',
             'interprete' => 'required|string',
             'year' => 'required|integer|min:0|max:2023',
+            'archivo' => 'mimes:mp4,avi,mov',
         ];
 
         $mensajes = [
@@ -91,7 +95,8 @@ class VideoController extends Controller
             'year.required' => 'El año es obligatorio.',
             'year.integer' => 'El año del vídeo tiene que ser numérico.',
             'year.min' => 'El año del vídeo tiene que ser al menos el año 0.',
-            'year.max' => 'El año del vídeo tiene que ser como mucho el año 2023.'
+            'year.max' => 'El año del vídeo tiene que ser como mucho el año 2023.',
+            'archivo.mimes' => 'El archivo tiene que ser un vídeo'
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);

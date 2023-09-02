@@ -26,6 +26,7 @@ class PartituraController extends Controller
             'autor' => 'required|string',
             'anio' => 'required|integer|min:0|max:2023',
             'voces' => 'required|integer|min:1',
+            'archivo' => 'required|mimes:pdf',
         ];
 
         $mensajes = [
@@ -38,6 +39,8 @@ class PartituraController extends Controller
             'voces.required' => 'Las voces son obligatorias.',
             'voces.integer' => 'Las voces tiene que ser un número entero.',
             'voces.min' => 'Tiene que haber al menos una voz.',
+            'archivo.required' => 'El archivo es obligatorio',
+            'archivo.mimes' => 'El archivo tiene que ser PDF',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -87,7 +90,8 @@ class PartituraController extends Controller
             'nombre' => 'required|string',
             'autor' => 'required|string',
             'anio' => 'required|integer|min:0|max:2023',
-            'voces' => 'required|integer|min:1'
+            'voces' => 'required|integer|min:1',
+            'archivo' => 'mimes:pdf',
         ];
 
         $mensajes = [
@@ -99,7 +103,8 @@ class PartituraController extends Controller
             'anio.max' => 'El año de la partitura tiene que ser como mucho el año 2023.',
             'voces.required' => 'Las voces son obligatorias.',
             'voces.integer' => 'Las voces tiene que ser un número entero.',
-            'voces.min' => 'Tiene que haber al menos una voz.'
+            'voces.min' => 'Tiene que haber al menos una voz.',
+            'archivo.mimes' => 'El archivo tiene que ser PDF',
 
         ];
 
