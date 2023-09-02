@@ -1,26 +1,37 @@
 <template>
-  <div class="titulo">
-    <span class="h1 text-white">V&iacute;deo {{ nombre }}</span>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1 text-white">V&iacute;deo {{ nombre }}</span>
+    </div>
+    <div class="row g-0">
+      <div class="row g-0 col-10 offset-1">
+        <div class="m-4 col-xl-5 col-10 offset-1 d-flex align-items-center" v-if="this.$store.state.isAuthenticated">
+          <video :src="archivo" controls class="w-100" />
+        </div>
+        <div class="col-xl-5 col-10 offset-1 bloque">
+          <div class="mb-3">
+            <span>Nombre:</span>
+            <label v-text="nombre" class="form-control bg-dark text-white"></label>
+          </div>
+          <div class="mb-3">
+            <span>Int&eacute;rprete:</span>
+            <label v-text="interprete" class="form-control bg-dark text-white"></label>
+          </div>
+          <div class="mb-3">
+            <span>A&ntilde;o:</span>
+            <label v-text="year" class="form-control bg-dark text-white"></label>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row g-0">
-    <div class="row g-0 col-10 offset-1">
-      <div class="m-4 col-xl-5 col-10 offset-1 d-flex align-items-center" v-if="this.$store.state.isAuthenticated">
-        <video :src="archivo" controls class="w-100" />
-      </div>
-      <div class="col-xl-5 col-10 offset-1 bloque">
-        <div class="mb-3">
-          <span>Nombre:</span>
-          <label v-text="nombre" class="form-control bg-dark text-white"></label>
-        </div>
-        <div class="mb-3">
-          <span>Int&eacute;rprete:</span>
-          <label v-text="interprete" class="form-control bg-dark text-white"></label>
-        </div>
-        <div class="mb-3">
-          <span>A&ntilde;o:</span>
-          <label v-text="year" class="form-control bg-dark text-white"></label>
-        </div>
-      </div>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -59,10 +70,12 @@ export default {
     },
   },
   mounted() {
-    const route = useRoute();
-    this.idVideo = route.params.id;
-    this.url += '/' + this.idVideo;
-    this.getVideo();
+    if (this.$store.state.isAuthenticated == true) {
+      const route = useRoute();
+      this.idVideo = route.params.id;
+      this.url += '/' + this.idVideo;
+      this.getVideo();
+    }
     document.title = 'Chorus - Ver Vídeo';
   },
 };

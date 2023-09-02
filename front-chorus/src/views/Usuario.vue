@@ -1,64 +1,75 @@
 <template>
-  <div class="titulo">
-    <span class="h1 text-white">Mi perfil</span>
-  </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-2 offset-md-2 align-items-center icono">
-      <div class="d-flex justify-content-center mb-3">
-        <img :src=foto alt="Icono" class="img-fluid">
-      </div>
-      <div class="d-flex justify-content-center">
-        <button @click="editarFoto" class="btn btn-warning mt-2">Editar imagen</button>
-      </div>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1 text-white">Mi perfil</span>
     </div>
-    <div class="col-md-5 offset-md-1">
-      <div class="bloque">
-        <form class="form" v-on:submit="editarPerfil()">
-          <div class="mb-3">
-            <span>Nombre:</span>
-            <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre" class="form-control">
-          </div>
-          <div class="mb-3">
-            <span>Apellidos:</span>
-            <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos" class="form-control">
-          </div>
-          <div class="mb-3">
-            <span>Direcci&oacute;n:</span>
-            <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección" class="form-control">
-          </div>
-          <div class="mb-3">
-            <span>Tel&eacute;fono:</span>
-            <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono" class="form-control">
-          </div>
-          <div class="mb-3">
-            <span>Correo electr&oacute;nico:</span>
-            <input type="email" required v-model="correo" id="correo" placeholder="Correo" class="form-control">
-          </div>
-          <div class="mb-3">
-            <span>Fecha de nacimiento:</span>
-            <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento" placeholder="Fecha Nacimiento"
-              class="form-control">
-          </div>
-          <div class="d-flex justify-content-center">
-            <div class="m-3"><button class="btn btn-warning">Guardar cambios</button></div>
-            <div class="m-3">
-              <router-link :to="{ path: '/pass' }" class='btn btn-warning'>Cambiar contrase&ntilde;a</router-link>
+    <div class="row mt-3 g-0">
+      <div class="col-md-2 offset-md-2 align-items-center icono">
+        <div class="d-flex justify-content-center mb-3">
+          <img :src=foto alt="Icono" class="img-fluid">
+        </div>
+        <div class="d-flex justify-content-center">
+          <button @click="editarFoto" class="btn btn-warning mt-2">Editar imagen</button>
+        </div>
+      </div>
+      <div class="col-md-5 offset-md-1">
+        <div class="bloque">
+          <form class="form" v-on:submit="editarPerfil()">
+            <div class="mb-3">
+              <span>Nombre:</span>
+              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre" class="form-control">
             </div>
-          </div>
-        </form>
+            <div class="mb-3">
+              <span>Apellidos:</span>
+              <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos" class="form-control">
+            </div>
+            <div class="mb-3">
+              <span>Direcci&oacute;n:</span>
+              <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección" class="form-control">
+            </div>
+            <div class="mb-3">
+              <span>Tel&eacute;fono:</span>
+              <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono" class="form-control">
+            </div>
+            <div class="mb-3">
+              <span>Correo electr&oacute;nico:</span>
+              <input type="email" required v-model="correo" id="correo" placeholder="Correo" class="form-control">
+            </div>
+            <div class="mb-3">
+              <span>Fecha de nacimiento:</span>
+              <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento" placeholder="Fecha Nacimiento"
+                class="form-control">
+            </div>
+            <div class="d-flex justify-content-center">
+              <div class="m-3"><button class="btn btn-warning">Guardar cambios</button></div>
+              <div class="m-3">
+                <router-link :to="{ path: '/pass' }" class='btn btn-warning'>Cambiar contrase&ntilde;a</router-link>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 d-flex justify-content-center">
+          <form @submit.prevent="logout">
+            <button class='btn btn-danger'>Cerrar sesi&oacute;n</button>
+          </form>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center">
+          <form @submit.prevent="eliminarCuenta">
+            <button class='btn btn-danger'>Eliminar cuenta</button>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 d-flex justify-content-center">
-        <form @submit.prevent="logout">
-          <button class='btn btn-danger'>Cerrar sesi&oacute;n</button>
-        </form>
-      </div>
-      <div class="col-md-6 d-flex justify-content-center">
-        <form @submit.prevent="eliminarCuenta">
-          <button class='btn btn-danger'>Eliminar cuenta</button>
-        </form>
-      </div>
+  </div>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -85,9 +96,11 @@ export default {
     };
   },
   mounted() {
-    this.id = this.$store.state.id;
-    this.url += '/' + this.id;
-    this.verPerfil();
+    if (this.$store.state.isAuthenticated == true) {
+      this.id = this.$store.state.id;
+      this.url += '/' + this.id;
+      this.verPerfil();
+    }
     document.title = 'Chorus - Perfil';
   },
   methods: {
@@ -151,7 +164,7 @@ export default {
     logout() {
       logout(this);
     },
-    eliminarCuenta(){
+    eliminarCuenta() {
       eliminarUsuario(this, this.$store.state.id);
     }
   },

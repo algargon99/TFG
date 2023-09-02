@@ -1,35 +1,46 @@
 <template>
-  <div class="titulo">
-    <span class="h1 text-white">Crear v&iacute;deo</span>
-  </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3 bloque">
-      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="crearVideo()">
-        <div class="mb-3">
-          <span>Nombre:</span>
-          <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del vídeo" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Int&eacute;rprete:</span>
-          <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del vídeo"
-            class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>A&ntilde;o:</span>
-          <input type="text" required v-model="year" id="year" placeholder="Año del vídeo" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Archivo:</span>
-          <input v-on:change="previsualizarVideo" ref="archivoInput" type="file" id="video" required accept="video/mp4"
-            class="form-control">
-        </div>
-        <div class="d-grid col-3 mx-auto mb-3">
-          <button class="btn btn-primary">Crear v&iacute;deo</button>
-        </div>
-      </form>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1 text-white">Crear v&iacute;deo</span>
     </div>
-    <div v-if="this.archivo != ''" class="d-flex justify-content-center my-4">
-      <video width="600" :src="this.archivo" type="video/mp4" controls id="archivo" />
+    <div class="row mt-3 g-0">
+      <div class="col-md-6 offset-md-3 bloque">
+        <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="crearVideo()">
+          <div class="mb-3">
+            <span>Nombre:</span>
+            <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del vídeo" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Int&eacute;rprete:</span>
+            <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del vídeo"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>A&ntilde;o:</span>
+            <input type="text" required v-model="year" id="year" placeholder="Año del vídeo" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Archivo:</span>
+            <input v-on:change="previsualizarVideo" ref="archivoInput" type="file" id="video" required accept="video/mp4"
+              class="form-control">
+          </div>
+          <div class="d-grid col-3 mx-auto mb-3">
+            <button class="btn btn-primary">Crear v&iacute;deo</button>
+          </div>
+        </form>
+      </div>
+      <div v-if="this.archivo != ''" class="d-flex justify-content-center my-4">
+        <video width="600" :src="this.archivo" type="video/mp4" controls id="archivo" />
+      </div>
+    </div>
+  </div>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -54,9 +65,11 @@ export default {
     };
   },
   mounted() {
-    const route = useRoute();
-    this.partitura = route.params.id;
-    this.url += '/' + this.partitura;
+    if (this.$store.state.isAuthenticated == true) {
+      const route = useRoute();
+      this.partitura = route.params.id;
+      this.url += '/' + this.partitura;
+    }
     document.title = 'Chorus - Crear Vídeo';
   },
   methods: {

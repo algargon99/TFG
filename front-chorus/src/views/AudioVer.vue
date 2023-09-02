@@ -1,26 +1,38 @@
 <template>
-  <div class="titulo">
-    <span class="h1 text-white">Audio {{ obra }}</span>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1 text-white">Audio {{ obra }}</span>
+    </div>
+    <div class="row g-0">
+      <div class="row g-0 col-10 offset-1 bloque">
+        <div class="m-4 col-md-5 d-flex justify-content-center align-items-center"
+          v-if="this.$store.state.isAuthenticated">
+          <audio :src="archivo" controls></audio>
+        </div>
+        <div class="col-md-5 offset-1 ">
+          <div class="mb-3">
+            <span>Obra:</span>
+            <label v-text="obra" class="form-control bg-dark text-white"></label>
+          </div>
+          <div class="mb-3">
+            <span>Voz:</span>
+            <label v-text="voz" class="form-control bg-dark text-white"></label>
+          </div>
+          <div class="mb-3">
+            <span>Int&eacute;rprete:</span>
+            <label v-text="interprete" class="form-control bg-dark text-white"></label>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row g-0">
-    <div class="row g-0 col-10 offset-1 bloque">
-      <div class="m-4 col-md-5 d-flex justify-content-center align-items-center" v-if="this.$store.state.isAuthenticated">
-        <audio :src="archivo" controls></audio>
-      </div>
-      <div class="col-md-5 offset-1 ">
-        <div class="mb-3">
-          <span>Obra:</span>
-          <label v-text="obra" class="form-control bg-dark text-white"></label>
-        </div>
-        <div class="mb-3">
-          <span>Voz:</span>
-          <label v-text="voz" class="form-control bg-dark text-white"></label>
-        </div>
-        <div class="mb-3">
-          <span>Int&eacute;rprete:</span>
-          <label v-text="interprete" class="form-control bg-dark text-white"></label>
-        </div>
-      </div>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -59,10 +71,12 @@ export default {
     },
   },
   mounted() {
-    const route = useRoute();
-    this.idAudio = route.params.id;
-    this.url += '/' + this.idAudio;
-    this.getAudio();
+    if (this.$store.state.isAuthenticated == true) {
+      const route = useRoute();
+      this.idAudio = route.params.id;
+      this.url += '/' + this.idAudio;
+      this.getAudio();
+    }
     document.title = 'Chorus - Ver Audio';
   },
 };

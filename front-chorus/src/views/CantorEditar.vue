@@ -1,46 +1,58 @@
 <template>
-  <div class=" titulo">
-    <span class="h1 text-white">Editar cantor {{ nombre }} {{ apellidos }}</span>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class=" titulo">
+      <span class="h1 text-white">Editar cantor {{ nombre }} {{ apellidos }}</span>
+    </div>
+    <div class="row mt-3 g-0">
+      <div class="col-md-4 offset-md-4 bloque">
+        <form class="form" v-on:submit="editarCantor()">
+          <div class="mb-3">
+            <span>Nombre:</span>
+            <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del cantor" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Apellidos:</span>
+            <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del cantor"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Direcci&oacute;n:</span>
+            <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del cantor"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Tel&eacute;fono:</span>
+            <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del cantor"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Correo electr&oacute;nico:</span>
+            <input type="email" required v-model="correo" id="correo" placeholder="Correo del cantor"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Fecha de nacimiento:</span>
+            <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
+              placeholder="Fecha de nacimiento del cantor" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Voz:</span>
+            <input type="text" required v-model="voz" id="voz" placeholder="Voz del cantor" class="form-control">
+          </div>
+          <div class="d-grid col-3 mx-auto py-3">
+            <button class="btn btn-warning">Actualizar</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-4 offset-md-4 bloque">
-      <form class="form" v-on:submit="editarCantor()">
-        <div class="mb-3">
-          <span>Nombre:</span>
-          <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del cantor" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Apellidos:</span>
-          <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del cantor"
-            class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Direcci&oacute;n:</span>
-          <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del cantor"
-            class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Tel&eacute;fono:</span>
-          <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del cantor"
-            class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Correo electr&oacute;nico:</span>
-          <input type="email" required v-model="correo" id="correo" placeholder="Correo del cantor" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Fecha de nacimiento:</span>
-          <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
-            placeholder="Fecha de nacimiento del cantor" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Voz:</span>
-          <input type="text" required v-model="voz" id="voz" placeholder="Voz del cantor" class="form-control">
-        </div>
-        <div class="d-grid col-3 mx-auto py-3">
-          <button class="btn btn-warning">Actualizar</button>
-        </div>
-      </form>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -69,10 +81,12 @@ export default {
     };
   },
   mounted() {
-    const route = useRoute();
-    this.id = route.params.id;
-    this.url += '/' + this.id;
-    this.getCantor();
+    if (this.$store.state.isAuthenticated == true) {
+      const route = useRoute();
+      this.id = route.params.id;
+      this.url += '/' + this.id;
+      this.getCantor();
+    }
     document.title = 'Chorus - Editar cantor';
   },
   methods: {

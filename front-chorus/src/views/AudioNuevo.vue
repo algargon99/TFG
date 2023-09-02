@@ -1,40 +1,51 @@
 <template>
-  <div class="titulo">
-    <span class="h1 text-white">Crear audio</span>
-  </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-6 offset-md-3 bloque">
-      <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="crearAudio()">
-        <div class=" mb-3">
-          <span>Obra: </span>
-          <input type="text" required v-model="obra" id="obra" placeholder="Nombre de la obra" class="form-control">
-        </div>
-        <div class=" mb-3">
-          <span>Duraci&oacute;n (segs): </span>
-          <input type="text" required v-model="duracion" id="duracion" placeholder="Duración del audio"
-            class="form-control">
-        </div>
-        <div class=" mb-3">
-          <span>Voz: </span>
-          <input type="text" required v-model="voz" id="voz" placeholder="Voz del audio" class="form-control">
-        </div>
-        <div class=" mb-3">
-          <span>Int&eacute;rprete:</span>
-          <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del audio"
-            class="form-control">
-        </div>
-        <div class=" mb-3">
-          <span>Archivo:</span>
-          <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio" required accept="audio/mp3"
-            class="form-control">
-        </div>
-        <div class="d-grid col-3 mx-auto py-3">
-          <button class="btn btn-primary">Crear audio</button>
-        </div>
-      </form>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1 text-white">Crear audio</span>
     </div>
-    <div v-if="this.archivo != ''" class="d-flex justify-content-center my-4">
-      <audio :src="this.archivo" controls id="archivo" />
+    <div class="row mt-3 g-0">
+      <div class="col-md-6 offset-md-3 bloque">
+        <form class="form" method="POST" enctype="multipart/form-data" v-on:submit="crearAudio()">
+          <div class=" mb-3">
+            <span>Obra: </span>
+            <input type="text" required v-model="obra" id="obra" placeholder="Nombre de la obra" class="form-control">
+          </div>
+          <div class=" mb-3">
+            <span>Duraci&oacute;n (segs): </span>
+            <input type="text" required v-model="duracion" id="duracion" placeholder="Duración del audio"
+              class="form-control">
+          </div>
+          <div class=" mb-3">
+            <span>Voz: </span>
+            <input type="text" required v-model="voz" id="voz" placeholder="Voz del audio" class="form-control">
+          </div>
+          <div class=" mb-3">
+            <span>Int&eacute;rprete:</span>
+            <input type="text" required v-model="interprete" id="interprete" placeholder="Intérprete del audio"
+              class="form-control">
+          </div>
+          <div class=" mb-3">
+            <span>Archivo:</span>
+            <input v-on:change="previsualizarAudio" ref="archivoInput" type="file" id="audio" required accept="audio/mp3"
+              class="form-control">
+          </div>
+          <div class="d-grid col-3 mx-auto py-3">
+            <button class="btn btn-primary">Crear audio</button>
+          </div>
+        </form>
+      </div>
+      <div v-if="this.archivo != ''" class="d-flex justify-content-center my-4">
+        <audio :src="this.archivo" controls id="archivo" />
+      </div>
+    </div>
+  </div>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -60,9 +71,11 @@ export default {
     };
   },
   mounted() {
-    const route = useRoute();
-    this.partitura = route.params.id;
-    this.url += '/' + this.partitura;
+    if (this.$store.state.isAuthenticated == true) {
+      const route = useRoute();
+      this.partitura = route.params.id;
+      this.url += '/' + this.partitura;
+    }
     document.title = 'Chorus - Crear Audio';
   },
   methods: {

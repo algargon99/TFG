@@ -1,28 +1,39 @@
 <template>
-  <div class="titulo">
-    <span class="h1 text-white">Cambio de contrase&ntilde;a</span>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1 text-white">Cambio de contrase&ntilde;a</span>
+    </div>
+    <div class="row mt-3 g-0">
+      <div class="col-md-4 offset-md-4 bloque">
+        <form class="form" v-on:submit="cambiarPass()">
+          <div class="mb-3">
+            <span>Contrase&ntilde;a actual:</span>
+            <input type="password" required v-model="pass" id="pass" placeholder="Contraseña actual" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Contrase&ntilde;a nueva:</span>
+            <input type="password" required v-model="newpass" id="newpass" placeholder="Nueva contraseña"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Repetir contrase&ntilde;a nueva:</span>
+            <input type="password" required v-model="renewpass" id="renewpass" placeholder="Repetir contraseña"
+              class="form-control">
+          </div>
+          <div class="d-grid col-4 mx-auto py-3">
+            <button class="btn btn-warning">Actualizar contrase&ntilde;a</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="row mt-3 g-0">
-    <div class="col-md-4 offset-md-4 bloque">
-      <form class="form" v-on:submit="cambiarPass()">
-        <div class="mb-3">
-          <span>Contrase&ntilde;a actual:</span>
-          <input type="password" required v-model="pass" id="pass" placeholder="Contraseña actual" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Contrase&ntilde;a nueva:</span>
-          <input type="password" required v-model="newpass" id="newpass" placeholder="Nueva contraseña"
-            class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Repetir contrase&ntilde;a nueva:</span>
-          <input type="password" required v-model="renewpass" id="renewpass" placeholder="Repetir contraseña"
-            class="form-control">
-        </div>
-        <div class="d-grid col-4 mx-auto py-3">
-          <button class="btn btn-warning">Actualizar contrase&ntilde;a</button>
-        </div>
-      </form>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -45,7 +56,9 @@ export default {
     };
   },
   mounted() {
-    this.url += '/' + this.id;
+    if (this.$store.state.isAuthenticated == true) {
+      this.url += '/' + this.id;
+    }
     document.title = 'Chorus - Cambiar contraseña';
   },
   methods: {

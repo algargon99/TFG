@@ -1,51 +1,62 @@
 <template>
-  <div class="titulo">
-    <span class="h1 text-white">Crear cantor</span>
-  </div>
-  <div class="row mt-3 g-0">
-    <div class="col-4 offset-4 bloque">
-      <form class="form" v-on:submit="crearCantor()">
-        <div class="mb-3">
-          <span>Nombre:</span>
-          <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del cantor" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Apellidos:</span>
-          <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del cantor"
-            class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Direcci&oacute;n:</span>
-          <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del cantor"
-            class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Tel&eacute;fono:</span>
-          <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del cantor"
-            class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Correo electr&oacute;nico:</span>
-          <input type="email" required v-model="correo" id="correo" placeholder="Correo del cantor" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Fecha de nacimiento: </span>
-          <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
-            placeholder="Fecha de nacimiento del cantor" class="form-control">
-        </div>
-        <div class="mb-3">
-          <span>Voz:</span>
-          <input type="text" required v-model="voz" id="voz" placeholder="Voz del cantor" class="form-control">
-        </div>
-        <div class="alert alert-success my-5">
-          La foto ser&aacute; asignada por defecto
-        </div>
-        <div class="d-grid col-3 mx-auto">
-          <button class="btn btn-primary">Crear cantor</button>
-        </div>
-      </form>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1 text-white">Crear cantor</span>
     </div>
-
+    <div class="row mt-3 g-0">
+      <div class="col-4 offset-4 bloque">
+        <form class="form" v-on:submit="crearCantor()">
+          <div class="mb-3">
+            <span>Nombre:</span>
+            <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del cantor" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Apellidos:</span>
+            <input type="text" required v-model="apellidos" id="apellidos" placeholder="Apellidos del cantor"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Direcci&oacute;n:</span>
+            <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del cantor"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Tel&eacute;fono:</span>
+            <input type="text" required v-model="telefono" id="telefono" placeholder="Teléfono del cantor"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Correo electr&oacute;nico:</span>
+            <input type="email" required v-model="correo" id="correo" placeholder="Correo del cantor"
+              class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Fecha de nacimiento: </span>
+            <input type="date" required v-model="fechaNacimiento" id="fechaNacimiento"
+              placeholder="Fecha de nacimiento del cantor" class="form-control">
+          </div>
+          <div class="mb-3">
+            <span>Voz:</span>
+            <input type="text" required v-model="voz" id="voz" placeholder="Voz del cantor" class="form-control">
+          </div>
+          <div class="alert alert-success my-5">
+            La foto ser&aacute; asignada por defecto
+          </div>
+          <div class="d-grid col-3 mx-auto">
+            <button class="btn btn-primary">Crear cantor</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
+    </div>
   </div>
 </template>
 

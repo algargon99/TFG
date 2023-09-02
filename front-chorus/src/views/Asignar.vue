@@ -1,62 +1,73 @@
 <template>
-  <div class="titulo">
-    <span class="h1">Lista de usuarios</span>
-  </div>
-  <div class="row my-5 g-0">
-    <div class="col-lg-8 offset-lg-2">
-      <div class="table-responsive borde bloque p-3">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Correo</th>
-              <th scope="col">Fecha incorporaci&oacute;n</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <tr v-if="this.cargando">
-              <td colspan="9">
-                <h4>Cargando...</h4>
-              </td>
-            </tr>
-            <tr v-if="this.cargando == false && this.filtroUsuarios.length == 0">
-              <td colspan="9">
-                <h4>No se han encontrado usuarios</h4>
-              </td>
-            </tr>
-            <tr v-if="this.filtroUsuarios.length != 0" v-for="(usuario, i) in paginatedItems" :key="usuario.id">
-              <td>{{ usuario.nombre }} {{ usuario.apellidos }}</td>
-              <td v-text="usuario.correo"></td>
-              <td v-text="new Date(usuario.created_at).toLocaleDateString()"></td>
-              <td>
-                <router-link :to="{ path: 'asignarUsuario/' + usuario.id }" class="btn btn-info">
-                  <i class="fa-solid fa-link"></i>
-                </router-link>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="d-flex justify-content-center">
-          <ul class="pagination">
-            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-              <a @click="changePage(page)" class="page-link" href="#">{{ page }}</a>
-            </li>
-          </ul>
-        </div>
-        <div class="d-flex justify-content-center">
-          <div class="m-2">
-            <span>Filtrar por nombre: </span>
-            <input type="text" class="form-control m-1" v-model="buscadorNombre" @input="filtroNombreUsers"
-              placeholder="Buscar por nombre">
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1">Lista de usuarios</span>
+    </div>
+    <div class="row my-5 g-0">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="table-responsive borde bloque p-3">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Fecha incorporaci&oacute;n</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr v-if="this.cargando">
+                <td colspan="9">
+                  <h4>Cargando...</h4>
+                </td>
+              </tr>
+              <tr v-if="this.cargando == false && this.filtroUsuarios.length == 0">
+                <td colspan="9">
+                  <h4>No se han encontrado usuarios</h4>
+                </td>
+              </tr>
+              <tr v-if="this.filtroUsuarios.length != 0" v-for="(usuario, i) in paginatedItems" :key="usuario.id">
+                <td>{{ usuario.nombre }} {{ usuario.apellidos }}</td>
+                <td v-text="usuario.correo"></td>
+                <td v-text="new Date(usuario.created_at).toLocaleDateString()"></td>
+                <td>
+                  <router-link :to="{ path: 'asignarUsuario/' + usuario.id }" class="btn btn-info">
+                    <i class="fa-solid fa-link"></i>
+                  </router-link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center">
+            <ul class="pagination">
+              <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+                <a @click="changePage(page)" class="page-link" href="#">{{ page }}</a>
+              </li>
+            </ul>
           </div>
-          <div class="m-2">
-            <span>Filtrar por correo: </span>
-            <input type="text" class="form-control m-1" v-model="buscador" @input="filtroUsers"
-              placeholder="Buscar por correo electrónico">
+          <div class="d-flex justify-content-center">
+            <div class="m-2">
+              <span>Filtrar por nombre: </span>
+              <input type="text" class="form-control m-1" v-model="buscadorNombre" @input="filtroNombreUsers"
+                placeholder="Buscar por nombre">
+            </div>
+            <div class="m-2">
+              <span>Filtrar por correo: </span>
+              <input type="text" class="form-control m-1" v-model="buscador" @input="filtroUsers"
+                placeholder="Buscar por correo electrónico">
+            </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -131,7 +142,9 @@ export default {
     },
   },
   mounted() {
-    this.listaUsuarios();
+    if (this.$store.state.isAuthenticated == true) {
+      this.listaUsuarios();
+    }
     document.title = 'Chorus - Asignar usuarios a coros';
   },
 };

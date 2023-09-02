@@ -106,7 +106,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
             } else {
                 window.setTimeout(function () {
                     window.location.href = "/" + clase
-                }, 500);
+                }, 300);
             }
         } else {
             mostrarAlerta('Sin respuesta', 'error')

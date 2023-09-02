@@ -1,37 +1,48 @@
 <template>
-  <div class="titulo">
-    <span class="h1 text-white">Director {{ nombre }} {{ apellidos }}</span>
+  <div v-if="this.$store.state.isAuthenticated == true">
+    <div class="titulo">
+      <span class="h1 text-white">Director {{ nombre }} {{ apellidos }}</span>
+    </div>
+    <div class="row mt-3 g-0">
+      <div class="col-10 offset-1 bloque row">
+        <div class="col-12 col-lg-6">
+          <div class="mb-3">
+            <span>Nombre:</span>
+            <label class="form-control bg-dark text-white">{{ nombre }} {{ apellidos }}</label>
+          </div>
+          <div class="mb-3">
+            <span>Direcci&oacute;n:</span>
+            <label v-text="direccion" class="form-control bg-dark text-white"></label>
+          </div>
+          <div class="mb-3">
+            <span>Tel&eacute;fono:</span>
+            <label v-text="telefono" class="form-control bg-dark text-white"></label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="mb-3">
+            <span>Correo electr&oacute;nico:</span>
+            <label v-text="correo" class="form-control bg-dark text-white"></label>
+          </div>
+          <div class="mb-3">
+            <span>Fecha de nacimiento:</span>
+            <label v-text="fechaNacimiento" class="form-control bg-dark text-white"></label>
+          </div>
+          <div class="mb-3">
+            <span>Escuela:</span>
+            <label v-text="escuela" class="form-control bg-dark text-white"></label>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row mt-3 g-0">
-    <div class="col-10 offset-1 bloque row">
-      <div class="col-12 col-lg-6">
-        <div class="mb-3">
-          <span>Nombre:</span>
-          <label class="form-control bg-dark text-white">{{ nombre }} {{ apellidos }}</label>
-        </div>
-        <div class="mb-3">
-          <span>Direcci&oacute;n:</span>
-          <label v-text="direccion" class="form-control bg-dark text-white"></label>
-        </div>
-        <div class="mb-3">
-          <span>Tel&eacute;fono:</span>
-          <label v-text="telefono" class="form-control bg-dark text-white"></label>
-        </div>
-      </div>
-      <div class="col-12 col-lg-6">
-        <div class="mb-3">
-          <span>Correo electr&oacute;nico:</span>
-          <label v-text="correo" class="form-control bg-dark text-white"></label>
-        </div>
-        <div class="mb-3">
-          <span>Fecha de nacimiento:</span>
-          <label v-text="fechaNacimiento" class="form-control bg-dark text-white"></label>
-        </div>
-        <div class="mb-3">
-          <span>Escuela:</span>
-          <label v-text="escuela" class="form-control bg-dark text-white"></label>
-        </div>
-      </div>
+  <div v-else class="titulo">
+    <span>Acceso denegado</span>
+    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <div class="py-5">
+      <router-link :to="{ path: '/' }" class="btn btn-danger">
+        Volver al inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -59,10 +70,12 @@ export default {
     };
   },
   mounted() {
-    const route = useRoute();
-    this.id = route.params.id;
-    this.url += '/' + this.id;
-    this.getDirector();
+    if (this.$store.state.isAuthenticated == true) {
+      const route = useRoute();
+      this.id = route.params.id;
+      this.url += '/' + this.id;
+      this.getDirector();
+    }
     document.title = 'Chorus - Ver Director';
   },
   methods: {

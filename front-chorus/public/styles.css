@@ -225,3 +225,9 @@ body * {
     color: grey !important;
 }
 
+.acceso{
+    color: white;
+    font-size: 20px !important;
+    font-family: 'Archivo', sans-serif;
+    padding: 30px;
+}
