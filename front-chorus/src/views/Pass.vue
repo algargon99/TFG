@@ -73,6 +73,8 @@ export default {
         mostrarAlerta('Ingrese la contraseña nueva repetida', 'warning', 'renewpass')
       } else if (this.renewpass.trim() != this.newpass.trim()) {
         mostrarAlerta('Las contraseñas indicadas no son iguales', 'warning', 'newpass')
+      } else if (this.newpass.trim() == this.pass.trim()) {
+        mostrarAlerta('Las contraseña nueva es igual que la antigua', 'warning', 'pass')
       } else {
         var parametros = {
           pass: this.pass.trim(),

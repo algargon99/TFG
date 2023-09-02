@@ -129,10 +129,10 @@ class UsuarioController extends Controller
         }
 
         $usuario = Usuario::find($id);
-        if (password_verify($request->pass, $usuario->password) && $request->newpass == $request->renewpass) {
+        if (password_verify($request->pass, $usuario->password) && $request->newpass == $request->renewpass && $request->newpass != $request->pass) {
             try {
                 DB::beginTransaction();
-                $usuario->password = bcrypt($request->pass);
+                $usuario->password = bcrypt($request->newpass);
                 $res = $usuario->save();
                 DB::commit();
                 return $res;
@@ -144,6 +144,8 @@ class UsuarioController extends Controller
             return ["La contraseña antigua es incorrecta.", ""];
         } elseif ($request->newpass != $request->renewpass) {
             return ["Las contraseñas nuevas no coinciden.", ""];
+        } elseif ($request->newpass != $request->pass) {
+            return ["Las contraseña nueva es igual que la antigua.", ""];
         }
     }
 
@@ -205,7 +207,7 @@ class UsuarioController extends Controller
         ];
 
         $mensajes = [
-            'archivo.mimes' => 'El archivo tiene que ser PNG o JPG' 
+            'archivo.mimes' => 'El archivo tiene que ser PNG o JPG'
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -214,7 +216,7 @@ class UsuarioController extends Controller
             return $validaciones->errors()->all();
         }
 
-        
+
         try {
             DB::beginTransaction();
 
