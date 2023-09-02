@@ -84,19 +84,19 @@ export default {
       event.preventDefault();
       this.cargando = true;
       var imagen = this.$refs.archivoInput.files[0];
-      if (this.nombre.trim() === '') {
-        mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
-      } else if (this.ciudad.trim() === '') {
-        mostrarAlerta('Ingrese una ciudad', 'warning', 'ciudad')
-      } else if (this.direccion.trim() === '') {
-        mostrarAlerta('Ingrese una dirección', 'warning', 'direccion')
-      } else if (this.tipo.trim() === '') {
-        mostrarAlerta('Ingrese un tipo', 'warning', 'tipo')
-      } else if (this.estilo.trim() === '') {
-        mostrarAlerta('Ingrese un estilo', 'warning', 'estilo')
-      } else if (this.descripcion.trim() === '') {
-        mostrarAlerta('Ingrese una descripción', 'warning', 'descripcion')
-      } else {
+      // if (this.nombre.trim() === '') {
+      //   mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
+      // } else if (this.ciudad.trim() === '') {
+      //   mostrarAlerta('Ingrese una ciudad', 'warning', 'ciudad')
+      // } else if (this.direccion.trim() === '') {
+      //   mostrarAlerta('Ingrese una dirección', 'warning', 'direccion')
+      // } else if (this.tipo.trim() === '') {
+      //   mostrarAlerta('Ingrese un tipo', 'warning', 'tipo')
+      // } else if (this.estilo.trim() === '') {
+      //   mostrarAlerta('Ingrese un estilo', 'warning', 'estilo')
+      // } else if (this.descripcion.trim() === '') {
+      //   mostrarAlerta('Ingrese una descripción', 'warning', 'descripcion')
+      // } else {
         var parametros = {
           nombre: this.nombre.trim(),
           ciudad: this.ciudad.trim(),
@@ -107,7 +107,7 @@ export default {
           archivo: imagen
         };
         enviarSolicitud('POST', parametros, this.url, 'Coro creado', 'coros');
-      }
+      //}
     },
     previsualizarImagen(event) {
       var file = event.target.files[0];
