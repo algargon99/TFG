@@ -10,7 +10,7 @@
             <img :src=archivo alt="Foto" class="img-fluid" id="archivo">
           </div>
           <div class="d-flex justify-content-center">
-            <input v-on:change="previsualizarImagen" ref="archivoInput" type="file" id="foto" required accept="image/*"
+            <input v-on:change="previsualizarImagen" ref="archivoInput" type="file" id="foto"  accept="image/*"
               class="form-control">
           </div>
         </div>
@@ -18,28 +18,28 @@
           <div class="bloque">
             <div class="mb-3">
               <span>Nombre:</span>
-              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del coro" class="form-control">
+              <input type="text"  v-model="nombre" id="nombre" placeholder="Nombre del coro" class="form-control">
             </div>
             <div class="mb-3">
               <span>Ciudad:</span>
-              <input type="text" required v-model="ciudad" id="ciudad" placeholder="Ciudad del coro" class="form-control">
+              <input type="text"  v-model="ciudad" id="ciudad" placeholder="Ciudad del coro" class="form-control">
             </div>
             <div class="mb-3">
               <span>Direcci&oacute;n:</span>
-              <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del coro"
+              <input type="text"  v-model="direccion" id="direccion" placeholder="Dirección del coro"
                 class="form-control">
             </div>
             <div class="mb-3">
               <span>Tipo:</span>
-              <input type="text" required v-model="tipo" id="tipo" placeholder="Tipo de coro" class="form-control">
+              <input type="text"  v-model="tipo" id="tipo" placeholder="Tipo de coro" class="form-control">
             </div>
             <div class="mb-3">
               <span>Estilo:</span>
-              <input type="text" required v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
+              <input type="text"  v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
             </div>
             <div class="mb-3">
               <span class="w-100">Incluye una peque&ntilde;a descripci&oacute;n:</span>
-              <textarea required v-model="descripcion" placeholder="Descripción" id="descripcion" class="form-control" />
+              <textarea  v-model="descripcion" placeholder="Descripción" id="descripcion" class="form-control" />
             </div>
             <div class="d-grid col-3 mx-auto py-3">
               <button class="btn btn-primary">Crear coro</button>
