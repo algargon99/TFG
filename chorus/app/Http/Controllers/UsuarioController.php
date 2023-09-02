@@ -200,6 +200,21 @@ class UsuarioController extends Controller
 
     public function cambiarImagen(Request $request, $id)
     {
+        $reglas = [
+            'archivo' => 'mimes:png,jpg'
+        ];
+
+        $mensajes = [
+            'archivo.mimes' => 'El archivo tiene que ser PNG o JPG' 
+        ];
+
+        $validaciones = Validator::make($request->all(), $reglas, $mensajes);
+
+        if ($validaciones->fails()) {
+            return $validaciones->errors()->all();
+        }
+
+        
         try {
             DB::beginTransaction();
 

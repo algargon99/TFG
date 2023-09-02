@@ -10,7 +10,7 @@
             <img :src=archivo alt="Foto" class="img-fluid" id="archivo">
           </div>
           <div class="d-flex justify-content-center">
-            <input v-on:change="previsualizarImagen" ref="archivoInput" type="file" id="foto"  accept="image/*"
+            <input v-on:change="previsualizarImagen" ref="archivoInput" type="file" id="foto" required accept="image/*"
               class="form-control">
           </div>
         </div>
@@ -18,28 +18,28 @@
           <div class="bloque">
             <div class="mb-3">
               <span>Nombre:</span>
-              <input type="text"  v-model="nombre" id="nombre" placeholder="Nombre del coro" class="form-control">
+              <input type="text" required v-model="nombre" id="nombre" placeholder="Nombre del coro" class="form-control">
             </div>
             <div class="mb-3">
               <span>Ciudad:</span>
-              <input type="text"  v-model="ciudad" id="ciudad" placeholder="Ciudad del coro" class="form-control">
+              <input type="text" required v-model="ciudad" id="ciudad" placeholder="Ciudad del coro" class="form-control">
             </div>
             <div class="mb-3">
               <span>Direcci&oacute;n:</span>
-              <input type="text"  v-model="direccion" id="direccion" placeholder="Dirección del coro"
+              <input type="text" required v-model="direccion" id="direccion" placeholder="Dirección del coro"
                 class="form-control">
             </div>
             <div class="mb-3">
               <span>Tipo:</span>
-              <input type="text"  v-model="tipo" id="tipo" placeholder="Tipo de coro" class="form-control">
+              <input type="text" required v-model="tipo" id="tipo" placeholder="Tipo de coro" class="form-control">
             </div>
             <div class="mb-3">
               <span>Estilo:</span>
-              <input type="text"  v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
+              <input type="text" required v-model="estilo" id="estilo" placeholder="Estilo del coro" class="form-control">
             </div>
             <div class="mb-3">
               <span class="w-100">Incluye una peque&ntilde;a descripci&oacute;n:</span>
-              <textarea  v-model="descripcion" placeholder="Descripción" id="descripcion" class="form-control" />
+              <textarea required v-model="descripcion" placeholder="Descripción" id="descripcion" class="form-control" />
             </div>
             <div class="d-grid col-3 mx-auto py-3">
               <button class="btn btn-primary">Crear coro</button>
@@ -84,19 +84,19 @@ export default {
       event.preventDefault();
       this.cargando = true;
       var imagen = this.$refs.archivoInput.files[0];
-      // if (this.nombre.trim() === '') {
-      //   mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
-      // } else if (this.ciudad.trim() === '') {
-      //   mostrarAlerta('Ingrese una ciudad', 'warning', 'ciudad')
-      // } else if (this.direccion.trim() === '') {
-      //   mostrarAlerta('Ingrese una dirección', 'warning', 'direccion')
-      // } else if (this.tipo.trim() === '') {
-      //   mostrarAlerta('Ingrese un tipo', 'warning', 'tipo')
-      // } else if (this.estilo.trim() === '') {
-      //   mostrarAlerta('Ingrese un estilo', 'warning', 'estilo')
-      // } else if (this.descripcion.trim() === '') {
-      //   mostrarAlerta('Ingrese una descripción', 'warning', 'descripcion')
-      // } else {
+      if (this.nombre.trim() === '') {
+        mostrarAlerta('Ingrese un nombre', 'warning', 'nombre')
+      } else if (this.ciudad.trim() === '') {
+        mostrarAlerta('Ingrese una ciudad', 'warning', 'ciudad')
+      } else if (this.direccion.trim() === '') {
+        mostrarAlerta('Ingrese una dirección', 'warning', 'direccion')
+      } else if (this.tipo.trim() === '') {
+        mostrarAlerta('Ingrese un tipo', 'warning', 'tipo')
+      } else if (this.estilo.trim() === '') {
+        mostrarAlerta('Ingrese un estilo', 'warning', 'estilo')
+      } else if (this.descripcion.trim() === '') {
+        mostrarAlerta('Ingrese una descripción', 'warning', 'descripcion')
+      } else {
         var parametros = {
           nombre: this.nombre.trim(),
           ciudad: this.ciudad.trim(),
@@ -107,7 +107,7 @@ export default {
           archivo: imagen
         };
         enviarSolicitud('POST', parametros, this.url, 'Coro creado', 'coros');
-      //}
+      }
     },
     previsualizarImagen(event) {
       var file = event.target.files[0];

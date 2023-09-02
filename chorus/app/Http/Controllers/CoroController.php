@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coro;
-use App\Models\RelUsuarioCoro;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,17 +48,19 @@ class CoroController extends Controller
             'tipo' => 'required|string',
             'estilo' => 'required|string',
             'descripcion' => 'required|string',
-            'archivo' => 'required'
+            'archivo' => 'required|mimes:png,jpg'
         ];
 
         $mensajes = [
-            'nombre.required' => 'El nombre es obligatorio.',
-            'ciudad.required' => 'La ciudad son obligatoria.',
-            'direccion.required' => 'La dirección es obligatoria.',
-            'tipo.required' => 'El tipo es obligatorio.',
-            'estilo.required' => 'El estilo es obligatorio',
+            'nombre.required' => 'El nombre es obligatorio',
+            'ciudad.required' => 'La ciudad son obligatoria',
+            'direccion.required' => 'La dirección es obligatoria',
+            'tipo.required' => 'El tipo es obligatorio',
+            'estilo.required' => 'El estilo es obligatorio.',
             'descripcion.required' => 'La descripción es obligatoria',
-            'archivo' => 'La foto es obligatoria',
+            'archivo.required' => 'La foto es obligatoria',
+            'archivo.mimes' => 'El archivo tiene que ser PNG o JPG',
+
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
@@ -107,15 +108,18 @@ class CoroController extends Controller
             'tipo' => 'required|string',
             'estilo' => 'required|string',
             'descripcion' => 'required|string',
+            'archivo' => 'mimes:png,jpg',
+            
         ];
 
         $mensajes = [
-            'nombre.required' => 'El nombre es obligatorio.',
-            'ciudad.required' => 'La ciudad son obligatoria.',
-            'direccion.required' => 'La dirección es obligatoria.',
-            'tipo.required' => 'El tipo es obligatorio.',
+            'nombre.required' => 'El nombre es obligatorio',
+            'ciudad.required' => 'La ciudad son obligatoria',
+            'direccion.required' => 'La dirección es obligatoria',
+            'tipo.required' => 'El tipo es obligatorio',
             'estilo.required' => 'El estilo es obligatorio',
             'descripcion.required' => 'La descripción es obligatoria',
+            'archivo.mimes' => 'El archivo tiene que ser PNG o JPG',
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);
