@@ -176,8 +176,7 @@
           </div>
         </div>
       </div>
-      <div
-        v-if="video && this.$store.state.isAuthenticated && ((this.$store.state.rol != '0' && this.esta == 0) || this.$store.state.rol == '0')">
+      <div v-if="video && ((this.$store.state.rol != '0' && this.esta == 0) || this.$store.state.rol == '0')">
         <div>
           <span class="titulito">V&iacute;deo</span>
         </div>
