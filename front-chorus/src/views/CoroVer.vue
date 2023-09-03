@@ -260,7 +260,6 @@ export default {
         this.filtroPartituras = this.partituras.filter(partitura => partitura.nombre.includes(this.buscador));
       }
       this.currentPage = 1;
-      console.log(this.filtroPartituras);
     },
     eliminarPartitura(idPartitura, nombre) {
       confirmar('/api/partituras/', idPartitura, 'Eliminar partitura', 'Confirmar eliminación de partitura ' + nombre, 'verCoro/' + this.id);
@@ -377,17 +376,15 @@ export default {
 
 
   mounted() {
-    if (this.$store.state.isAuthenticated == true) {
-      const route = useRoute();
-      this.id = route.params.id;
-      this.url += '/' + this.id;
-      this.getCoro();
-      this.estaEnCoro();
-      this.getVideo();
-      this.listarPartituras();
-      this.listarCantores();
-      this.listarDirectores();
-    }
+    const route = useRoute();
+    this.id = route.params.id;
+    this.url += '/' + this.id;
+    this.getCoro();
+    this.estaEnCoro();
+    this.getVideo();
+    this.listarPartituras();
+    this.listarCantores();
+    this.listarDirectores();
     document.title = 'Chorus - Ver Coro';
   },
 };
