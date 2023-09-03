@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.$store.state.isAuthenticated == true">
+  <div v-if="this.$store.state.isAuthenticated == true && (this.$store.state.rol == 1 || this.$store.state.rol == 2)">
     <div class="titulo">
       <span class="h1 text-white">Crear partitura</span>
     </div>
@@ -36,13 +36,13 @@
         </form>
       </div>
       <div v-if="this.archivo != ''" class="d-flex justify-content-center my-4">
-        <embed :src="this.archivo" type="application/pdf" width="80%" height="1000px" id="archivo" />
+        <embed :src="this.archivo" width="80%" height="1000px" id="archivo" />
       </div>
     </div>
   </div>
   <div v-else class="titulo">
     <span>Acceso denegado</span>
-    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <p class="acceso">No tienes permiso para acceder a esta página</p>
     <div class="py-5">
       <router-link :to="{ path: '/' }" class="btn btn-danger">
         Volver al inicio
@@ -80,7 +80,7 @@ export default {
     document.title = 'Chorus - Crear Partitura';
   },
   methods: {
-    guardar() {
+    crearPartitura() {
       event.preventDefault();
       var partitura = this.$refs.archivoInput.files[0];
       this.cargando = true;

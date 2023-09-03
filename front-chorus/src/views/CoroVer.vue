@@ -170,8 +170,8 @@
                     placeholder="Nombre de la partitura">
                 </div>
                 <div v-if="this.$store.state.rol != '3'" class="d-flex justify-content-center">
-                  <router-link :to="{ path: '/crearPartitura/' + this.id }" class='btn btn-secondary'>
-                    <i class="fa-solid fa-archive"></i> Nueva partitura
+                  <router-link :to="{ path: '/crearPartitura/' + this.id }" class='btn btn-secondary my-3'>
+                    Nueva partitura
                   </router-link>
                 </div>
               </div>
@@ -201,7 +201,7 @@
   </div>
   <div v-else class="titulo">
     <span>Acceso denegado</span>
-    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <p class="acceso">No tienes permiso para acceder a esta página</p>
     <div class="py-5">
       <router-link :to="{ path: '/' }" class="btn btn-danger">
         Volver al inicio

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.$store.state.isAuthenticated == true">
+  <div v-if="this.$store.state.isAuthenticated == true && this.$store.state.rol != 0">
     <div class="titulo">
       <span class="h1 text-white">Partitura {{ nombre }}, de {{ autor }}</span>
     </div>
@@ -66,8 +66,8 @@
               </ul>
             </div>
             <div v-if="this.$store.state.rol != '3'" class="d-flex justify-content-center">
-              <router-link :to="{ path: '/crearAudio/' + this.id }" class='btn btn-primary'>
-                <i class="fa-solid fa-archive"></i> Nuevo audio
+              <router-link :to="{ path: '/crearAudio/' + this.id }" class='btn btn-secondary my-3'>
+                Nuevo audio
               </router-link>
             </div>
           </div>
@@ -131,8 +131,8 @@
               </ul>
             </div>
             <div v-if="this.$store.state.rol != '3'" class="d-flex justify-content-center">
-              <router-link :to="{ path: '/crearVideo/' + this.id }" class='btn btn-primary'>
-                <i class="fa-solid fa-archive"></i> Nuevo v&iacute;deo
+              <router-link :to="{ path: '/crearVideo/' + this.id }" class='btn btn-secondary my-3'>
+                Nuevo v&iacute;deo
               </router-link>
             </div>
           </div>
@@ -142,7 +142,7 @@
   </div>
   <div v-else class="titulo">
     <span>Acceso denegado</span>
-    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <p class="acceso">No tienes permiso para acceder a esta página</p>
     <div class="py-5">
       <router-link :to="{ path: '/' }" class="btn btn-danger">
         Volver al inicio

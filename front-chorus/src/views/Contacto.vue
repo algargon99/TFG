@@ -37,7 +37,7 @@
   </div>
   <div v-else class="titulo">
     <span>Acceso denegado</span>
-    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <p class="acceso">No tienes permiso para acceder a esta página</p>
     <div class="py-5">
       <router-link :to="{ path: '/' }" class="btn btn-danger">
         Volver al inicio

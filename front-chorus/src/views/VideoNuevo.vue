@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.$store.state.isAuthenticated == true">
+  <div v-if="this.$store.state.isAuthenticated == true && (this.$store.state.rol == 1 || this.$store.state.rol == 2)">
     <div class="titulo">
       <span class="h1 text-white">Crear v&iacute;deo</span>
     </div>
@@ -36,7 +36,7 @@
   </div>
   <div v-else class="titulo">
     <span>Acceso denegado</span>
-    <p class="acceso">Inicia sesión para acceder a la aplicación</p>
+    <p class="acceso">No tienes permiso para acceder a esta página</p>
     <div class="py-5">
       <router-link :to="{ path: '/' }" class="btn btn-danger">
         Volver al inicio
