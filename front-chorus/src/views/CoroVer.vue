@@ -176,13 +176,13 @@
           </div>
         </div>
       </div>
-      <div v-if="video && ((this.$store.state.rol != '0' && this.esta == 0) || this.$store.state.rol == '0')">
+      <div v-if="(this.$store.state.rol != '0' && this.esta == 0) || this.$store.state.rol == '0'">
         <div>
           <span class="titulito">V&iacute;deo</span>
         </div>
         <div class="row g-0 my-3">
           <div class="bloque col-10 offset-1">
-            <div class="mx-4">
+            <div v-if="video" class="mx-4">
               <div class="d-flex justify-content-center mb-3">
                 <video :src="'http://localhost:8000/' + video.video" controls class="w-75" />
               </div>
@@ -360,6 +360,7 @@ export default {
       axios.get("/api/estaCoro/" + this.id + "/" + this.$store.state.id).then(
         res => {
           this.esta = res.data;
+          console.log(this.esta);
         }
       )
     },
@@ -367,6 +368,7 @@ export default {
       axios.get("/api/videosAleatorios/" + this.id).then(
         res => {
           this.video = res.data;
+          console.log(this.video);
         }
       )
     },
