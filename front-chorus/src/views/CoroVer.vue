@@ -360,7 +360,6 @@ export default {
       axios.get("/api/estaCoro/" + this.id + "/" + this.$store.state.id).then(
         res => {
           this.esta = res.data;
-          console.log(this.esta);
         }
       )
     },
@@ -368,7 +367,6 @@ export default {
       axios.get("/api/videosAleatorios/" + this.id).then(
         res => {
           this.video = res.data;
-          console.log(this.video);
         }
       )
     },
