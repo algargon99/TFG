@@ -73,6 +73,7 @@ export function desasignarCoro(url, idUsuario, idCoro, titulo, mensaje, clase) {
 export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
 
     var tipo = '';
+    console.log(parametros);
     if (hayArchivo(parametros)) {
         const formData = new FormData();
         Object.keys(parametros).forEach(key => {
