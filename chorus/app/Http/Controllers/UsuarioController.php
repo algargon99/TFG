@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
 {
-    // Actualizar la información de un usuario en la base de datos
     public function editarPerfil(Request $request, $id)
     {
         $reglas = [
@@ -171,7 +170,6 @@ class UsuarioController extends Controller
             return $validaciones->errors()->all();
         }
 
-        //Directores del coro
         $controladorCoro = new CoroController();
         $directores = $controladorCoro->directoresCoro($request->coro);
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Cantor;
 use App\Models\Director;
 use App\Models\RelUsuarioCoro;
-use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

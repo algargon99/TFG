@@ -10,16 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class CoroController extends Controller
 {
-    // Mostrar la lista de coros
     public function index()
     {
         return Coro::all();
     }
 
-    // Mostrar los coros de un usuario
     public function corosUsuario($id)
     {
-        // Obtén el usuario por su ID junto con los coros relacionados
         $usuarioConCoros = Usuario::with('relUsuarioCoro.coro')->find($id);
 
 
@@ -37,7 +34,6 @@ class CoroController extends Controller
         ]);
     }
 
-    // Almacenar un nuevo coro en la base de datos
     public function store(Request $request)
     {
 
@@ -92,13 +88,11 @@ class CoroController extends Controller
         }
     }
 
-    // Mostrar el detalle de un coro
     public function show($id)
     {
         return Coro::find($id);
     }
 
-    // Actualizar la información de un coro en la base de datos
     public function update(Request $request, $id)
     {
         $reglas = [
@@ -154,7 +148,6 @@ class CoroController extends Controller
         }
     }
 
-    // Eliminar un coro de la base de datos
     public function destroy($id)
     {
         $coro = Coro::find($id);

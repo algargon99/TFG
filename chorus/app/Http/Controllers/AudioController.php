@@ -129,7 +129,6 @@ class AudioController extends Controller
         }
     }
 
-    // Eliminar una partitura de la base de datos
     public function destroy($id)
     {
         $audio = Audio::find($id);

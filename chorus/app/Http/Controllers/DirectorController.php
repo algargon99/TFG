@@ -11,13 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class DirectorController extends Controller
 {
-    // Mostrar la lista de directores
     public function index()
     {
         return Director::with('usuario')->get();
     }
 
-    // Almacenar un nuevo director en la base de datos
     public function store(Request $request)
     {
         $reglas = [
@@ -49,7 +47,14 @@ class DirectorController extends Controller
             return $validaciones->errors()->all();
         }
 
+
         $inputs = $request->input();
+
+        $user = Usuario::where('correo', $inputs["correo"]);
+        if ($user) {
+            return ["Ya existe un usuario con este correo", ""];
+        }
+        
         $usuario = new Usuario();
         $usuario->nombre = $inputs["nombre"];
         $usuario->apellidos = $inputs["apellidos"];
@@ -64,38 +69,31 @@ class DirectorController extends Controller
 
         $director = new Director();
         $director->escuela = $inputs["escuela"];
-        
 
-        // Inicia la transacción
+
         DB::beginTransaction();
 
         try {
-            // Inserta el registro del usuario
             $usuario->save();
 
-            // Asigna el ID del usuario al director y guarda el registro del director
             $director->idUsuario = $usuario["id"];
             $res = $director->save();
 
-            // Si todas las operaciones se han completado correctamente, se realiza el commit
             DB::commit();
 
             return $res;
         } catch (\Exception $e) {
-            // Si se produce un error, se realiza el rollback para revertir todas las operaciones
             DB::rollback();
 
             return $e->getMessage();
         }
     }
 
-    // Mostrar el detalle de un director
     public function show($id)
     {
         return Director::with('usuario')->find($id);
     }
 
-    // Actualizar la información de un director en la base de datos
     public function update(Request $request, $id)
     {
         $reglas = [
@@ -126,7 +124,7 @@ class DirectorController extends Controller
         if ($validaciones->fails()) {
             return $validaciones->errors()->all();
         }
-        
+
         $director = Director::find($id);
         $usuario = Usuario::find($director->idUsuario);
         $inputs = $request->input();
@@ -138,29 +136,23 @@ class DirectorController extends Controller
         $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
         $director->escuela = $inputs["escuela"];
 
-        // Inicia la transacción
         DB::beginTransaction();
 
         try {
-            // Inserta el registro del usuario
             $usuario->save();
 
-            // Guarda el registro del director
             $res = $director->save();
 
-            // Si todas las operaciones se han completado correctamente, se realiza el commit
             DB::commit();
 
             return $res;
         } catch (\Exception $e) {
-            // Si se produce un error, se realiza el rollback para revertir todas las operaciones
             DB::rollback();
 
             return $e->getMessage();
         }
     }
 
-    // Eliminar un director de la base de datos
     public function destroy($id)
     {
         $director = Director::find($id);

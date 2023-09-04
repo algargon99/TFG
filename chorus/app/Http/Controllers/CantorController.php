@@ -11,13 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class CantorController extends Controller
 {
-    // Mostrar la lista de cantores
     public function index()
     {
         return Cantor::with('usuario')->get();
     }
 
-    // Almacenar un nuevo cantor en la base de datos
     public function store(Request $request)
     {
         $reglas = [
@@ -52,6 +50,10 @@ class CantorController extends Controller
         $inputs = $request->input();
 
         $usuario = new Usuario();
+        $user = Usuario::where('correo', $inputs["correo"]);
+        if ($user) {
+            return ["Ya existe un usuario con este correo", ""];
+        }
         $usuario->nombre = $inputs["nombre"];
         $usuario->apellidos = $inputs["apellidos"];
         $usuario->direccion = $inputs["direccion"];
@@ -66,36 +68,29 @@ class CantorController extends Controller
         $cantor = new Cantor();
         $cantor->voz = $inputs["voz"];
 
-        // Inicia la transacción
         DB::beginTransaction();
 
         try {
-            // Inserta el registro del usuario
             $usuario->save();
 
-            // Asigna el ID del usuario al cantor y guarda el registro del cantor
             $cantor->idUsuario = $usuario["id"];
             $res = $cantor->save();
 
-            // Si todas las operaciones se han completado correctamente, se realiza el commit
             DB::commit();
 
             return $res;
         } catch (\Exception $e) {
-            // Si se produce un error, se realiza el rollback para revertir todas las operaciones
             DB::rollback();
 
             return $e->getMessage();
         }
     }
 
-    // Mostrar el detalle de un cantor
     public function show($id)
     {
         return Cantor::with('usuario')->find($id);
     }
 
-    // Actualizar la información de un cantor en la base de datos
     public function update(Request $request, $id)
     {
         $reglas = [
@@ -127,19 +122,15 @@ class CantorController extends Controller
 
         $inputs = $request->input();
 
-        // Iniciar la transacción
         DB::beginTransaction();
 
         try {
-            // Buscar el cantor por ID
             $cantor = Cantor::find($id);
 
-            // Verificar si el cantor existe
             if (!$cantor) {
                 throw new \Exception('Cantor no encontrado');
             }
 
-            // Actualizar los datos del usuario relacionado al cantor
             $usuario = Usuario::find($cantor->idUsuario);
             $usuario->nombre = $inputs["nombre"];
             $usuario->apellidos = $inputs["apellidos"];
@@ -149,23 +140,19 @@ class CantorController extends Controller
             $usuario->fechaNacimiento = $inputs["fechaNacimiento"];
             $usuario->save();
 
-            // Actualizar la voz del cantor
             $cantor->voz = $inputs["voz"];
             $res = $cantor->save();
 
-            // Confirmar la transacción
             DB::commit();
 
             return $res;
         } catch (\Exception $e) {
-            // Si se produce un error, realizar el rollback para revertir todas las operaciones
             DB::rollback();
 
             return $e->getMessage();
         }
     }
 
-    // Eliminar un cantor de la base de datos
     public function destroy($id)
     {
         $cantor = Cantor::find($id);

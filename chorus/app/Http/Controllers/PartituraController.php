@@ -137,7 +137,6 @@ class PartituraController extends Controller
         }
     }
 
-    // Eliminar una partitura de la base de datos
     public function destroy($id)
     {
         $partitura = Partitura::find($id);
