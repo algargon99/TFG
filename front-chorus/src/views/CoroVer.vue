@@ -366,11 +366,11 @@ export default {
       )
     },
     getVideo() {
-      axios.get("/api/videosAleatorios/" + this.id).then(
+      axios.get("/api/videoAleatorio/" + this.id).then(
         res => {
-          if(!res.data.isArray()){
-            this.video = res.data;
-          }
+          console.log(res.data);
+            //this.video = res.data;
+          
         }
       )
     },

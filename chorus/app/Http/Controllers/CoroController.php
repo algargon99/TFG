@@ -216,22 +216,27 @@ class CoroController extends Controller
         return $directoresDelCoro;
     }
 
-    public function getVideos($id)
+    public function getVideo($id)
     {
         $coro = Coro::find($id);
         if ($coro) {
-            $partitura = $coro->partituras->random(1)->first();
-            if ($partitura) {
-                $primerVideo = $partitura->videos->first();
-                if ($primerVideo) {
-                    $video = $primerVideo;
+            $partituras = $coro->partituras;
+            if (sizeof($partituras) > 0) {
+                $videos = $partituras->random(1)->first()->videos;
+                if (sizeof($videos)) {
+                    $video = $videos->first();
                     return $video;
+                } else {
+                    return ['No hay vídeos',''];
                 }
+                
+            } else {
                 return ['No hay partituras',''];
             }
-            return ['No existe el coro'];
+            
+        } else {
+            return ['No existe el coro',''];
         }
 
-        
     }
 }

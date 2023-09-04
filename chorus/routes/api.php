@@ -43,7 +43,7 @@ Route::apiResource('coros', CoroController::class);
 Route::get('corosUsuario/{id}', [CoroController::class, 'corosUsuario']);
 Route::get('cantoresCoro/{id}', [CoroController::class, 'cantoresCoro']);
 Route::get('directoresCoro/{id}', [CoroController::class, 'directoresCoro']);
-Route::get('videosAleatorios/{id}', [CoroController::class, 'getVideos']);
+Route::get('videoAleatorio/{id}', [CoroController::class, 'getVideo']);
 
 //CANTORES
 Route::apiResource('cantores', CantorController::class);
