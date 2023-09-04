@@ -105,7 +105,6 @@ class PartituraController extends Controller
             'voces.integer' => 'Las voces tiene que ser un número entero',
             'voces.min' => 'Tiene que haber al menos una voz',
             'archivo.mimes' => 'El archivo tiene que ser PDF',
-
         ];
 
         $validaciones = Validator::make($request->all(), $reglas, $mensajes);

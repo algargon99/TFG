@@ -79,7 +79,6 @@ export default {
           })
           .catch(error => {
             mostrarAlerta(error.message, 'error');
-            console.log(error);
           });
       }
     }

@@ -89,7 +89,6 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
         tipo = 'application/json';
     }
 
-    console.log(metodo);
     axios({
         method: metodo,
         url: urlid,
@@ -99,7 +98,6 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
         }
     }).then(function (res) {
         var estado = res.status;
-        console.log(res);
         if (estado == 200 || estado == 201) {
             if (res.data != 1) {
                 mostrarAlerta(res.data.join('\n'), 'error');
@@ -113,7 +111,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
         }
     }).catch(function (error) {
         mostrarAlerta('Error de conexión', 'error');
-        console.log(error);
+        console.error(error);
     });
 }
 
@@ -129,7 +127,7 @@ export function loginBack(email, password) {
             throw new Error('Sin respuesta');
         }
     }).catch(error => {
-        console.log(error);
+        console.error(error);
         throw new Error('Error de conexión');
     });
 }
@@ -200,7 +198,6 @@ export function cambiarImagen(id, imagen) {
         }
     }).then(function (res) {
         var estado = res.status;
-        console.log(res);
         if (estado == 200 || estado == 201) {
             if (res.data != 1) {
                 mostrarAlerta('Error al cambiar la foto de perfil', 'error');
@@ -214,7 +211,7 @@ export function cambiarImagen(id, imagen) {
         }
     }).catch(function (error) {
         mostrarAlerta('Error de conexión', 'error');
-        console.log(error);
+        console.error(error);
     });
 }
 
@@ -227,7 +224,6 @@ export function registro(parametros, session) {
 
     }).then(function (res) {
         var estado = res.status;
-        console.log(res);
         if (estado == 200 || estado == 201) {
             if (Array.isArray(res.data)) {
                 mostrarAlerta(res.data.join('\n'), 'error');
@@ -245,6 +241,6 @@ export function registro(parametros, session) {
         }
     }).catch(function (error) {
         mostrarAlerta('Error de conexión', 'error');
-        console.log(error);
+        console.error(error);
     });
 }

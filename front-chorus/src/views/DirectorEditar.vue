@@ -95,7 +95,6 @@ export default {
     getDirector() {
       axios.get(this.url).then(
         res => {
-          console.log(res);
           this.nombre = res.data.usuario.nombre;
           this.apellidos = res.data.usuario.apellidos;
           this.direccion = res.data.usuario.direccion;
@@ -133,7 +132,6 @@ export default {
           fechaNacimiento: this.fechaNacimiento.trim(),
           escuela: this.escuela.trim(),
         };
-        console.log(parametros);
         enviarSolicitud('PUT', parametros, this.url, 'Director actualizado', 'directores');
       }
     },

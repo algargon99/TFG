@@ -172,8 +172,6 @@ export default {
             this.coros = res.data.corosUsuario;
             this.restoCoros = res.data.corosNoUsuario;
           }
-          console.log(this.coros);
-          console.log(this.restoCoros);
           this.cargando = false;
         }
       ).catch(error => {
