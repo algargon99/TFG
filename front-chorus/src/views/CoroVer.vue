@@ -35,7 +35,7 @@
                 <span>{{ director.correo }}</span>
               </div>
               <div v-if="this.$store.state.rol === '1'" class="d-flex justify-content-center py-2">
-                <button v-on:click="desasignar(director.id, id, director.nombre)" class="btn btn-danger">Expulsar</button>
+                <button v-on:click="desasignar(director.id, id, director.nombre)" class="btn btn-danger">Dar de baja</button>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
                     <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'">
                       <div>
                         <button v-on:click="desasignar(cantor.id, id, cantor.nombre)"
-                          class="btn btn-danger">Expulsar</button>
+                          class="btn btn-danger">Dar de baja</button>
                       </div>
                     </td>
                   </tr>
@@ -258,6 +258,8 @@ export default {
       } else {
         this.filtroPartituras = this.partituras.filter(partitura => partitura.nombre.includes(this.buscador));
       }
+      this.totalPagesPartituras();
+      this.paginatedItemsPartituras();
       this.currentPage = 1;
     },
     eliminarPartitura(idPartitura, nombre) {
@@ -265,7 +267,7 @@ export default {
       this.cargando = false;
     },
     desasignar(idUsuario, idCoro, nombre) {
-      desasignarCoro('/api/relsdesasignar/', idUsuario, idCoro, 'Expulsar del coro', 'Expulsar a ' + nombre, 'verCoro/' + this.id);
+      desasignarCoro('/api/relsdesasignar/', idUsuario, idCoro, 'Dar de baja del coro', 'Dar de baja a ' + nombre, 'verCoro/' + this.id);
       this.cargando = false;
     },
     changePagePartituras(page) {
