@@ -97,6 +97,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
             'Content-Type': tipo
         }
     }).then(function (res) {
+        console.log(res);
         var estado = res.status;
         if (estado == 200 || estado == 201) {
             if (res.data != 1) {
