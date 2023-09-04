@@ -140,7 +140,7 @@ class CoroController extends Controller
             $coro->descripcion = $request->descripcion;
             if ($request->hasFile('archivo')) {
                 $archivo = $request->file('archivo');
-                $archivo->move(public_path('../../../front-chorus/public/img/coro/'), 'coro' . time() . '.png');
+                $archivo->move(public_path('img/coro'), 'coro' . time() . '.png');
                 $coro->archivo = 'img/coro/' . 'coro' . time() . '.png';
             }
             $res = $coro->save();
