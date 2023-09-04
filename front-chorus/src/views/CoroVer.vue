@@ -368,7 +368,9 @@ export default {
     getVideo() {
       axios.get("/api/videosAleatorios/" + this.id).then(
         res => {
-          this.video = res.data;
+          if(!res.data.isArray()){
+            this.video = res.data;
+          }
         }
       )
     },
