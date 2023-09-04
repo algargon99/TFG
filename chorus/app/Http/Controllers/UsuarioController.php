@@ -180,9 +180,7 @@ class UsuarioController extends Controller
         $nombre = $usuario->nombre . ' ' . $usuario->apellidos;
         $comentario = $request->comentario;
 
-        //Enviar correos
         foreach ($directores as $director) {
-            // Aquí envías el correo a cada director
             $nombreD = $director->nombre;
             $correoD = $director->correo;
             $mail = new ContactoMail($comentario, $correoD, $nombreD, $correo, $nombre);

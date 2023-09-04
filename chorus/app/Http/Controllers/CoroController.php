@@ -225,10 +225,13 @@ class CoroController extends Controller
                 $primerVideo = $partitura->videos->first();
                 if ($primerVideo) {
                     $video = $primerVideo;
+                    return $video;
                 }
+                return ['No hay partituras',''];
             }
+            return ['No existe el coro'];
         }
 
-        return $video;
+        
     }
 }
