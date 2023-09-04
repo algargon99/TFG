@@ -248,7 +248,7 @@ export default {
           this.tipo = res.data.tipo;
           this.estilo = res.data.estilo;
           this.descripcion = res.data.descripcion;
-          this.archivo = 'http://localhost/' + res.data.archivo;
+          this.archivo = 'http://localhost:8000/' + res.data.archivo;
         }
       );
     },
