@@ -8,6 +8,7 @@ class CorsMiddleware
 {
     public function handle($request, Closure $next)
     {
+        dd("Middleware executed");
         $response = $next($request);
 
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080,http://localhost:8000,http://localhost:80,http://localhost');
