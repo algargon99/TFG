@@ -34,11 +34,17 @@ class RelUsuarioCoroController extends Controller
                 $res = $relacion->save();
 
                 if ($request->rol == 'cantor' && !$esCantor && !$esDirector) {
+                    if ($request->voz == '') {
+                        return ["Escribe una voz",""];
+                    }
                     $cantor = new Cantor();
                     $cantor->voz = $request->voz;
                     $cantor->idUsuario = $request->usuario;
                     $res = $cantor->save();
                 } elseif ($request->rol == 'director' && !$esDirector && !$esCantor) {
+                    if ($request->voz == '') {
+                        return ["Escribe una escuela",""];
+                    }
                     $director = new Director();
                     $director->escuela = $request->escuela;
                     $director->idUsuario = $request->usuario;
