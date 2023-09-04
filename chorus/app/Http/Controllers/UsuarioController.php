@@ -273,6 +273,11 @@ class UsuarioController extends Controller
             return $validaciones->errors()->all();
         }
 
+        $user = Usuario::where('correo', $request->correo);
+        if($user){
+            return ["Ya existe un usuario con este correo",""];
+        }
+
         $usuario = new Usuario();
         if ($request->pass == $request->repass) {
             DB::beginTransaction();

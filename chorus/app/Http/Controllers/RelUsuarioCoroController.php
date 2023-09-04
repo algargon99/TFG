@@ -42,7 +42,7 @@ class RelUsuarioCoroController extends Controller
                     $cantor->idUsuario = $request->usuario;
                     $res = $cantor->save();
                 } elseif ($request->rol == 'director' && !$esDirector && !$esCantor) {
-                    if ($request->voz == '') {
+                    if ($request->escuela == '') {
                         return ["Escribe una escuela",""];
                     }
                     $director = new Director();
