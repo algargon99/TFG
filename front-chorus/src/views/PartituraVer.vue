@@ -66,7 +66,7 @@
               </ul>
             </div>
             <div v-if="this.$store.state.rol != '3'" class="d-flex justify-content-center">
-              <router-link :to="{ path: '/crearAudio/' + this.id }" class='btn btn-secondary my-3'>
+              <router-link :to="{ path: '/crearAudio/' + this.idPartitura }" class='btn btn-secondary my-3'>
                 Nuevo audio
               </router-link>
             </div>
@@ -131,7 +131,7 @@
               </ul>
             </div>
             <div v-if="this.$store.state.rol != '3'" class="d-flex justify-content-center">
-              <router-link :to="{ path: '/crearVideo/' + this.id }" class='btn btn-secondary my-3'>
+              <router-link :to="{ path: '/crearVideo/' + this.idPartitura }" class='btn btn-secondary my-3'>
                 Nuevo v&iacute;deo
               </router-link>
             </div>
