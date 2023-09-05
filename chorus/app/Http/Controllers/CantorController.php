@@ -22,7 +22,7 @@ class CantorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/^\d{9}/',
+            'telefono' => 'required|string|regex:/^\d{9}$/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
             'voz' => 'required|string',
@@ -97,7 +97,7 @@ class CantorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/^\d{9}/',
+            'telefono' => 'required|string|regex:/^\d{9}$/',
             'correo' => 'required|email',
             'voz' => 'required|string',
         ];

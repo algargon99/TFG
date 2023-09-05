@@ -37,7 +37,7 @@ class AudioController extends Controller
             'duracion.required' => 'La duración es obligatoria.',
             'duracion.integer' => 'La duración ha de ser un número entero.',
             'duracion.min' => 'La duración tiene que ser mínimo de 1 minuto.',
-            'interprete.required' => 'El interprete es obligatorio.',
+            'interprete.required' => 'El intérprete es obligatorio.',
             'archivo.required' => 'El archivo es obligatorio.',
             'archivo.mimetypes' => 'El archivo tiene que ser un audio'
         ];
@@ -95,7 +95,7 @@ class AudioController extends Controller
             'duracion.required' => 'La duración es obligatoria.',
             'duracion.integer' => 'La duración ha de ser un número entero.',
             'duracion.min' => 'La duración tiene que ser mínimo de 1 minuto.',
-            'interprete.required' => 'El interprete es obligatorio.',
+            'interprete.required' => 'El intérprete es obligatorio.',
             'archivo.mimetypes' => 'El archivo tiene que ser un audio'
         ];
 
