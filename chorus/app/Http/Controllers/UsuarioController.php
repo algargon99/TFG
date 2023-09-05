@@ -158,9 +158,9 @@ class UsuarioController extends Controller
         ];
 
         $mensajes = [
-            'id.required' => 'No está registrado.',
-            'coro.required' => 'El nombre es obligatorio.',
-            'comentario.required' => 'Los apellidos son obligatorios.',
+            'id.required' => 'No hay usuario en sesión.',
+            'coro.required' => 'No se ha elegido un coro.',
+            'comentario.required' => 'Escribe un comentario.',
 
         ];
 
