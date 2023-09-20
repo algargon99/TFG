@@ -273,6 +273,7 @@ class UsuarioController extends Controller
 
         $user = Usuario::where('correo', $request->correo);
         if($user){
+            return $user;
             return ["Ya existe un usuario con este correo",""];
         }
 
