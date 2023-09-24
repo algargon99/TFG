@@ -22,7 +22,7 @@ class DirectorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/^\d{9}/',
+            'telefono' => 'required|string|regex:/^\d{9}$/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
             'escuela' => 'required|string',
@@ -50,7 +50,7 @@ class DirectorController extends Controller
 
         $inputs = $request->input();
 
-        $user = Usuario::where('correo', $inputs["correo"]);
+        $user = Usuario::where('correo', $inputs["correo"])->first();
         if ($user) {
             return ["Ya existe un usuario con este correo", ""];
         }
@@ -100,7 +100,7 @@ class DirectorController extends Controller
             'nombre' => 'required|string',
             'apellidos' => 'required|string',
             'direccion' => 'required|string',
-            'telefono' => 'required|string|regex:/^\d{9}/',
+            'telefono' => 'required|string|regex:/^\d{9}$/',
             'correo' => 'required|email',
             'fechaNacimiento' => 'required|date',
             'escuela' => 'required|string',

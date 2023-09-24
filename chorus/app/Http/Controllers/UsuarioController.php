@@ -190,7 +190,7 @@ class UsuarioController extends Controller
 
     public function usuarios()
     {
-        $usuarios = Usuario::all();
+        $usuarios = Usuario::orderBy('nombre', 'asc')->get();
         if ($usuarios) {
             return $usuarios;
         }
@@ -271,10 +271,9 @@ class UsuarioController extends Controller
             return $validaciones->errors()->all();
         }
 
-        $user = Usuario::where('correo', $request->correo);
-        if($user){
-            return $user;
-            return ["Ya existe un usuario con este correo",""];
+        $user = Usuario::where('correo', $request->correo)->first();
+        if ($user) {
+            return ["Ya existe un usuario con este correo", ""];
         }
 
         $usuario = new Usuario();

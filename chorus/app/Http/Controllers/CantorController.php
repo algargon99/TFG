@@ -50,7 +50,7 @@ class CantorController extends Controller
         $inputs = $request->input();
 
         $usuario = new Usuario();
-        $user = Usuario::where('correo', $inputs["correo"]);
+        $user = Usuario::where('correo', $inputs["correo"])->first();
         if ($user) {
             return ["Ya existe un usuario con este correo", ""];
         }
