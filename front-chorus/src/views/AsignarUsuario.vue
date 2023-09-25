@@ -107,9 +107,17 @@ export default {
       );
     },
     getCoros() {
-      axios.get('/api/coros').then(
+      var ruta = '/api/coros';
+      if (this.$store.state.rol != 0) {
+        ruta = '/api/corosUsuario/' + this.$store.state.id
+      }
+      axios.get(ruta).then(
         res => {
-          this.coros = res.data;
+          if (this.$store.state.rol == 1) {
+            this.coros = res.data;
+          } else {
+            this.coros = res.data.corosUsuario;
+          }
           this.coros.sort((a, b) => a.nombre.localeCompare(b.nombre));
           this.coro = this.coros[0].id;
         }

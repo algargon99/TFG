@@ -44,7 +44,7 @@
           </div>
         </div>
       </div>
-      <div v-if="this.$store.state.rol != '0'">
+      <div v-if="this.$store.state.rol != '0' && this.esta == 1">
         <div>
           <span class="titulito">Cantores</span>
         </div>
