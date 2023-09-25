@@ -184,7 +184,7 @@
           <div class="bloque col-10 offset-1">
             <div v-if="video" class="mx-4">
               <div class="d-flex justify-content-center mb-3">
-                <video :src="'http://localhost:8000/' + video.video" controls class="w-75" />
+                <video :src="video" controls class="w-75" />
               </div>
             </div>
             <div v-if="!video">
@@ -233,7 +233,7 @@ export default {
       currentPagePartitura: 1,
       currentPageCantor: 1,
       perPage: 5,
-      video: null,
+      video: 'http://localhost:8000/',
     };
   },
 
@@ -368,13 +368,10 @@ export default {
     getVideo() {
       axios.get("/api/videoAleatorio/" + this.id).then(
         res => {
-          console.log(res.data);
-            //this.video = res.data;
-          
+          this.video += res.data.video;
         }
       )
     },
-
   },
 
 
