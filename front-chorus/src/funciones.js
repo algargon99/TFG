@@ -73,7 +73,6 @@ export function desasignarCoro(url, idUsuario, idCoro, titulo, mensaje, clase) {
 export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
 
     var tipo = '';
-    console.log(parametros);
     if (hayArchivo(parametros)) {
         const formData = new FormData();
         Object.keys(parametros).forEach(key => {
@@ -106,7 +105,7 @@ export function enviarSolicitud(metodo, parametros, urlid, mensaje, clase) {
             } else {
                 window.setTimeout(function () {
                     window.location.href = "/" + clase
-                }, 300);
+                }, 0);
             }
         } else {
             mostrarAlerta('Sin respuesta', 'error')
@@ -151,11 +150,34 @@ export function eliminarUsuario(session, usuario) {
         cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar'
     }).then((res) => {
         if (res.isConfirmed) {
-            session.$store.commit('SET_ID', -1);
-            session.$store.commit('SET_USER', null);
-            session.$store.commit('SET_AUTHENTICATED', false);
-            session.$store.commit('SET_ROL', '0');
-            enviarSolicitud('DELETE', { id: usuario }, 'api/eliminarCuenta', 'Cuenta eliminada', '');
+            const url = 'api/eliminarCuenta';
+            axios({
+                method: 'DELETE',
+                url: url,
+                data: { id: usuario },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (res) {
+                if (res.data != 1) {
+                    mostrarAlerta('Cuenta no eliminada', 'error');
+                } else {
+                    window.setTimeout(function () {
+                        window.location.href = "/";
+                        setTimeout(function () {
+                            session.$store.commit('SET_ID', -1);
+                            session.$store.commit('SET_USER', null);
+                            session.$store.commit('SET_AUTHENTICATED', false);
+                            session.$store.commit('SET_ROL', '0');
+                        }, 0);
+                    }, 200);
+                }
+
+            }).catch(function (error) {
+                mostrarAlerta('Error de conexión', 'error');
+                console.error(error);
+            });
+
 
         } else {
             mostrarAlerta('Operación cancelada', 'info');
@@ -164,13 +186,13 @@ export function eliminarUsuario(session, usuario) {
 }
 
 export function logout(session) {
+    window.setTimeout(function () {
+        window.location.href = "/";
+    }.bind(this), 0);
     session.$store.commit('SET_ID', -1);
     session.$store.commit('SET_USER', null);
     session.$store.commit('SET_AUTHENTICATED', false);
     session.$store.commit('SET_ROL', '0');
-    window.setTimeout(function () {
-        window.location.href = "/";
-    }.bind(this), 0);
 }
 
 function hayArchivo(parametros) {
