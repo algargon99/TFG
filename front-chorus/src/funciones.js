@@ -169,6 +169,7 @@ export function eliminarUsuario(session, usuario) {
                             session.$store.commit('SET_USER', null);
                             session.$store.commit('SET_AUTHENTICATED', false);
                             session.$store.commit('SET_ROL', '0');
+                            session.$store.commit('SET_IMAGE', '/img/usuario/icono.png');
                         }, 0);
                     }, 200);
                 }
@@ -193,6 +194,7 @@ export function logout(session) {
     session.$store.commit('SET_USER', null);
     session.$store.commit('SET_AUTHENTICATED', false);
     session.$store.commit('SET_ROL', '0');
+    session.$store.commit('SET_IMAGE', '/img/usuario/icono.png');
 }
 
 function hayArchivo(parametros) {
@@ -249,13 +251,14 @@ export function registro(parametros, session) {
     }).then(function (res) {
         var estado = res.status;
         if (estado == 200 || estado == 201) {
-            if (Array.isArray(res.data)) {
+            if (Array.isArray(res.data) && typeof res.data[0] != 'number') {
                 mostrarAlerta(res.data.join('\n'), 'error');
             } else {
-                session.$store.commit('SET_ID', res.data);
+                session.$store.commit('SET_ID', res.data[0]);
                 session.$store.commit('SET_USER', parametros.correo);
                 session.$store.commit('SET_AUTHENTICATED', true);
                 session.$store.commit('SET_ROL', '0');
+                session.$store.commit('SET_IMAGE', res.data[1]);
                 window.setTimeout(function () {
                     window.location.href = "/coros"
                 }, 500);

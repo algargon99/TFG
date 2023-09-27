@@ -6,7 +6,10 @@
     <div class="col-10 offset-1">
       <div v-if="this.$store.state.rol == '0'">
         <span class="titulito">Conoce a los coros</span>
-        <div v-if="this.coros.length === 0" class="my-5">
+        <div class="text-white my-5" v-if="cargando">
+          <h4>Cargando...</h4>
+        </div>
+        <div v-if="this.coros.length === 0 && !cargando" class="my-5">
           <h4 class="text-white">No hay coros</h4>
         </div>
         <div v-else class="d-flex flex-wrap">
@@ -24,8 +27,11 @@
       </div>
       <div v-if="this.$store.state.rol == '2' || this.$store.state.rol == '3'">
         <span class="titulito">Mis coros</span>
-        <div v-if="this.coros.length === 0" class="my-5">
-          <h4 class="text-white">No estás en nigún coro</h4>
+        <div class="text-white" v-if="cargando">
+          <h4>Cargando...</h4>
+        </div>
+        <div v-if="this.coros.length === 0 && !cargando" class="my-5">
+          <h4 class="text-white my-5">No estás en nigún coro</h4>
         </div>
         <div v-else class="d-flex flex-wrap">
           <div class="etiqueta m-4" v-for="(coro, i) in this.coros" :key="coro.id">
@@ -47,7 +53,10 @@
       </div>
       <div v-if="this.$store.state.rol == '2' || this.$store.state.rol == '3'">
         <span class="titulito">Conoce al resto</span>
-        <div v-if="this.restoCoros.length === 0" class="my-5">
+        <div class="text-white my-5" v-if="cargando">
+          <h4>Cargando...</h4>
+        </div>
+        <div v-if="this.restoCoros.length === 0 && !cargando" class="my-5">
           <h4 class="text-white">No hay más coros</h4>
         </div>
         <div else class="d-flex flex-wrap">
@@ -177,7 +186,7 @@ export default {
           if (this.$store.state.rol == 1 || this.$store.state.rol == 0) {
             this.coros = res.data;
             this.filtroCoro = this.coros;
-        
+
           } else {
             this.coros = res.data.corosUsuario;
             this.restoCoros = res.data.corosNoUsuario;

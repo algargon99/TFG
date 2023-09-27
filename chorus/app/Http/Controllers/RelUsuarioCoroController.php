@@ -34,7 +34,7 @@ class RelUsuarioCoroController extends Controller
 
                 if ($request->rol == 'cantor' && !$esCantor && !$esDirector) {
                     if ($request->voz == '') {
-                        return ["Escribe una voz",""];
+                        return ["Escribe una voz", ""];
                     }
                     $cantor = new Cantor();
                     $cantor->voz = $request->voz;
@@ -42,7 +42,7 @@ class RelUsuarioCoroController extends Controller
                     $res = $cantor->save();
                 } elseif ($request->rol == 'director' && !$esDirector && !$esCantor) {
                     if ($request->escuela == '') {
-                        return ["Escribe una escuela",""];
+                        return ["Escribe una escuela", ""];
                     }
                     $director = new Director();
                     $director->escuela = $request->escuela;
@@ -62,13 +62,13 @@ class RelUsuarioCoroController extends Controller
     public function desasignarCoro(Request $request)
     {
         try {
-            DB::beginTransaction();
             $relacion = RelUsuarioCoro::where('usuario_id', $request->usuario)->where('coro_id', $request->coro)->first();
-            $res = $relacion;
-            if (isset($relacion)) {
-                $res = RelUsuarioCoro::destroy($relacion->id);
+            $res = RelUsuarioCoro::destroy($relacion->id);
+            $otrasRelaciones = RelUsuarioCoro::where('usuario_id', $request->usuario)->count();
+            if ($otrasRelaciones === 0) {
+                Cantor::where('idUsuario', $request->usuario)->delete();
+                Director::where('idUsuario', $request->usuario)->delete();
             }
-            DB::commit();
             return $res;
         } catch (\Exception $e) {
 

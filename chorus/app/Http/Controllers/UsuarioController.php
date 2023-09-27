@@ -291,7 +291,7 @@ class UsuarioController extends Controller
                 $usuario->admin = 0;
                 $usuario->save();
                 DB::commit();
-                return $usuario->id;
+                return [$usuario->id, $usuario->archivo];
             } catch (\Exception $e) {
                 DB::rollback();
                 return $e->getMessage();

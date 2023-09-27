@@ -20,7 +20,7 @@
       </div>
       <div class="row g-0 my-3">
         <div class="bloque d-flex flex-wrap">
-          <div v-if="cargandoDirectores">
+          <div class="text-white my-5" v-if="cargandoDirectores">
             <h4>Cargando...</h4>
           </div>
           <div class="mx-4" v-for="(director, i) in directores" :key="director.id">
@@ -35,16 +35,18 @@
                 <span>{{ director.correo }}</span>
               </div>
               <div v-if="this.$store.state.rol === '1'" class="d-flex justify-content-center py-2">
-                <button v-on:click="desasignar(director.id, id, director.nombre)" class="btn btn-danger">Dar de baja</button>
+                <button v-on:click="desasignar(director.id, id, director.nombre)" class="btn btn-danger">Dar de
+                  baja</button>
               </div>
             </div>
           </div>
-          <div v-if="directores === null && !cargandoPartituras">
+          <div v-if="directores.length == 0 && !cargandoDirectores">
             <h4>No hay directores</h4>
           </div>
         </div>
       </div>
-      <div v-if="this.$store.state.rol != '0' && this.esta == 1">
+      <div
+        v-if="this.$store.state.rol == '1' || ((this.$store.state.rol == '2' || this.$store.state.rol == '3') && this.esta == 1)">
         <div>
           <span class="titulito">Cantores</span>
         </div>
@@ -77,8 +79,8 @@
                     </td>
                     <td v-if="this.$store.state.rol === '1' || this.$store.state.rol === '2'">
                       <div>
-                        <button v-on:click="desasignar(cantor.id, id, cantor.nombre)"
-                          class="btn btn-danger">Dar de baja</button>
+                        <button v-on:click="desasignar(cantor.id, id, cantor.nombre)" class="btn btn-danger">Dar de
+                          baja</button>
                       </div>
                     </td>
                   </tr>
@@ -188,7 +190,7 @@
               </div>
             </div>
             <div v-if="!video">
-              <h4>No hay v&iacute;deos</h4>
+              <h4>No hay v&iacute;deos disponibles</h4>
             </div>
           </div>
         </div>
@@ -229,11 +231,11 @@ export default {
       cantores: null,
       cantoresPaginados: [],
       paginasCantores: 0,
-      directores: null,
+      directores: [],
       currentPagePartitura: 1,
       currentPageCantor: 1,
       perPage: 5,
-      video: 'http://localhost:8000/',
+      video: null,
     };
   },
 
@@ -304,12 +306,10 @@ export default {
           this.cantores = res.data;
           this.totalPagesCantores();
           this.paginatedItemsCantores();
+          this.cargandoCantores = false;
         })
         .catch(error => {
           console.error(error);
-        })
-        .finally(() => {
-          this.cargandoCantores = false;
         });
     },
 
@@ -318,12 +318,10 @@ export default {
       axios.get('/api/directoresCoro/' + this.id)
         .then(res => {
           this.directores = res.data;
+          this.cargandoDirectores = false;
         })
         .catch(error => {
           console.error(error);
-        })
-        .finally(() => {
-          this.cargandoDirectores = false;
         });
     },
     totalPagesPartituras() {
@@ -368,7 +366,9 @@ export default {
     getVideo() {
       axios.get("/api/videoAleatorio/" + this.id).then(
         res => {
-          this.video += res.data.video;
+          if (res.data.video != null) {
+            this.video = "http://localhost:8000/" + res.data.video;
+          }
         }
       )
     },
